@@ -1,0 +1,227 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Web - Armaxis In the depths of the Frontier, Armaxis powers the enemy’s dominance, dispatching weapons to crush rebellion. Fortified and hidden, it controls vital supply chains. Yet, a flaw whispers of opportunity, a crack to expose its secrets and disrupt their plans. Can you breach Armaxis and turn its power against tyranny?\nAnalysis We are given nodejs application and email service with address of test@wmail.htb.\n"><title>[HTB CTF University 2024] - Armaxis</title>
+<link rel=canonical href=https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="[HTB CTF University 2024] - Armaxis"><meta property='og:description' content="Web - Armaxis In the depths of the Frontier, Armaxis powers the enemy’s dominance, dispatching weapons to crush rebellion. Fortified and hidden, it controls vital supply chains. Yet, a flaw whispers of opportunity, a crack to expose its secrets and disrupt their plans. Can you breach Armaxis and turn its power against tyranny?\nAnalysis We are given nodejs application and email service with address of test@wmail.htb.\n"><meta property='og:url' content='https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/'><meta property='og:site_name' content='lordrukie'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2024-12-18T08:04:09+00:00'><meta property='article:modified_time' content='2024-12-18T10:48:51+00:00'><meta property='og:image' content='https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/banner.png'><meta name=twitter:title content="[HTB CTF University 2024] - Armaxis"><meta name=twitter:description content="Web - Armaxis In the depths of the Frontier, Armaxis powers the enemy’s dominance, dispatching weapons to crush rebellion. Fortified and hidden, it controls vital supply chains. Yet, a flaw whispers of opportunity, a crack to expose its secrets and disrupt their plans. Can you breach Armaxis and turn its power against tyranny?\nAnalysis We are given nodejs application and email service with address of test@wmail.htb.\n"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/banner.png'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu5923991180728147624.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>😼</span></figure><div class=site-meta><h1 class=site-name><a href=/>lordrukie</a></h1><h2 class=site-description>Cyber Security Consultant | CTF Player</h2></div></header><ol class=menu-social><li><a href=https://github.com/lordrukie target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://x.com/belugagemink target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/whoami/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>Whoami</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#web---armaxis>Web - Armaxis</a></li><li><a href=#analysis>Analysis</a></li><li><a href=#exploitation>Exploitation</a></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/htb-ctf-university-2024-armaxis/><img src=/p/htb-ctf-university-2024-armaxis/banner_hu825438428158751773.png srcset="/p/htb-ctf-university-2024-armaxis/banner_hu825438428158751773.png 800w, /p/htb-ctf-university-2024-armaxis/banner_hu8101712018681188976.png 1600w" width=800 height=297 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Armaxis"></a></div><div class=article-details><header class=article-category><a href=/categories/web/>Web</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/htb-ctf-university-2024-armaxis/>[HTB CTF University 2024] - Armaxis</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 18, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>4 minute read</time></div></footer></div></header><section class=article-content><h2 id=web---armaxis>Web - Armaxis</h2><blockquote><p>In the depths of the Frontier, Armaxis powers the enemy’s dominance, dispatching weapons to crush rebellion. Fortified and hidden, it controls vital supply chains. Yet, a flaw whispers of opportunity, a crack to expose its secrets and disrupt their plans. Can you breach Armaxis and turn its power against tyranny?</p></blockquote><h2 id=analysis>Analysis</h2><p>We are given nodejs application and email service with address of <code>test@wmail.htb</code>.</p><p><img src=/p/htb-ctf-university-2024-armaxis/image.png width=338 height=51 srcset="/p/htb-ctf-university-2024-armaxis/image_hu6859775955936104016.png 480w, /p/htb-ctf-university-2024-armaxis/image_hu18216898292803506006.png 1024w" loading=lazy alt="email address" class=gallery-image data-flex-grow=662 data-flex-basis=1590px></p><p>Based on the flag location in the source code, we need to at least obtain <code>File Read</code> or <code>Code Execution</code> within the application.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Dockerfile data-lang=Dockerfile><span class=line><span class=cl><span class=k>COPY</span> flag.txt /flag.txt<span class=err>
+</span></span></span></code></pre></td></tr></table></div></div><p>After reading the source code, i found that <code>parseMarkdown</code> are using <code>execSync</code> with unsafe usage. This will allow us to obtain code execution if we manage to control the <code>url</code> value.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>parseMarkdown</span><span class=p>(</span><span class=nx>content</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>content</span><span class=p>)</span> <span class=k>return</span> <span class=s1>&#39;&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>md</span><span class=p>.</span><span class=nx>render</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=nx>content</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=sr>/\!\[.*?\]\((.*?)\)/g</span><span class=p>,</span> <span class=p>(</span><span class=nx>match</span><span class=p>,</span> <span class=nx>url</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kr>const</span> <span class=nx>fileContent</span> <span class=o>=</span> <span class=nx>execSync</span><span class=p>(</span><span class=sb>`curl -s </span><span class=si>${</span><span class=nx>url</span><span class=si>}</span><span class=sb>`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=kr>const</span> <span class=nx>base64Content</span> <span class=o>=</span> <span class=nx>Buffer</span><span class=p>.</span><span class=nx>from</span><span class=p>(</span><span class=nx>fileContent</span><span class=p>).</span><span class=nx>toString</span><span class=p>(</span><span class=s1>&#39;base64&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=sb>`&lt;img src=&#34;data:image/*;base64,</span><span class=si>${</span><span class=nx>base64Content</span><span class=si>}</span><span class=sb>&#34; alt=&#34;Embedded Image&#34;&gt;`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=sb>`Error fetching image from URL </span><span class=si>${</span><span class=nx>url</span><span class=si>}</span><span class=sb>:`</span><span class=p>,</span> <span class=nx>err</span><span class=p>.</span><span class=nx>message</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=sb>`&lt;p&gt;Error loading image: </span><span class=si>${</span><span class=nx>url</span><span class=si>}</span><span class=sb>&lt;/p&gt;`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>url</code> value are obtain using regex, which will search for markdown image format such as:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-markdown data-lang=markdown><span class=line><span class=cl>![<span class=nt>test</span>](<span class=na>http://yooursite.com</span>)
+</span></span></code></pre></td></tr></table></div></div><p>this way, we can inject payload below to obtain code execution</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-markdown data-lang=markdown><span class=line><span class=cl>![<span class=nt>test</span>](<span class=na>http://yooursite.com;id</span>)
+</span></span></code></pre></td></tr></table></div></div><p><code>parseMarkdown</code> function was called within <code>/weapons/dispath</code> routes and only accessible for user with <code>admin</code> privileges.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nx>router</span><span class=p>.</span><span class=nx>post</span><span class=p>(</span><span class=s2>&#34;/weapons/dispatch&#34;</span><span class=p>,</span> <span class=nx>authenticate</span><span class=p>,</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>res</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>{</span> <span class=nx>role</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>user</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nx>role</span> <span class=o>!==</span> <span class=s2>&#34;admin&#34;</span><span class=p>)</span> <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>403</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Access denied.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>{</span> <span class=nx>name</span><span class=p>,</span> <span class=nx>price</span><span class=p>,</span> <span class=nx>note</span><span class=p>,</span> <span class=nx>dispatched_to</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>name</span> <span class=o>||</span> <span class=o>!</span><span class=nx>price</span> <span class=o>||</span> <span class=o>!</span><span class=nx>note</span> <span class=o>||</span> <span class=o>!</span><span class=nx>dispatched_to</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;All fields are required.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>parsedNote</span> <span class=o>=</span> <span class=nx>parseMarkdown</span><span class=p>(</span><span class=nx>note</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>dispatchWeapon</span><span class=p>(</span><span class=nx>name</span><span class=p>,</span> <span class=nx>price</span><span class=p>,</span> <span class=nx>parsedNote</span><span class=p>,</span> <span class=nx>dispatched_to</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>res</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Weapon dispatched successfully.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s2>&#34;Error dispatching weapon:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>500</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Error dispatching weapon.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>admin users were defined within database initialization below</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>await</span> <span class=nx>runInsertUser</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;admin@armaxis.htb&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=sb>`</span><span class=si>${</span><span class=nx>crypto</span><span class=p>.</span><span class=nx>randomBytes</span><span class=p>(</span><span class=mi>69</span><span class=p>).</span><span class=nx>toString</span><span class=p>(</span><span class=s2>&#34;hex&#34;</span><span class=p>)</span><span class=si>}</span><span class=sb>`</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;admin&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>To obtain admin credentials, we can perform an account takeover through the reset password feature. This feature allows users to reset their password using a token sent to their email. However, there is no validation to ensure that the token is assigned to the correct user. Additionally, we can supply any email address during the password reset process.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nx>router</span><span class=p>.</span><span class=nx>post</span><span class=p>(</span><span class=s2>&#34;/reset-password/request&#34;</span><span class=p>,</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>res</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>{</span> <span class=nx>email</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>email</span><span class=p>)</span> <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Email is required.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>getUserByEmail</span><span class=p>(</span><span class=nx>email</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>user</span><span class=p>)</span> <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>404</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;User not found.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>resetToken</span> <span class=o>=</span> <span class=nx>crypto</span><span class=p>.</span><span class=nx>randomBytes</span><span class=p>(</span><span class=mi>16</span><span class=p>).</span><span class=nx>toString</span><span class=p>(</span><span class=s2>&#34;hex&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>expiresAt</span> <span class=o>=</span> <span class=nb>Date</span><span class=p>.</span><span class=nx>now</span><span class=p>()</span> <span class=o>+</span> <span class=mi>3600000</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>createPasswordReset</span><span class=p>(</span><span class=nx>user</span><span class=p>.</span><span class=nx>id</span><span class=p>,</span> <span class=nx>resetToken</span><span class=p>,</span> <span class=nx>expiresAt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>transporter</span><span class=p>.</span><span class=nx>sendMail</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>      <span class=nx>from</span><span class=o>:</span> <span class=s2>&#34;noreply@frontier.com&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nx>to</span><span class=o>:</span> <span class=nx>email</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nx>subject</span><span class=o>:</span> <span class=s2>&#34;Password Reset&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nx>text</span><span class=o>:</span> <span class=sb>`Use this token to reset your password: </span><span class=si>${</span><span class=nx>resetToken</span><span class=si>}</span><span class=sb>`</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>res</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Password reset token sent to your email.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s2>&#34;Error processing reset request:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>500</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Error processing reset request.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>router</span><span class=p>.</span><span class=nx>post</span><span class=p>(</span><span class=s2>&#34;/reset-password&#34;</span><span class=p>,</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>res</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>{</span> <span class=nx>token</span><span class=p>,</span> <span class=nx>newPassword</span><span class=p>,</span> <span class=nx>email</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span> <span class=c1>// Added &#39;email&#39; parameter
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>token</span> <span class=o>||</span> <span class=o>!</span><span class=nx>newPassword</span> <span class=o>||</span> <span class=o>!</span><span class=nx>email</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Token, email, and new password are required.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>reset</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>getPasswordReset</span><span class=p>(</span><span class=nx>token</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>reset</span><span class=p>)</span> <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Invalid or expired token.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>user</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>getUserByEmail</span><span class=p>(</span><span class=nx>email</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>user</span><span class=p>)</span> <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>404</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;User not found.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>updateUserPassword</span><span class=p>(</span><span class=nx>user</span><span class=p>.</span><span class=nx>id</span><span class=p>,</span> <span class=nx>newPassword</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>deletePasswordReset</span><span class=p>(</span><span class=nx>token</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>res</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Password reset successful.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s2>&#34;Error resetting password:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>500</span><span class=p>).</span><span class=nx>send</span><span class=p>(</span><span class=s2>&#34;Error resetting password.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>async</span> <span class=kd>function</span> <span class=nx>getPasswordReset</span><span class=p>(</span><span class=nx>token</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>query</span> <span class=o>=</span> <span class=sb>`SELECT * FROM password_resets WHERE token = ? AND expires_at &gt; ?`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>reset</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>get</span><span class=p>(</span><span class=nx>query</span><span class=p>,</span> <span class=p>[</span><span class=nx>token</span><span class=p>,</span> <span class=nb>Date</span><span class=p>.</span><span class=nx>now</span><span class=p>()]);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>reset</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=nx>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=exploitation>Exploitation</h2><p>In order to takeover admin account, we need to:</p><ul><li>register using <code>test@email.htb</code></li><li>perform reset password action
+<img src=/p/htb-ctf-university-2024-armaxis/image-1.png width=560 height=272 srcset="/p/htb-ctf-university-2024-armaxis/image-1_hu8476075482538893713.png 480w, /p/htb-ctf-university-2024-armaxis/image-1_hu1858934342861761588.png 1024w" loading=lazy alt="reset password" class=gallery-image data-flex-grow=205 data-flex-basis=494px></li><li>obtain reset password token
+<img src=/p/htb-ctf-university-2024-armaxis/image-2.png width=1217 height=235 srcset="/p/htb-ctf-university-2024-armaxis/image-2_hu3625146147954026596.png 480w, /p/htb-ctf-university-2024-armaxis/image-2_hu7305077059308495447.png 1024w" loading=lazy alt="reset token" class=gallery-image data-flex-grow=517 data-flex-basis=1242px></li><li>change email address upon form submission from <code>test@email.htb</code> into admin account <code>admin@armaxis.htb</code>
+<img src=/p/htb-ctf-university-2024-armaxis/image-3.png width=1070 height=400 srcset="/p/htb-ctf-university-2024-armaxis/image-3_hu16817865257494129208.png 480w, /p/htb-ctf-university-2024-armaxis/image-3_hu10364710766265477913.png 1024w" loading=lazy alt="change email address" class=gallery-image data-flex-grow=267 data-flex-basis=642px></li></ul><p>now we can logged in into admin account
+<img src=/p/htb-ctf-university-2024-armaxis/image-4.png width=1920 height=728 srcset="/p/htb-ctf-university-2024-armaxis/image-4_hu14034542287492324909.png 480w, /p/htb-ctf-university-2024-armaxis/image-4_hu12612941947836862503.png 1024w" loading=lazy alt="login admin" class=gallery-image data-flex-grow=263 data-flex-basis=632px></p><p>the next step is to exploit code injection within <code>dispatch weapon</code> feature
+<img src=/p/htb-ctf-university-2024-armaxis/image-5.png width=632 height=668 srcset="/p/htb-ctf-university-2024-armaxis/image-5_hu15512461523464694662.png 480w, /p/htb-ctf-university-2024-armaxis/image-5_hu18062024459701452403.png 1024w" loading=lazy alt="code injection payload" class=gallery-image data-flex-grow=94 data-flex-basis=227px></p><p>which will reflect in home page
+<img src=/p/htb-ctf-university-2024-armaxis/image-7.png width=1736 height=143 srcset="/p/htb-ctf-university-2024-armaxis/image-7_hu16657915382061848718.png 480w, /p/htb-ctf-university-2024-armaxis/image-7_hu1108878908428125482.png 1024w" loading=lazy alt="code injection output" class=gallery-image data-flex-grow=1213 data-flex-basis=2913px></p><p>base64-decode the value will show the command output
+<img src=/p/htb-ctf-university-2024-armaxis/image-6.png width=1403 height=375 srcset="/p/htb-ctf-university-2024-armaxis/image-6_hu16104351187592003548.png 480w, /p/htb-ctf-university-2024-armaxis/image-6_hu7124561283727688123.png 1024w" loading=lazy alt="base64 decoded value" class=gallery-image data-flex-grow=374 data-flex-basis=897px></p><p>the last step is to read the flag in <code>/flag.txt</code>
+<img src=/p/htb-ctf-university-2024-armaxis/image-8.png width=762 height=330 srcset="/p/htb-ctf-university-2024-armaxis/image-8_hu14692674679699683304.png 480w, /p/htb-ctf-university-2024-armaxis/image-8_hu12412498159734521183.png 1024w" loading=lazy alt=flag class=gallery-image data-flex-grow=230 data-flex-basis=554px></p><p>Flag : HTB{l00k0ut_f0r_m4rkd0wn_LF1_1n_w1ld!_ed3f0dc157df0cc33fc59f2854b4d9ee}</p></section><footer class=article-footer><section class=article-lastmod><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>Last updated on Dec 18, 2024 10:48 UTC</span></section></footer></article><footer class=site-footer><section class=copyright>&copy;
+2024 lordrukie</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.29.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
