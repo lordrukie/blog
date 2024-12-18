@@ -1,0 +1,290 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Web - Intergalactic Bounty The Galactic Bounty Exchange—a system where hunters and hunted collide, controlled by the ruthless Frontier Board. Hidden within its encrypted core lies a prize of untold power: the bounty for the Starry Spur. To ignite rebellion, Jack Colt must infiltrate this fortress of contracts, manipulate its algorithms, and claim the Spur’s bounty for himself. A race against time, a battle against the galaxy’s deadliest system—Jack’s mission will decide the fate of the Frontier.\n"><title>[HTB CTF University 2024] - Intergalactic Bounty</title>
+<link rel=canonical href=https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="[HTB CTF University 2024] - Intergalactic Bounty"><meta property='og:description' content="Web - Intergalactic Bounty The Galactic Bounty Exchange—a system where hunters and hunted collide, controlled by the ruthless Frontier Board. Hidden within its encrypted core lies a prize of untold power: the bounty for the Starry Spur. To ignite rebellion, Jack Colt must infiltrate this fortress of contracts, manipulate its algorithms, and claim the Spur’s bounty for himself. A race against time, a battle against the galaxy’s deadliest system—Jack’s mission will decide the fate of the Frontier.\n"><meta property='og:url' content='https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/'><meta property='og:site_name' content='lordrukie'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2024-12-18T11:09:50+00:00'><meta property='article:modified_time' content='2024-12-18T11:09:50+00:00'><meta property='og:image' content='https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/banner.png'><meta name=twitter:title content="[HTB CTF University 2024] - Intergalactic Bounty"><meta name=twitter:description content="Web - Intergalactic Bounty The Galactic Bounty Exchange—a system where hunters and hunted collide, controlled by the ruthless Frontier Board. Hidden within its encrypted core lies a prize of untold power: the bounty for the Starry Spur. To ignite rebellion, Jack Colt must infiltrate this fortress of contracts, manipulate its algorithms, and claim the Spur’s bounty for himself. A race against time, a battle against the galaxy’s deadliest system—Jack’s mission will decide the fate of the Frontier.\n"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/banner.png'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu5923991180728147624.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>😼</span></figure><div class=site-meta><h1 class=site-name><a href=/>lordrukie</a></h1><h2 class=site-description>Cyber Security Consultant | CTF Player</h2></div></header><ol class=menu-social><li><a href=https://github.com/lordrukie target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://x.com/belugagemink target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/whoami/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>Whoami</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#web---intergalactic-bounty>Web - Intergalactic Bounty</a></li><li><a href=#analaysis>Analaysis</a><ol><li><a href=#bot>Bot</a></li><li><a href=#email-discrepancy--privilege-escalation>Email Discrepancy & Privilege Escalation</a></li><li><a href=#prototype-pollution>Prototype Pollution</a></li><li><a href=#finding-gadget>Finding Gadget</a></li><li><a href=#dos>DOS</a></li></ol></li><li><a href=#exploitation>Exploitation</a></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/htb-ctf-university-2024-intergalactic-bounty/><img src=/p/htb-ctf-university-2024-intergalactic-bounty/banner_hu13734488676001106372.png srcset="/p/htb-ctf-university-2024-intergalactic-bounty/banner_hu13734488676001106372.png 800w, /p/htb-ctf-university-2024-intergalactic-bounty/banner_hu692989615092455661.png 1600w" width=800 height=367 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Intergalactic Bounty"></a></div><div class=article-details><header class=article-category><a href=/categories/web/>Web</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/htb-ctf-university-2024-intergalactic-bounty/>[HTB CTF University 2024] - Intergalactic Bounty</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 18, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>6 minute read</time></div></footer></div></header><section class=article-content><h2 id=web---intergalactic-bounty>Web - Intergalactic Bounty</h2><blockquote><p>The Galactic Bounty Exchange—a system where hunters and hunted collide, controlled by the ruthless Frontier Board. Hidden within its encrypted core lies a prize of untold power: the bounty for the Starry Spur.
+To ignite rebellion, Jack Colt must infiltrate this fortress of contracts, manipulate its algorithms, and claim the Spur’s bounty for himself. A race against time, a battle against the galaxy’s deadliest system—Jack’s mission will decide the fate of the Frontier.</p></blockquote><h2 id=analaysis>Analaysis</h2><p>We are given nodejs application and email service with address of <code>test@email.htb</code>. The setup were pretty much like <a class=link href=https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/ target=_blank rel=noopener>Armaxis</a>.</p><p>Based on the flag location in the source code, we need to obtain at least arbitrary file read or command execution in the application.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Dockerfile data-lang=Dockerfile><span class=line><span class=cl><span class=k>COPY</span> flag.txt /<span class=err>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=bot>Bot</h3><p>Bot was found within the source code. It means there&rsquo;s probably a client side vulnerability such as CSRF, XSS, and others.</p><p>using bot is the intended way to solve the challenge, however i&rsquo;m using unintended solution to solve the problem</p><h3 id=email-discrepancy--privilege-escalation>Email Discrepancy & Privilege Escalation</h3><p>In order to log in to the application, users need to register with the <code>interstellar.htb</code> domain. However, our accessible email domain is <code>email.htb</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>emailAddresses</span> <span class=o>=</span> <span class=nx>require</span><span class=p>(</span><span class=s1>&#39;email-addresses&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>registerAPI</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>res</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>{</span> <span class=nx>email</span><span class=p>,</span> <span class=nx>password</span><span class=p>,</span> <span class=nx>role</span> <span class=o>=</span> <span class=s2>&#34;guest&#34;</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>emailDomain</span> <span class=o>=</span> <span class=nx>emailAddresses</span><span class=p>.</span><span class=nx>parseOneAddress</span><span class=p>(</span><span class=nx>email</span><span class=p>)</span><span class=o>?</span><span class=p>.</span><span class=nx>domain</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>emailDomain</span> <span class=o>||</span> <span class=nx>emailDomain</span> <span class=o>!==</span> <span class=s1>&#39;interstellar.htb&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>200</span><span class=p>).</span><span class=nx>json</span><span class=p>({</span> <span class=nx>message</span><span class=o>:</span> <span class=s1>&#39;Registration is not allowed for this email domain&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>User</span><span class=p>.</span><span class=nx>createUser</span><span class=p>(</span><span class=nx>email</span><span class=p>,</span> <span class=nx>password</span><span class=p>,</span> <span class=nx>role</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>json</span><span class=p>({</span> <span class=nx>message</span><span class=o>:</span> <span class=s2>&#34;User registered. Verification email sent.&#34;</span><span class=p>,</span> <span class=nx>status</span><span class=o>:</span> <span class=mi>201</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>500</span><span class=p>).</span><span class=nx>json</span><span class=p>({</span> <span class=nx>message</span><span class=o>:</span> <span class=nx>err</span><span class=p>.</span><span class=nx>message</span><span class=p>,</span> <span class=nx>status</span><span class=o>:</span> <span class=mi>500</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>If email whitelist can be bypassed, we can register as <code>admin</code> due to parameter pollution in request parser.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=p>{</span> <span class=nx>email</span><span class=p>,</span> <span class=nx>password</span><span class=p>,</span> <span class=nx>role</span> <span class=o>=</span> <span class=s2>&#34;guest&#34;</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>privilege escalation can be achieved using following request data upon registration.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;username&#34;</span><span class=p>:</span> <span class=s2>&#34;x&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;password&#34;</span><span class=p>:</span> <span class=s2>&#34;x&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;role&#34;</span><span class=p>:</span> <span class=s2>&#34;admin&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>in order to beat the email parser, i try to read the <a class=link href=https://www.npmjs.com/package/email-addresses target=_blank rel=noopener>documentation</a> and <a class=link href=https://github.com/jackbearheart/email-addresses/blob/master/test/email-addresses.js#L10 target=_blank rel=noopener>source code</a> of <code>email-addresses</code>, which i found several test cases of <code>parseOneAddress</code> successfull email format.</p><p>one of the interesting format is <code>"Françoise Lefèvre"@example.com</code>.</p><p>After playing with the format for a while, <code>"test@email.htb test"@interstellar.htb</code> was working perfectly!</p><p>This is because email parsing disrepancy between <code>email-address</code> and <code>nodemailer</code>. nodemailer will convert the email to following format, which will interpret <code>test@interstellar.htb</code> as a alias, and set <code>test@email.htb</code> as the email address.</p><p><img src=/p/htb-ctf-university-2024-intergalactic-bounty/image-1.png width=605 height=214 srcset="/p/htb-ctf-university-2024-intergalactic-bounty/image-1_hu7413328022359560351.png 480w, /p/htb-ctf-university-2024-intergalactic-bounty/image-1_hu7644066333924899342.png 1024w" loading=lazy alt="email injection" class=gallery-image data-flex-grow=282 data-flex-basis=678px></p><p>Code can be retrieved in the email
+<img src=/p/htb-ctf-university-2024-intergalactic-bounty/image-2.png width=593 height=265 srcset="/p/htb-ctf-university-2024-intergalactic-bounty/image-2_hu17673567366830976284.png 480w, /p/htb-ctf-university-2024-intergalactic-bounty/image-2_hu5292670741433947578.png 1024w" loading=lazy alt="login token in email" class=gallery-image data-flex-grow=223 data-flex-basis=537px></p><h3 id=prototype-pollution>Prototype Pollution</h3><p>in one of the admin feature, it uses <code>mergedeep</code> function. Usually, function related with <code>merge</code> in javascript environment is vulnerable to prototype pollution.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>mergedeep</span> <span class=o>=</span> <span class=nx>require</span><span class=p>(</span><span class=s2>&#34;@christopy/mergedeep&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>editBountiesAPI</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>res</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=p>{</span> <span class=p>...</span><span class=nx>bountyData</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>data</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>BountyModel</span><span class=p>.</span><span class=nx>findByPk</span><span class=p>(</span><span class=nx>req</span><span class=p>.</span><span class=nx>params</span><span class=p>.</span><span class=nx>id</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>attributes</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;target_name&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;target_aliases&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;target_species&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;last_known_location&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;galaxy&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;star_system&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;planet&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;coordinates&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;reward_credits&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;reward_items&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;issuer_name&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;issuer_faction&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;risk_level&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;required_equipment&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;posted_at&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;status&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;image&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;description&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;crimes&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;id&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>404</span><span class=p>).</span><span class=nx>json</span><span class=p>({</span> <span class=nx>message</span><span class=o>:</span> <span class=s2>&#34;Bounty not found&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>updated</span> <span class=o>=</span> <span class=nx>mergedeep</span><span class=p>(</span><span class=nx>data</span><span class=p>.</span><span class=nx>toJSON</span><span class=p>(),</span> <span class=nx>bountyData</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>data</span><span class=p>.</span><span class=nx>update</span><span class=p>(</span><span class=nx>updated</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>json</span><span class=p>(</span><span class=nx>updated</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>err</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>res</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>500</span><span class=p>).</span><span class=nx>json</span><span class=p>({</span> <span class=nx>message</span><span class=o>:</span> <span class=s2>&#34;Error fetching data&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>if we take a look at the <a class=link href=https://github.com/ChristoPy/mergedeep/blob/master/src/index.js target=_blank rel=noopener>source code</a>, it was clear that the library doesn&rsquo;t prevent for prototype pollution and assign value directly into the target object.</p><p>simple payload such as <code>{"__proto__": {"test":"yey"}}</code> can be used to trigger the vulnerability.</p><h3 id=finding-gadget>Finding Gadget</h3><p>Usually, prototype pollution in CTF are combined with <code>child_process</code> function such as <code>fork</code>, <code>execSync</code>, <code>exec</code>, etc. However there&rsquo;s none of them in the current application.</p><p>In order to find gadget to obtain either arbitrary file read or command execution, i decided to explore all library used in the application.</p><p>One of the interesting library is <code>needle</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;dependencies&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;@christopy/mergedeep&#34;</span><span class=p>:</span> <span class=s2>&#34;^1.0.4&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;lodash&#34;</span><span class=p>:</span> <span class=s2>&#34;^4.17.21&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;needle&#34;</span><span class=p>:</span> <span class=s2>&#34;^3.3.1&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>The library is used to fetch data from web service. The usage is definitely eye catching because most of nodejs application uses <code>axios</code> to fetch pages from internet. So there must be something in the <code>needle</code> library.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>needle</span> <span class=o>=</span> <span class=nx>require</span><span class=p>(</span><span class=s2>&#34;needle&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>fetchURL</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>url</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>url</span><span class=p>.</span><span class=nx>startsWith</span><span class=p>(</span><span class=s2>&#34;http://&#34;</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=o>!</span><span class=nx>url</span><span class=p>.</span><span class=nx>startsWith</span><span class=p>(</span><span class=s2>&#34;https://&#34;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s2>&#34;Invalid URL: URL must start with http or https&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>options</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>compressed</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>follow_max</span><span class=o>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=k>new</span> <span class=nb>Promise</span><span class=p>((</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>needle</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=nx>url</span><span class=p>,</span> <span class=nx>options</span><span class=p>,</span> <span class=p>(</span><span class=nx>err</span><span class=p>,</span> <span class=nx>resp</span><span class=p>,</span> <span class=nx>body</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>reject</span><span class=p>(</span><span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s2>&#34;Error fetching the URL: &#34;</span> <span class=o>+</span> <span class=nx>err</span><span class=p>.</span><span class=nx>message</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=nx>resolve</span><span class=p>(</span><span class=nx>body</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>After reviewing the <a class=link href=https://github.com/tomas/needle/tree/master target=_blank rel=noopener>documentation</a> and <a class=link href=https://github.com/tomas/needle/blob/master/lib/needle.js target=_blank rel=noopener>source code</a> of needle, i found that <code>output</code> options is being used to save fetched content into system files.</p><p><img src=/p/htb-ctf-university-2024-intergalactic-bounty/image.png width=1091 height=234 srcset="/p/htb-ctf-university-2024-intergalactic-bounty/image_hu179658664197390053.png 480w, /p/htb-ctf-university-2024-intergalactic-bounty/image_hu15965469885154306710.png 1024w" loading=lazy alt="needle documentation" class=gallery-image data-flex-grow=466 data-flex-basis=1118px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=nx>config</span><span class=p>.</span><span class=nx>output</span> <span class=o>&amp;&amp;</span> <span class=nx>resp</span><span class=p>.</span><span class=nx>statusCode</span> <span class=o>==</span> <span class=mi>200</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// for some reason, simply piping resp to the writable stream doesn&#39;t
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// work all the time (stream gets cut in the middle with no warning).
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// so we&#39;ll manually need to do the readable/write(chunk) trick.
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>file</span> <span class=o>=</span> <span class=nx>fs</span><span class=p>.</span><span class=nx>createWriteStream</span><span class=p>(</span><span class=nx>config</span><span class=p>.</span><span class=nx>output</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>file</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;error&#39;</span><span class=p>,</span> <span class=nx>had_error</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>out</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;end&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>file</span><span class=p>.</span><span class=nx>writable</span><span class=p>)</span> <span class=nx>file</span><span class=p>.</span><span class=nx>end</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>file</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;close&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>delete</span> <span class=nx>out</span><span class=p>.</span><span class=nx>file</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>out</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;readable&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>chunk</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>((</span><span class=nx>chunk</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>read</span><span class=p>())</span> <span class=o>!==</span> <span class=kc>null</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>file</span><span class=p>.</span><span class=nx>writable</span><span class=p>)</span> <span class=nx>file</span><span class=p>.</span><span class=nx>write</span><span class=p>(</span><span class=nx>chunk</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// if callback was requested, also push it to resp.body
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=nx>resp</span><span class=p>.</span><span class=nx>body</span><span class=p>)</span> <span class=nx>resp</span><span class=p>.</span><span class=nx>body</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>chunk</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>out</span><span class=p>.</span><span class=nx>file</span> <span class=o>=</span> <span class=nx>file</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>so if we managed to pollute <code>output</code> options and call the <code>fetchURL</code> function, then we can perform arbitrary file write on the system.</p><p>This can be performed by calling <code>/api/transmit</code> using admin credentials after polluting the <code>output</code> options.</p><p>after obtaining arbitrary file write, we can try to</p><ul><li>Overwrite javascript files (need restart)</li><li>Overwrite template files (without restart)</li></ul><h3 id=dos>DOS</h3><p>Additional bug, if we try to provide invalid url within <code>fetchURL</code> function, aparently the server will shut down.</p><p>Because the application using <code>supervisord</code> with <code>autorestart=true</code>, then this vulnerability can be used to restart the server after overwriting javascript files.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[program:node]
+</span></span><span class=line><span class=cl>directory=/app
+</span></span><span class=line><span class=cl>command=node index.js
+</span></span><span class=line><span class=cl>autostart=true
+</span></span><span class=line><span class=cl>autorestart=true
+</span></span><span class=line><span class=cl>stdout_logfile=/dev/stdout
+</span></span><span class=line><span class=cl>stdout_logfile_maxbytes=0
+</span></span><span class=line><span class=cl>stderr_logfile=/dev/stderr
+</span></span><span class=line><span class=cl>stderr_logfile_maxbytes=0
+</span></span></code></pre></td></tr></table></div></div><h2 id=exploitation>Exploitation</h2><p>in order to perform full attack, we need to:</p><ul><li>bypass email protection & privilege escalation
+<img src=/p/htb-ctf-university-2024-intergalactic-bounty/image-3.png width=1545 height=478 srcset="/p/htb-ctf-university-2024-intergalactic-bounty/image-3_hu5086185841658993787.png 480w, /p/htb-ctf-university-2024-intergalactic-bounty/image-3_hu9973604568010249649.png 1024w" loading=lazy alt=registration class=gallery-image data-flex-grow=323 data-flex-basis=775px></li><li>perform prototype pollution to pollute <code>output</code> options
+<img src=/p/htb-ctf-university-2024-intergalactic-bounty/image-4.png width=1543 height=730 srcset="/p/htb-ctf-university-2024-intergalactic-bounty/image-4_hu13340668120789486878.png 480w, /p/htb-ctf-university-2024-intergalactic-bounty/image-4_hu14355779368745741089.png 1024w" loading=lazy alt="prototype pollution" class=gallery-image data-flex-grow=211 data-flex-basis=507px></li><li>overwrite either javascript or html files
+<img src=/p/htb-ctf-university-2024-intergalactic-bounty/image-5.png width=1549 height=822 srcset="/p/htb-ctf-university-2024-intergalactic-bounty/image-5_hu13025393035017155752.png 480w, /p/htb-ctf-university-2024-intergalactic-bounty/image-5_hu9547062061411162156.png 1024w" loading=lazy alt="overwrite index.html" class=gallery-image data-flex-grow=188 data-flex-basis=452px></li><li>trigger the updated code to gain code execution
+<img src=/p/htb-ctf-university-2024-intergalactic-bounty/image-6.png width=489 height=136 srcset="/p/htb-ctf-university-2024-intergalactic-bounty/image-6_hu3010831740116260979.png 480w, /p/htb-ctf-university-2024-intergalactic-bounty/image-6_hu3695919454522466251.png 1024w" loading=lazy alt="flag obtained" class=gallery-image data-flex-grow=359 data-flex-basis=862px></li></ul><p>perform the same step for remote, and flag can be obtained :D</p><p>Flag: HTB{f1nd1ng_0d4y_15_345Y_r1gh7!!?_970db3ce5022cd532606efeca829916c}</p></section><footer class=article-footer></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/p/htb-ctf-university-2024-armaxis/><div class=article-image><img src=/p/htb-ctf-university-2024-armaxis/banner.1201673f134374b06fea79bb65fe84be_hu10563716667435363912.png width=250 height=150 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Armaxis" data-hash="md5-EgFnPxNDdLBv6nm7Zf6Evg=="></div><div class=article-details><h2 class=article-title>[HTB CTF University 2024] - Armaxis</h2></div></a></article></div></div></aside><footer class=site-footer><section class=copyright>&copy;
+2024 lordrukie</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.29.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

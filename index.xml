@@ -1,4 +1,449 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lordrukie</title><link>https://blog.lordrukie.com/</link><description>Recent content on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 18 Dec 2024 10:48:51 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Armaxis</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/</link><pubDate>Wed, 18 Dec 2024 08:04:09 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/banner.png" alt="Featured image of post [HTB CTF University 2024] - Armaxis" />&lt;h2 id="web---armaxis">Web - Armaxis
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lordrukie</title><link>https://blog.lordrukie.com/</link><description>Recent content on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 18 Dec 2024 11:09:50 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Intergalactic Bounty</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/</link><pubDate>Wed, 18 Dec 2024 11:09:50 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/banner.png" alt="Featured image of post [HTB CTF University 2024] - Intergalactic Bounty" />&lt;h2 id="web---intergalactic-bounty">Web - Intergalactic Bounty
+&lt;/h2>&lt;blockquote>
+&lt;p>The Galactic Bounty Exchange—a system where hunters and hunted collide, controlled by the ruthless Frontier Board. Hidden within its encrypted core lies a prize of untold power: the bounty for the Starry Spur.
+To ignite rebellion, Jack Colt must infiltrate this fortress of contracts, manipulate its algorithms, and claim the Spur’s bounty for himself. A race against time, a battle against the galaxy’s deadliest system—Jack’s mission will decide the fate of the Frontier.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="analaysis">Analaysis
+&lt;/h2>&lt;p>We are given nodejs application and email service with address of &lt;code>test@email.htb&lt;/code>. The setup were pretty much like &lt;a class="link" href="https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/" target="_blank" rel="noopener"
+>Armaxis&lt;/a>.&lt;/p>
+&lt;p>Based on the flag location in the source code, we need to obtain at least arbitrary file read or command execution in the application.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-Dockerfile" data-lang="Dockerfile">&lt;span class="line">&lt;span class="cl">&lt;span class="k">COPY&lt;/span> flag.txt /&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="bot">Bot
+&lt;/h3>&lt;p>Bot was found within the source code. It means there&amp;rsquo;s probably a client side vulnerability such as CSRF, XSS, and others.&lt;/p>
+&lt;p>using bot is the intended way to solve the challenge, however i&amp;rsquo;m using unintended solution to solve the problem&lt;/p>
+&lt;h3 id="email-discrepancy--privilege-escalation">Email Discrepancy &amp;amp; Privilege Escalation
+&lt;/h3>&lt;p>In order to log in to the application, users need to register with the &lt;code>interstellar.htb&lt;/code> domain. However, our accessible email domain is &lt;code>email.htb&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-js" data-lang="js">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">emailAddresses&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;email-addresses&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">registerAPI&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kr">async&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">req&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">email&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">password&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">role&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;guest&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">req&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">body&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">emailDomain&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">emailAddresses&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">parseOneAddress&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">email&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">?&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">domain&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">emailDomain&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nx">emailDomain&lt;/span> &lt;span class="o">!==&lt;/span> &lt;span class="s1">&amp;#39;interstellar.htb&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">status&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">200&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">({&lt;/span> &lt;span class="nx">message&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s1">&amp;#39;Registration is not allowed for this email domain&amp;#39;&lt;/span> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">try&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">await&lt;/span> &lt;span class="nx">User&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">createUser&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">email&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">password&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">role&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">({&lt;/span> &lt;span class="nx">message&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;User registered. Verification email sent.&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">status&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">201&lt;/span> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span> &lt;span class="k">catch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">status&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">500&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">({&lt;/span> &lt;span class="nx">message&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">status&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">500&lt;/span> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>If email whitelist can be bypassed, we can register as &lt;code>admin&lt;/code> due to parameter pollution in request parser.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-js" data-lang="js">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">email&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">password&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">role&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;guest&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">req&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">body&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>privilege escalation can be achieved using following request data upon registration.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;x&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;password&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;x&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;role&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;admin&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>in order to beat the email parser, i try to read the &lt;a class="link" href="https://www.npmjs.com/package/email-addresses" target="_blank" rel="noopener"
+>documentation&lt;/a> and &lt;a class="link" href="https://github.com/jackbearheart/email-addresses/blob/master/test/email-addresses.js#L10" target="_blank" rel="noopener"
+>source code&lt;/a> of &lt;code>email-addresses&lt;/code>, which i found several test cases of &lt;code>parseOneAddress&lt;/code> successfull email format.&lt;/p>
+&lt;p>one of the interesting format is &lt;code>&amp;quot;Françoise Lefèvre&amp;quot;@example.com&lt;/code>.&lt;/p>
+&lt;p>After playing with the format for a while, &lt;code>&amp;quot;test@email.htb test&amp;quot;@interstellar.htb&lt;/code> was working perfectly!&lt;/p>
+&lt;p>This is because email parsing disrepancy between &lt;code>email-address&lt;/code> and &lt;code>nodemailer&lt;/code>. nodemailer will convert the email to following format, which will interpret &lt;code>test@interstellar.htb&lt;/code> as a alias, and set &lt;code>test@email.htb&lt;/code> as the email address.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-1.png"
+width="605"
+height="214"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-1_hu7413328022359560351.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-1_hu7644066333924899342.png 1024w"
+loading="lazy"
+alt="email injection"
+class="gallery-image"
+data-flex-grow="282"
+data-flex-basis="678px"
+>&lt;/p>
+&lt;p>Code can be retrieved in the email
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-2.png"
+width="593"
+height="265"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-2_hu17673567366830976284.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-2_hu5292670741433947578.png 1024w"
+loading="lazy"
+alt="login token in email"
+class="gallery-image"
+data-flex-grow="223"
+data-flex-basis="537px"
+>&lt;/p>
+&lt;h3 id="prototype-pollution">Prototype Pollution
+&lt;/h3>&lt;p>in one of the admin feature, it uses &lt;code>mergedeep&lt;/code> function. Usually, function related with &lt;code>merge&lt;/code> in javascript environment is vulnerable to prototype pollution.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-js" data-lang="js">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">mergedeep&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;@christopy/mergedeep&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">editBountiesAPI&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kr">async&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">req&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="p">...&lt;/span>&lt;span class="nx">bountyData&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">req&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">body&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">try&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kr">await&lt;/span> &lt;span class="nx">BountyModel&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">findByPk&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">req&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">params&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">attributes&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;target_name&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;target_aliases&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;target_species&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;last_known_location&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;galaxy&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;star_system&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;planet&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;coordinates&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;reward_credits&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;reward_items&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;issuer_name&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;issuer_faction&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;risk_level&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;required_equipment&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;posted_at&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;image&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;description&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;crimes&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">status&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">404&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">({&lt;/span> &lt;span class="nx">message&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;Bounty not found&amp;#34;&lt;/span> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">updated&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">mergedeep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">toJSON&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="nx">bountyData&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">await&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">update&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">updated&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">updated&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span> &lt;span class="k">catch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">res&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">status&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">500&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">({&lt;/span> &lt;span class="nx">message&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;Error fetching data&amp;#34;&lt;/span> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>if we take a look at the &lt;a class="link" href="https://github.com/ChristoPy/mergedeep/blob/master/src/index.js" target="_blank" rel="noopener"
+>source code&lt;/a>, it was clear that the library doesn&amp;rsquo;t prevent for prototype pollution and assign value directly into the target object.&lt;/p>
+&lt;p>simple payload such as &lt;code>{&amp;quot;__proto__&amp;quot;: {&amp;quot;test&amp;quot;:&amp;quot;yey&amp;quot;}}&lt;/code> can be used to trigger the vulnerability.&lt;/p>
+&lt;h3 id="finding-gadget">Finding Gadget
+&lt;/h3>&lt;p>Usually, prototype pollution in CTF are combined with &lt;code>child_process&lt;/code> function such as &lt;code>fork&lt;/code>, &lt;code>execSync&lt;/code>, &lt;code>exec&lt;/code>, etc. However there&amp;rsquo;s none of them in the current application.&lt;/p>
+&lt;p>In order to find gadget to obtain either arbitrary file read or command execution, i decided to explore all library used in the application.&lt;/p>
+&lt;p>One of the interesting library is &lt;code>needle&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;dependencies&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;@christopy/mergedeep&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;^1.0.4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;lodash&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;^4.17.21&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;needle&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;^3.3.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The library is used to fetch data from web service. The usage is definitely eye catching because most of nodejs application uses &lt;code>axios&lt;/code> to fetch pages from internet. So there must be something in the &lt;code>needle&lt;/code> library.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-js" data-lang="js">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">needle&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;needle&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">fetchURL&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kr">async&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">startsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;http://&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="o">!&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">startsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;https://&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">throw&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Invalid URL: URL must start with http or https&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">options&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">compressed&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">follow_max&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Promise&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="nx">resolve&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">reject&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">needle&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">url&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">options&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">resp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">body&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">reject&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">new&lt;/span> &lt;span class="nb">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Error fetching the URL: &amp;#34;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">message&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">resolve&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">body&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>After reviewing the &lt;a class="link" href="https://github.com/tomas/needle/tree/master" target="_blank" rel="noopener"
+>documentation&lt;/a> and &lt;a class="link" href="https://github.com/tomas/needle/blob/master/lib/needle.js" target="_blank" rel="noopener"
+>source code&lt;/a> of needle, i found that &lt;code>output&lt;/code> options is being used to save fetched content into system files.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image.png"
+width="1091"
+height="234"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image_hu179658664197390053.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image_hu15965469885154306710.png 1024w"
+loading="lazy"
+alt="needle documentation"
+class="gallery-image"
+data-flex-grow="466"
+data-flex-basis="1118px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-js" data-lang="js">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">output&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nx">resp&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">statusCode&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">200&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// for some reason, simply piping resp to the writable stream doesn&amp;#39;t
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// work all the time (stream gets cut in the middle with no warning).
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// so we&amp;#39;ll manually need to do the readable/write(chunk) trick.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="kd">var&lt;/span> &lt;span class="nx">file&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">fs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">createWriteStream&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">config&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">output&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">on&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;error&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">had_error&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">out&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">on&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;end&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">writable&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">end&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">on&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;close&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">delete&lt;/span> &lt;span class="nx">out&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">out&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">on&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;readable&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kd">function&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">chunk&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">((&lt;/span>&lt;span class="nx">chunk&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">read&lt;/span>&lt;span class="p">())&lt;/span> &lt;span class="o">!==&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">writable&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">chunk&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// if callback was requested, also push it to resp.body
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">resp&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">body&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">resp&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">body&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">push&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">chunk&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">out&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">file&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">file&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>so if we managed to pollute &lt;code>output&lt;/code> options and call the &lt;code>fetchURL&lt;/code> function, then we can perform arbitrary file write on the system.&lt;/p>
+&lt;p>This can be performed by calling &lt;code>/api/transmit&lt;/code> using admin credentials after polluting the &lt;code>output&lt;/code> options.&lt;/p>
+&lt;p>after obtaining arbitrary file write, we can try to&lt;/p>
+&lt;ul>
+&lt;li>Overwrite javascript files (need restart)&lt;/li>
+&lt;li>Overwrite template files (without restart)&lt;/li>
+&lt;/ul>
+&lt;h3 id="dos">DOS
+&lt;/h3>&lt;p>Additional bug, if we try to provide invalid url within &lt;code>fetchURL&lt;/code> function, aparently the server will shut down.&lt;/p>
+&lt;p>Because the application using &lt;code>supervisord&lt;/code> with &lt;code>autorestart=true&lt;/code>, then this vulnerability can be used to restart the server after overwriting javascript files.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">[program:node]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">directory=/app
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">command=node index.js
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">autostart=true
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">autorestart=true
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">stdout_logfile=/dev/stdout
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">stdout_logfile_maxbytes=0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">stderr_logfile=/dev/stderr
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">stderr_logfile_maxbytes=0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="exploitation">Exploitation
+&lt;/h2>&lt;p>in order to perform full attack, we need to:&lt;/p>
+&lt;ul>
+&lt;li>bypass email protection &amp;amp; privilege escalation
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-3.png"
+width="1545"
+height="478"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-3_hu5086185841658993787.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-3_hu9973604568010249649.png 1024w"
+loading="lazy"
+alt="registration"
+class="gallery-image"
+data-flex-grow="323"
+data-flex-basis="775px"
+>&lt;/li>
+&lt;li>perform prototype pollution to pollute &lt;code>output&lt;/code> options
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-4.png"
+width="1543"
+height="730"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-4_hu13340668120789486878.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-4_hu14355779368745741089.png 1024w"
+loading="lazy"
+alt="prototype pollution"
+class="gallery-image"
+data-flex-grow="211"
+data-flex-basis="507px"
+>&lt;/li>
+&lt;li>overwrite either javascript or html files
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-5.png"
+width="1549"
+height="822"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-5_hu13025393035017155752.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-5_hu9547062061411162156.png 1024w"
+loading="lazy"
+alt="overwrite index.html"
+class="gallery-image"
+data-flex-grow="188"
+data-flex-basis="452px"
+>&lt;/li>
+&lt;li>trigger the updated code to gain code execution
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-6.png"
+width="489"
+height="136"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-6_hu3010831740116260979.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-6_hu3695919454522466251.png 1024w"
+loading="lazy"
+alt="flag obtained"
+class="gallery-image"
+data-flex-grow="359"
+data-flex-basis="862px"
+>&lt;/li>
+&lt;/ul>
+&lt;p>perform the same step for remote, and flag can be obtained :D&lt;/p>
+&lt;p>Flag: HTB{f1nd1ng_0d4y_15_345Y_r1gh7!!?_970db3ce5022cd532606efeca829916c}&lt;/p></description></item><item><title>[HTB CTF University 2024] - Armaxis</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/</link><pubDate>Wed, 18 Dec 2024 08:04:09 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-armaxis/banner.png" alt="Featured image of post [HTB CTF University 2024] - Armaxis" />&lt;h2 id="web---armaxis">Web - Armaxis
 &lt;/h2>&lt;blockquote>
 &lt;p>In the depths of the Frontier, Armaxis powers the enemy’s dominance, dispatching weapons to crush rebellion. Fortified and hidden, it controls vital supply chains. Yet, a flaw whispers of opportunity, a crack to expose its secrets and disrupt their plans. Can you breach Armaxis and turn its power against tyranny?&lt;/p>
 &lt;/blockquote>
