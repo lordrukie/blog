@@ -1,4 +1,208 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lordrukie</title><link>https://blog.lordrukie.com/</link><description>Recent content on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 18 Dec 2024 11:09:50 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Intergalactic Bounty</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/</link><pubDate>Wed, 18 Dec 2024 11:09:50 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/banner.png" alt="Featured image of post [HTB CTF University 2024] - Intergalactic Bounty" />&lt;h2 id="web---intergalactic-bounty">Web - Intergalactic Bounty
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lordrukie</title><link>https://blog.lordrukie.com/</link><description>Recent content on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 18 Dec 2024 16:40:42 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Clouded</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/</link><pubDate>Wed, 18 Dec 2024 22:16:07 +0700</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/banner.png" alt="Featured image of post [HTB CTF University 2024] - Clouded" />&lt;h2 id="fullpwn---clouded">Fullpwn - Clouded
+&lt;/h2>&lt;blockquote>
+&lt;p>In the lawless expanse of the Frontier Cluster, Clouded emerges as a beacon of efficiency and security for file sharing. Breakthrough their cloud servers to obtain the secrets to finding the Starry Spur. Allow up to 1 minute for all the services to properly boot.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="user">User
+&lt;/h2>&lt;h3 id="enumeration">Enumeration
+&lt;/h3>&lt;p>Upon scanning the ports, we found that port 22 and 80 are open.&lt;/p>
+&lt;p>when try to access the port 80, it was redirected into &lt;code>clouded.htb&lt;/code>. We try to enumerate subdomain using ffuf command below, and found other subdomain named &lt;code>local.clouded.htb&lt;/code>
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image.png"
+width="1104"
+height="577"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image_hu4865385243501698922.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image_hu7021658493199499365.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="191"
+data-flex-basis="459px"
+>&lt;/p>
+&lt;p>we add those two hostnames into &lt;code>/etc/hosts&lt;/code>.&lt;/p>
+&lt;h3 id="web-application">Web application
+&lt;/h3>&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-1.png"
+width="1920"
+height="941"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-1_hu5013240750995671265.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-1_hu4159148438990288179.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="204"
+data-flex-basis="489px"
+>
+The web page have several page, but the intersting one is &lt;code>Upload&lt;/code> page. It allows user to upload several type of content.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-2.png"
+width="879"
+height="673"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-2_hu11504117290114666383.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-2_hu2394237301032183018.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="130"
+data-flex-basis="313px"
+>&lt;/p>
+&lt;p>If we try to upload any content, it will return uploaded file location from &lt;code>local.clouded.htb&lt;/code> subdomain.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-3.png"
+width="1138"
+height="823"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-3_hu7701107855960779948.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-3_hu1835928879333527861.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="138"
+data-flex-basis="331px"
+>&lt;/p>
+&lt;h3 id="cloud-instances">Cloud instances
+&lt;/h3>&lt;p>Using curl, i was able to identify that the site was hosted using aws, probably an s3 bucket
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-4.png"
+width="842"
+height="591"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-4_hu4908475831347301975.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-4_hu13103728421419092393.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="341px"
+>&lt;/p>
+&lt;p>I try to use &lt;code>aws-cli&lt;/code> to enumerate the instances further, however i got permission denied
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-5.png"
+width="822"
+height="291"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-5_hu13105578256228091126.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-5_hu1976268346668703899.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="282"
+data-flex-basis="677px"
+>&lt;/p>
+&lt;p>i then try to enumerate further, started with directory enumration. I found that the application accept urlencoded form of &lt;code>?&lt;/code>.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-6.png"
+width="1105"
+height="411"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-6_hu16101676322612481365.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-6_hu6411418502688710529.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="268"
+data-flex-basis="645px"
+>&lt;/p>
+&lt;p>and after playing with other character, i noticed that the site also vulnerable to directory traversal, which allow me to bypass the restriction and access the bucket.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-7.png"
+width="636"
+height="162"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-7_hu15166315156934871605.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-7_hu1653347608176547267.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="392"
+data-flex-basis="942px"
+>&lt;/p>
+&lt;p>it have file named &lt;code>backup.db&lt;/code> which can be downloaded directly using link below
+&lt;code>http://local.clouded.htb/uploads/..%2F/clouded-internal/backup.db&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-8.png"
+width="830"
+height="89"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-8_hu6441799552260117042.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-8_hu7495473441427659026.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="932"
+data-flex-basis="2238px"
+>&lt;/p>
+&lt;p>the backup contains a lot of name and password in md5 format.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-9.png"
+width="1424"
+height="938"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-9_hu7121521619819562250.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-9_hu13802514724523446709.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="364px"
+>&lt;/p>
+&lt;h3 id="ssh-bruteforce">SSH Bruteforce
+&lt;/h3>&lt;p>i managed to crack all the password and proceeding to create wordlists based on available information.&lt;/p>
+&lt;p>i&amp;rsquo;ve tried multiple username combination based on &lt;a class="link" href="https://github.com/urbanadventurer/username-anarchy" target="_blank" rel="noopener"
+>username-anarchy&lt;/a>. but in the end, the pair was simple. It was lastname:password.&lt;/p>
+&lt;p>I managed to obtain correct credentials, which was &lt;code>nagato:alicia&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-10.png"
+width="1102"
+height="263"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-10_hu10357261976586621329.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-10_hu8980884282024335342.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="419"
+data-flex-basis="1005px"
+>&lt;/p>
+&lt;p>flag was located in &lt;code>/home/nagato/flag.txt&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-11.png"
+width="297"
+height="122"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-11_hu2815508799259833616.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-11_hu7464023523353009209.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="243"
+data-flex-basis="584px"
+>&lt;/p>
+&lt;h2 id="root">Root
+&lt;/h2>&lt;p>After obtaining low privilege user, i try to enumerate further. Aparently, &lt;code>nagato&lt;/code> is part of &lt;code>frontiers&lt;/code> group, which have access for &lt;code>/opt/infra-setup&lt;/code>.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-12.png"
+width="649"
+height="118"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-12_hu10865594177098306144.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-12_hu16687005350442870304.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="550"
+data-flex-basis="1320px"
+>&lt;/p>
+&lt;p>It containing yml script, potentially used for healthcheck.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-13.png"
+width="924"
+height="342"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-13_hu15280035139616384580.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-13_hu11524643733638586191.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="270"
+data-flex-basis="648px"
+>&lt;/p>
+&lt;p>If we try to monitor any process using &lt;a class="link" href="https://github.com/DominicBreuker/pspy" target="_blank" rel="noopener"
+>pspy&lt;/a>, then we can see that root user are running &lt;code>ansible&lt;/code> using yml file mentioned before.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-14.png"
+width="1321"
+height="223"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-14_hu15921166824410096062.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-14_hu16510529095072011974.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="592"
+data-flex-basis="1421px"
+>&lt;/p>
+&lt;h3 id="ansible-playbook-rce">ansible-playbook rce
+&lt;/h3>&lt;p>Using script from &lt;a class="link" href="https://0xdf.gitlab.io/2021/11/13/htb-seal.html#shell-as-root" target="_blank" rel="noopener"
+>0xdf&lt;/a>, we can gain command execution using following yml code. Note that i made modification because i was lazy to setup reverse shell in my windows machine lol.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">- &lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">localhost&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tasks&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rev&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">shell&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bash -c &amp;#39;chmod u+s /bin/bash&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>since we dont have write permission into &lt;code>checkup.yml&lt;/code>, we can&amp;rsquo;t modify the file directly. However since we have write permission on the directory itself, we can delete or rename the file into something else. This way, we can create new file with name of &lt;code>checkup.yml&lt;/code> and inject the malicious script.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-15.png"
+width="562"
+height="150"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-15_hu10342710760068512841.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-15_hu16472644531691811403.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="374"
+data-flex-basis="899px"
+>&lt;/p>
+&lt;p>After waiting for a while, the &lt;code>/bin/bash&lt;/code> permission was modified into a SUID binary. Now we can obtain root shell by executing &lt;code>/bin/bash -p&lt;/code>&lt;/p>
+&lt;p>root flag obtained!
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-16.png"
+width="753"
+height="124"
+srcset="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-16_hu1736834461342254528.png 480w, https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/image-16_hu8439431007040196953.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="607"
+data-flex-basis="1457px"
+>&lt;/p>
+&lt;p>Flag: HTB{H@ZY_71ME5_AH3AD}&lt;/p></description></item><item><title>[HTB CTF University 2024] - Intergalactic Bounty</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/</link><pubDate>Wed, 18 Dec 2024 11:09:50 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/banner.png" alt="Featured image of post [HTB CTF University 2024] - Intergalactic Bounty" />&lt;h2 id="web---intergalactic-bounty">Web - Intergalactic Bounty
 &lt;/h2>&lt;blockquote>
 &lt;p>The Galactic Bounty Exchange—a system where hunters and hunted collide, controlled by the ruthless Frontier Board. Hidden within its encrypted core lies a prize of untold power: the bounty for the Starry Spur.
 To ignite rebellion, Jack Colt must infiltrate this fortress of contracts, manipulate its algorithms, and claim the Spur’s bounty for himself. A race against time, a battle against the galaxy’s deadliest system—Jack’s mission will decide the fate of the Frontier.&lt;/p>
