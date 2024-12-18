@@ -30,4 +30,4 @@ jobs:
       with:
         branch: gh-pages  # Branch where the site will be deployed
         folder: public    # The folder containing the built site (default is "public" for Hugo)
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GH_TOKEN }}
