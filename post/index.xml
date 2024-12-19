@@ -1,4 +1,167 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lordrukie</title><link>https://blog.lordrukie.com/post/</link><description>Recent content in Posts on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 18 Dec 2024 16:40:42 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Clouded</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/</link><pubDate>Wed, 18 Dec 2024 22:16:07 +0700</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/banner.png" alt="Featured image of post [HTB CTF University 2024] - Clouded" />&lt;h2 id="fullpwn---clouded">Fullpwn - Clouded
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lordrukie</title><link>https://blog.lordrukie.com/post/</link><description>Recent content in Posts on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Dec 2024 02:16:44 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Apolo</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/</link><pubDate>Thu, 19 Dec 2024 02:16:44 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/banner.png" alt="Featured image of post [HTB CTF University 2024] - Apolo" />&lt;h2 id="fullpwn---apolo">Fullpwn - Apolo
+&lt;/h2>&lt;blockquote>
+&lt;p>In the lawless expanse of the Frontier Cluster, Apolo serves as a beacon of security, working to safeguard the Frontier Cluster’s assets from bounty hunters.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="user">User
+&lt;/h2>&lt;h3 id="enumeration">Enumeration
+&lt;/h3>&lt;p>port scan showing two active port, 22 and 80.&lt;/p>
+&lt;p>Using curl, i managed to obtain server name, which is &lt;code>apolo.htb&lt;/code>.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image.png"
+width="349"
+height="218"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="160"
+data-flex-basis="384px"
+>&lt;/p>
+&lt;h3 id="web-application">Web Application
+&lt;/h3>&lt;p>i add the domain name into &lt;code>/etc/hosts&lt;/code> and starting to enumerate the web pages
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-1.png"
+width="1920"
+height="933"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="205"
+data-flex-basis="493px"
+>&lt;/p>
+&lt;p>In one of the link, i found a subdomain &lt;code>ai.apolo.htb&lt;/code>
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-2.png"
+width="514"
+height="160"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="321"
+data-flex-basis="771px"
+>&lt;/p>
+&lt;h4 id="flowiseai-exploit">FlowiseAI Exploit
+&lt;/h4>&lt;p>I add the subdomain into &lt;code>/etc/hosts&lt;/code> and starting to access the site. It seems like it use &lt;code>FlowiseAI&lt;/code>.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-3.png"
+width="1919"
+height="945"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="203"
+data-flex-basis="487px"
+>&lt;/p>
+&lt;p>It seems that &lt;code>FlowiseAI&lt;/code> have &lt;a class="link" href="https://www.exploit-db.com/exploits/52001" target="_blank" rel="noopener"
+>authentication bypass vulnerability&lt;/a>.&lt;/p>
+&lt;p>using the technique mentioned on the exploitdb, i managed to bypsas authentication and obtain credentials id.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-4.png"
+width="517"
+height="265"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="195"
+data-flex-basis="468px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;6cfda83a-b055-4fd8-a040-57e5f1dae2eb&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;MongoDB&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;credentialName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;mongoDBUrlApi&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;createdDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2024-11-14T09:02:56.000Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;updatedDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2024-11-14T09:02:56.000Z&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The id can be used to read the value of mongodb creds.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-5.png"
+width="992"
+height="294"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="337"
+data-flex-basis="809px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;6cfda83a-b055-4fd8-a040-57e5f1dae2eb&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;MongoDB&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;credentialName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;mongoDBUrlApi&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;createdDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2024-11-14T09:02:56.000Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;updatedDate&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2024-11-14T09:02:56.000Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;plainDataObj&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;mongoDBConnectUrl&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;mongodb+srv://lewis:C0mpl3xi3Ty!_W1n3@cluster0.mongodb.net/myDatabase?retryWrites=true&amp;amp;w=majority&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>There&amp;rsquo;s pair of credentials there, which is &lt;code>lewis:C0mpl3xi3Ty!_W1n3&lt;/code>.&lt;/p>
+&lt;p>The credentials can be used to logged in using ssh.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-6.png"
+width="279"
+height="82"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="340"
+data-flex-basis="816px"
+>&lt;/p>
+&lt;p>Flag: HTB{llm_ex9l01t_4_RC3}&lt;/p>
+&lt;h2 id="root">Root
+&lt;/h2>&lt;p>Our current user have permission to run &lt;code>rclone&lt;/code> as root using sudo.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-7.png"
+width="1079"
+height="162"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="666"
+data-flex-basis="1598px"
+>&lt;/p>
+&lt;p>Unfortunately, &lt;code>rclone&lt;/code> is not listed in GTFOBins site
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-10.png"
+width="991"
+height="754"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="131"
+data-flex-basis="315px"
+>&lt;/p>
+&lt;p>Then i try to check for it&amp;rsquo;s docouomentation, and found that it have &lt;code>cat&lt;/code> options that can be used to read files.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-8.png"
+width="760"
+height="579"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="131"
+data-flex-basis="315px"
+>&lt;/p>
+&lt;p>I can easily read root flag using following command.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/image-9.png"
+width="938"
+height="108"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="868"
+data-flex-basis="2084px"
+>&lt;/p>
+&lt;p>Flag: HTB{cl0n3_rc3_f1l3}&lt;/p></description></item><item><title>[HTB CTF University 2024] - Clouded</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/</link><pubDate>Wed, 18 Dec 2024 22:16:07 +0700</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-clouded/banner.png" alt="Featured image of post [HTB CTF University 2024] - Clouded" />&lt;h2 id="fullpwn---clouded">Fullpwn - Clouded
 &lt;/h2>&lt;blockquote>
 &lt;p>In the lawless expanse of the Frontier Cluster, Clouded emerges as a beacon of efficiency and security for file sharing. Breakthrough their cloud servers to obtain the secrets to finding the Starry Spur. Allow up to 1 minute for all the services to properly boot.&lt;/p>
 &lt;/blockquote>
