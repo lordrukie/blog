@@ -1,4 +1,287 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lordrukie</title><link>https://blog.lordrukie.com/</link><description>Recent content on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Dec 2024 02:16:44 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Apolo</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/</link><pubDate>Thu, 19 Dec 2024 02:16:44 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/banner.png" alt="Featured image of post [HTB CTF University 2024] - Apolo" />&lt;h2 id="fullpwn---apolo">Fullpwn - Apolo
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lordrukie</title><link>https://blog.lordrukie.com/</link><description>Recent content on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Dec 2024 02:22:27 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Freedom</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/</link><pubDate>Thu, 19 Dec 2024 02:22:27 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/banner.jpg" alt="Featured image of post [HTB CTF University 2024] - Freedom" />&lt;h2 id="fullpwn---freedom">Fullpwn - Freedom
+&lt;/h2>&lt;blockquote>
+&lt;p>In these challenging times, the voices of freedom are growing fainter. Help us identify potential vulnerabilities in our systems so we can safeguard them against the Frontier Board, which seeks to silence any dissenting opinions. Allow up to 3 minutes for all the services to properly boot.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="user">User
+&lt;/h2>&lt;h3 id="enumeration">Enumeration
+&lt;/h3>&lt;p>starting with port canning, we found that the machine are running Windows due to kerberos port (88) opened.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image.png"
+width="1093"
+height="579"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="188"
+data-flex-basis="453px"
+>&lt;/p>
+&lt;h3 id="web-application">Web Application
+&lt;/h3>&lt;p>I started to enumerate web apps, which redirected into &lt;code>/index.cfm&lt;/code>.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-23.png"
+width="1004"
+height="686"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="146"
+data-flex-basis="351px"
+>&lt;/p>
+&lt;p>&lt;code>cfm&lt;/code> file extension are used for &lt;code>ColdFusion&lt;/code>.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-24.png"
+width="902"
+height="440"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="205"
+data-flex-basis="492px"
+>&lt;/p>
+&lt;p>there&amp;rsquo;s nothing much in the landing page, which then i decided to perform directory scan. Here i found several interesting results such as &lt;code>/README.md&lt;/code> and &lt;code>/admin&lt;/code>
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-1.png"
+width="1173"
+height="492"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="238"
+data-flex-basis="572px"
+>&lt;/p>
+&lt;p>In the &lt;code>README.md&lt;/code> files, i found that web application running &lt;code>Masa CMS&lt;/code>
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-3.png"
+width="1918"
+height="494"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="388"
+data-flex-basis="931px"
+>&lt;/p>
+&lt;p>if we try to open the &lt;code>/admin&lt;/code> path, then we can also confirm that &lt;code>Masa CMS&lt;/code> is being used.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-2.png"
+width="951"
+height="627"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="364px"
+>&lt;/p>
+&lt;p>continuing with the directory scan, i found other interesting files named &lt;code>box.json&lt;/code>. It seems like version 7.4.5 or &lt;code>Masa CMS&lt;/code> is being used right now.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-4.png"
+width="907"
+height="398"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="227"
+data-flex-basis="546px"
+>&lt;/p>
+&lt;h3 id="masacms-exploit">MasaCMS Exploit
+&lt;/h3>&lt;p>After searching for known exploit of &lt;code>Masa CMS&lt;/code>, i found this interesting article by &lt;a class="link" href="https://projectdiscovery.io/blog/hacking-apple-with-sql-injection" target="_blank" rel="noopener"
+>projectdiscovery&lt;/a> which disclose about pre-auth sql injection in &lt;code>Masa CMS&lt;/code> version 7.4.5. Perfect!&lt;/p>
+&lt;p>They also provide attack scenario to obtain RCE in the &lt;code>Masa CMS&lt;/code> as well.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-5.png"
+width="877"
+height="269"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="326"
+data-flex-basis="782px"
+>&lt;/p>
+&lt;p>Based on the article, it seems like the &lt;code>Masa CMS&lt;/code> are vulnerable to error-based SQL Injection. So i use sqlmap to dump the database.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl"> sqlmap &lt;span class="s2">&amp;#34;http://freedom.htb/index.cfm/_api/json/v1/default/?method=processAsyncObject&amp;amp;object=displayregion&amp;amp;contenthistid=x&amp;amp;previewID=x&amp;#34;&lt;/span> -p contenthistid --level &lt;span class="m">5&lt;/span> --risk &lt;span class="m">3&lt;/span> --technique&lt;span class="o">=&lt;/span>E --prefix&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;%5c&amp;#39;&amp;#34;&lt;/span> --batch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-25.png"
+width="1894"
+height="516"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="367"
+data-flex-basis="880px"
+>&lt;/p>
+&lt;p>Alternatively, we can also view the &lt;a class="link" href="https://github.com/MasaCMS/MasaCMS/blob/main/core/setup/db/mysql.sql" target="_blank" rel="noopener"
+>database schema&lt;/a> in the source code.&lt;/p>
+&lt;p>In order to achieve RCE, we need to reset user password. I use following command to dump user lists from database.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sqlmap &lt;span class="s2">&amp;#34;http://freedom.htb/index.cfm/_api/json/v1/default/?method=processAsyncObject&amp;amp;object=displayregion&amp;amp;contenthistid=x&amp;amp;previewID=x&amp;#34;&lt;/span> -p contenthistid --level &lt;span class="m">5&lt;/span> --risk &lt;span class="m">3&lt;/span> --technique&lt;span class="o">=&lt;/span>E --prefix&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;x%5c&amp;#39;&amp;#34;&lt;/span> --batch --dump -D dbMasaCMS -T tusers
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>it seems like admin email was &lt;code>admin@freedom.htb&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-6.png"
+width="1919"
+height="755"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="254"
+data-flex-basis="610px"
+>&lt;/p>
+&lt;p>using the email address, we can invoke password reset from the &lt;code>/admin&lt;/code> endpoint.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-7.png"
+width="867"
+height="823"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="105"
+data-flex-basis="252px"
+>&lt;/p>
+&lt;p>After that, we need to obtain reset token and user id from database. We didn&amp;rsquo;t know where exactly the value is, and try to dump all table in &lt;code>dbMasaCMS&lt;/code> database instead.&lt;/p>
+&lt;p>After waiting for a while, we found interesting output within &lt;code>tredirects&lt;/code> table.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-8.png"
+width="1906"
+height="257"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="741"
+data-flex-basis="1779px"
+>&lt;/p>
+&lt;p>The url can be used to reset admin password, nice!&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-9.png"
+width="1919"
+height="998"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="192"
+data-flex-basis="461px"
+>&lt;/p>
+&lt;h4 id="crafting-muracms-plugin">Crafting MuraCMS Plugin
+&lt;/h4>&lt;p>in order to obtain code execution, we need to upload our own plugin. This can be performed under &lt;code>Plugins &amp;gt; Add Plugin&lt;/code> menu.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-10.png"
+width="800"
+height="602"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="318px"
+>&lt;/p>
+&lt;p>I was lazy to create the plugin from scratch, so i decided to search for public available plugin, which i found from the &lt;a class="link" href="https://github.com/MasaCMS/MasaGoogleSitemaps" target="_blank" rel="noopener"
+>MasaCMS repository itself&lt;/a>&lt;/p>
+&lt;p>I replace the content of &lt;code>MasaGoogleSitemaps-main\admin\views\main\default.cfm&lt;/code> using backdoor shell from &lt;a class="link" href="https://github.com/jbarcia/Web-Shells/blob/master/laudanum/cfm/shell.cfm" target="_blank" rel="noopener"
+>laudanum&lt;/a>.&lt;/p>
+&lt;p>Then i zip the plugin content and uploaded it. However, it shows error like this.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-11.png"
+width="1020"
+height="991"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="102"
+data-flex-basis="247px"
+>&lt;/p>
+&lt;p>Fortunately, this error can be ignored. I just need to back to previous page and click for &lt;code>update&lt;/code> button.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-12.png"
+width="1211"
+height="896"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="135"
+data-flex-basis="324px"
+>&lt;/p>
+&lt;p>Voila, plugin is uploaded!
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-13.png"
+width="1833"
+height="540"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="339"
+data-flex-basis="814px"
+>&lt;/p>
+&lt;p>To access the plugin, click on it&amp;rsquo;s name
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-14.png"
+width="972"
+height="574"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="169"
+data-flex-basis="406px"
+>&lt;/p>
+&lt;p>This will redirect into &lt;code>/plugins/MasaGoogleSitemaps/&lt;/code> with forbidden result, what??
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-15.png"
+width="807"
+height="254"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="317"
+data-flex-basis="762px"
+>&lt;/p>
+&lt;p>Luckily, we can remove the restriction by appending &lt;code>/index.cfm&lt;/code> to the site. Shell is now opened, however we can&amp;rsquo;t see the content due to access restriction in the shell itself.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-16.png"
+width="720"
+height="226"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="318"
+data-flex-basis="764px"
+>&lt;/p>
+&lt;p>We need to set &lt;code>X-Auth-Code&lt;/code> header with value taken from the source code.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-17.png"
+width="837"
+height="522"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="160"
+data-flex-basis="384px"
+>&lt;/p>
+&lt;p>Shell can be accessed now
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-26.png"
+width="772"
+height="286"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="269"
+data-flex-basis="647px"
+>&lt;/p>
+&lt;h3 id="wsl-escape">WSL Escape?
+&lt;/h3>&lt;p>When i execute &lt;code>whoami&lt;/code>, it returning &lt;code>root&lt;/code> instead of windows user??
+I easily guess that this is probably wsl.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-18.png"
+width="800"
+height="379"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="211"
+data-flex-basis="506px"
+>&lt;/p>
+&lt;p>Using &lt;code>mount&lt;/code> command, i found that this is indeed an wsl intances that mounting drive &lt;code>C:\&lt;/code> from windows.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-19.png"
+width="685"
+height="300"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="228"
+data-flex-basis="548px"
+>&lt;/p>
+&lt;p>We can access windows file&amp;rsquo;s from it.
+&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-20.png"
+width="634"
+height="241"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="263"
+data-flex-basis="631px"
+>&lt;/p>
+&lt;p>User flag also can be obtained within &lt;code>/mnt/c/Users/j.bret/Desktop/user.txt&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-21.png"
+width="622"
+height="140"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="444"
+data-flex-basis="1066px"
+>&lt;/p>
+&lt;p>Flag: HTB{c4n_y0u_pl34as3_cr4ck?}&lt;/p>
+&lt;h2 id="root">Root
+&lt;/h2>&lt;p>well, this is weird. But we can also read root flag using wsl privileges lol&lt;/p>
+&lt;p>root flag located in &lt;code>/mnt/c/Users/Administrator/Desktop/root.txt&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/image-22.png"
+width="634"
+height="142"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="446"
+data-flex-basis="1071px"
+>&lt;/p>
+&lt;p>Flag:HTB{l34ky_h4ndl3rs_4th3_w1n}&lt;/p></description></item><item><title>[HTB CTF University 2024] - Apolo</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/</link><pubDate>Thu, 19 Dec 2024 02:16:44 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-apolo/banner.png" alt="Featured image of post [HTB CTF University 2024] - Apolo" />&lt;h2 id="fullpwn---apolo">Fullpwn - Apolo
 &lt;/h2>&lt;blockquote>
 &lt;p>In the lawless expanse of the Frontier Cluster, Apolo serves as a beacon of security, working to safeguard the Frontier Cluster’s assets from bounty hunters.&lt;/p>
 &lt;/blockquote>
