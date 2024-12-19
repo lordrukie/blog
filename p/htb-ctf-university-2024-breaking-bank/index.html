@@ -1,0 +1,629 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Web - Breaking Bank In the sprawling digital expanse of the Frontier Cluster, the Frontier Board seeks to cement its dominance by targeting the cornerstone of interstellar commerce: Cluster Credit, a decentralized cryptocurrency that keeps the economy alive. With whispers of a sinister 51% attack in motion, the Board aims to gain majority control of the Cluster Credit blockchain, rewriting transaction history and collapsing the fragile economy of the outer systems. Can you hack into the platform and drain the assets for the financial\u00a0controller?\n"><title>[HTB CTF University 2024] - Breaking Bank</title>
+<link rel=canonical href=https://blog.lordrukie.com/p/htb-ctf-university-2024-breaking-bank/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="[HTB CTF University 2024] - Breaking Bank"><meta property='og:description' content="Web - Breaking Bank In the sprawling digital expanse of the Frontier Cluster, the Frontier Board seeks to cement its dominance by targeting the cornerstone of interstellar commerce: Cluster Credit, a decentralized cryptocurrency that keeps the economy alive. With whispers of a sinister 51% attack in motion, the Board aims to gain majority control of the Cluster Credit blockchain, rewriting transaction history and collapsing the fragile economy of the outer systems. Can you hack into the platform and drain the assets for the financial\u00a0controller?\n"><meta property='og:url' content='https://blog.lordrukie.com/p/htb-ctf-university-2024-breaking-bank/'><meta property='og:site_name' content='lordrukie'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='JWT'><meta property='article:published_time' content='2024-12-18T11:07:50+00:00'><meta property='article:modified_time' content='2024-12-19T05:48:56+00:00'><meta property='og:image' content='https://blog.lordrukie.com/p/htb-ctf-university-2024-breaking-bank/banner.png'><meta name=twitter:title content="[HTB CTF University 2024] - Breaking Bank"><meta name=twitter:description content="Web - Breaking Bank In the sprawling digital expanse of the Frontier Cluster, the Frontier Board seeks to cement its dominance by targeting the cornerstone of interstellar commerce: Cluster Credit, a decentralized cryptocurrency that keeps the economy alive. With whispers of a sinister 51% attack in motion, the Board aims to gain majority control of the Cluster Credit blockchain, rewriting transaction history and collapsing the fragile economy of the outer systems. Can you hack into the platform and drain the assets for the financial\u00a0controller?\n"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://blog.lordrukie.com/p/htb-ctf-university-2024-breaking-bank/banner.png'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu5923991180728147624.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>😼</span></figure><div class=site-meta><h1 class=site-name><a href=/>lordrukie</a></h1><h2 class=site-description>Cyber Security Consultant | CTF Player</h2></div></header><ol class=menu-social><li><a href=https://github.com/lordrukie target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://x.com/belugagemink target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/whoami/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>Whoami</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#web---breaking-bank>Web - Breaking Bank</a></li><li><a href=#analysis>Analysis</a><ol><li><a href=#open-redirection>Open Redirection</a></li><li><a href=#jwks-spoofing>JWKS Spoofing</a></li><li><a href=#otp-bypass>OTP Bypass</a></li></ol></li><li><a href=#exploitation>Exploitation</a></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/htb-ctf-university-2024-breaking-bank/><img src=/p/htb-ctf-university-2024-breaking-bank/banner.png width=1371 height=639 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Breaking Bank"></a></div><div class=article-details><header class=article-category><a href=/categories/web/>Web</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/htb-ctf-university-2024-breaking-bank/>[HTB CTF University 2024] - Breaking Bank</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 18, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>10 minute read</time></div></footer></div></header><section class=article-content><h2 id=web---breaking-bank>Web - Breaking Bank</h2><blockquote><p>In the sprawling digital expanse of the Frontier Cluster, the Frontier Board seeks to cement its dominance by targeting the cornerstone of interstellar commerce: Cluster Credit, a decentralized cryptocurrency that keeps the economy alive. With whispers of a sinister 51% attack in motion, the Board aims to gain majority control of the Cluster Credit blockchain, rewriting transaction history and collapsing the fragile economy of the outer systems. Can you hack into the platform and drain the assets for the financial controller?</p></blockquote><h2 id=analysis>Analysis</h2><p>We are given nodejs application. Flag can be obtained from <code>checkFinancialControllerDrained</code> method if CLCR coin balance of <code>financial-controller@frontier-board.htb</code> user is less than or equal 0. In other word, we need to drain the wallet of the user.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>getBalancesForUser</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;../services/coinService.js&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>fs</span> <span class=nx>from</span> <span class=s1>&#39;fs/promises&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>FINANCIAL_CONTROLLER_EMAIL</span> <span class=o>=</span> <span class=s2>&#34;financial-controller@frontier-board.htb&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * Checks if the financial controller&#39;s CLCR wallet is drained
+</span></span></span><span class=line><span class=cl><span class=cm> * If drained, returns the flag.
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>checkFinancialControllerDrained</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>balances</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>getBalancesForUser</span><span class=p>(</span><span class=nx>FINANCIAL_CONTROLLER_EMAIL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>clcrBalance</span> <span class=o>=</span> <span class=nx>balances</span><span class=p>.</span><span class=nx>find</span><span class=p>((</span><span class=nx>coin</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>coin</span><span class=p>.</span><span class=nx>symbol</span> <span class=o>===</span> <span class=s1>&#39;CLCR&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>clcrBalance</span> <span class=o>||</span> <span class=nx>clcrBalance</span><span class=p>.</span><span class=nx>availableBalance</span> <span class=o>&lt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>flag</span> <span class=o>=</span> <span class=p>(</span><span class=kr>await</span> <span class=nx>fs</span><span class=p>.</span><span class=nx>readFile</span><span class=p>(</span><span class=s1>&#39;/flag.txt&#39;</span><span class=p>,</span> <span class=s1>&#39;utf-8&#39;</span><span class=p>)).</span><span class=nx>trim</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>{</span> <span class=nx>drained</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span> <span class=nx>flag</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>{</span> <span class=nx>drained</span><span class=o>:</span> <span class=kc>false</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>the <code>checkFinancialControllerDrained</code> method are called within <code>dashboardRouter</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>checkFinancialControllerDrained</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;../services/flagService.js&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kr>async</span> <span class=kd>function</span> <span class=nx>dashboardRouter</span><span class=p>(</span><span class=nx>fastify</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fastify</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>reply</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>req</span><span class=p>.</span><span class=nx>user</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>401</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Unauthorized: User not authenticated&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>email</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>user</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>email</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Email not found in token&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>drained</span><span class=p>,</span> <span class=nx>flag</span> <span class=p>}</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>checkFinancialControllerDrained</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>drained</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reply</span><span class=p>.</span><span class=nx>send</span><span class=p>({</span> <span class=nx>message</span><span class=o>:</span> <span class=s1>&#39;Welcome to the Dashboard!&#39;</span><span class=p>,</span> <span class=nx>flag</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>reply</span><span class=p>.</span><span class=nx>send</span><span class=p>({</span> <span class=nx>message</span><span class=o>:</span> <span class=s1>&#39;Welcome to the Dashboard!&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>This function will called when user access <code>/api/dashboard</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nx>securedRoutes</span><span class=p>.</span><span class=nx>register</span><span class=p>(</span><span class=nx>dashboardRouter</span><span class=p>,</span> <span class=p>{</span> <span class=nx>prefix</span><span class=o>:</span> <span class=s1>&#39;/api/dashboard&#39;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>ok, so how can we drain admin wallet? let&rsquo;s analyze more.</p><h3 id=open-redirection>Open Redirection</h3><p>After reading the source code, i found open redirection bug due to missing checking of <code>url</code> parameter.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kr>async</span> <span class=kd>function</span> <span class=nx>analyticsRoutes</span><span class=p>(</span><span class=nx>fastify</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>fastify</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=s1>&#39;/redirect&#39;</span><span class=p>,</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>reply</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>url</span><span class=p>,</span> <span class=nx>ref</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>query</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>url</span> <span class=o>||</span> <span class=o>!</span><span class=nx>ref</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Missing URL or ref parameter&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// TODO: Should we restrict the URLs we redirect users to?
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>await</span> <span class=nx>trackClick</span><span class=p>(</span><span class=nx>ref</span><span class=p>,</span> <span class=nb>decodeURIComponent</span><span class=p>(</span><span class=nx>url</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reply</span><span class=p>.</span><span class=nx>header</span><span class=p>(</span><span class=s1>&#39;Location&#39;</span><span class=p>,</span> <span class=nb>decodeURIComponent</span><span class=p>(</span><span class=nx>url</span><span class=p>)).</span><span class=nx>status</span><span class=p>(</span><span class=mi>302</span><span class=p>).</span><span class=nx>send</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s1>&#39;[Analytics] Error during redirect:&#39;</span><span class=p>,</span> <span class=nx>error</span><span class=p>.</span><span class=nx>message</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>500</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Failed to track analytics data.&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>fastify</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=s1>&#39;/data&#39;</span><span class=p>,</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>reply</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>start</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>limit</span> <span class=o>=</span> <span class=mi>10</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>query</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=nx>analyticsData</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>getAnalyticsData</span><span class=p>(</span><span class=nb>parseInt</span><span class=p>(</span><span class=nx>start</span><span class=p>),</span> <span class=nb>parseInt</span><span class=p>(</span><span class=nx>limit</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reply</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=nx>analyticsData</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s1>&#39;[Analytics] Error fetching data:&#39;</span><span class=p>,</span> <span class=nx>error</span><span class=p>.</span><span class=nx>message</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>500</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Failed to fetch analytics data.&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>this route are defined with</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nx>fastify</span><span class=p>.</span><span class=nx>register</span><span class=p>(</span><span class=nx>analyticsRoutes</span><span class=p>,</span> <span class=p>{</span> <span class=nx>prefix</span><span class=o>:</span> <span class=s1>&#39;/api/analytics&#39;</span> <span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>so we can perform open redirection using following url <code>/api/analytics/redirect?ref=a&amp;url=redirected.com</code></p><h3 id=jwks-spoofing>JWKS Spoofing</h3><p>The application uses <code>RS256</code> algorithm. This mean that JWT token will be signed using Private Key and validated using Public Key.</p><p>There&rsquo;s a weakness in the token validation mechanism that lead to JWKS Spoofing.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>verifyToken</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>token</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>decodedHeader</span> <span class=o>=</span> <span class=nx>jwt</span><span class=p>.</span><span class=nx>decode</span><span class=p>(</span><span class=nx>token</span><span class=p>,</span> <span class=p>{</span> <span class=nx>complete</span><span class=o>:</span> <span class=kc>true</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>decodedHeader</span> <span class=o>||</span> <span class=o>!</span><span class=nx>decodedHeader</span><span class=p>.</span><span class=nx>header</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid token: Missing header&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>kid</span><span class=p>,</span> <span class=nx>jku</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>decodedHeader</span><span class=p>.</span><span class=nx>header</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>jku</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid token: Missing header jku&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// TODO: is this secure enough?
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>jku</span><span class=p>.</span><span class=nx>startsWith</span><span class=p>(</span><span class=s1>&#39;http://127.0.0.1:1337/&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid token: jku claim does not start with http://127.0.0.1:1337/&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>kid</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid token: Missing header kid&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>kid</span> <span class=o>!==</span> <span class=nx>KEY_ID</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid token: kid does not match the expected key ID&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nx>jwks</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=nx>response</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>axios</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=nx>jku</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=nx>response</span><span class=p>.</span><span class=nx>status</span> <span class=o>!==</span> <span class=mi>200</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=sb>`Failed to fetch JWKS: HTTP </span><span class=si>${</span><span class=nx>response</span><span class=p>.</span><span class=nx>status</span><span class=si>}</span><span class=sb>`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=nx>jwks</span> <span class=o>=</span> <span class=nx>response</span><span class=p>.</span><span class=nx>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=sb>`Error fetching JWKS from jku: </span><span class=si>${</span><span class=nx>error</span><span class=p>.</span><span class=nx>message</span><span class=si>}</span><span class=sb>`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>jwks</span> <span class=o>||</span> <span class=o>!</span><span class=nb>Array</span><span class=p>.</span><span class=nx>isArray</span><span class=p>(</span><span class=nx>jwks</span><span class=p>.</span><span class=nx>keys</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid JWKS: Expected keys array&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>jwk</span> <span class=o>=</span> <span class=nx>jwks</span><span class=p>.</span><span class=nx>keys</span><span class=p>.</span><span class=nx>find</span><span class=p>((</span><span class=nx>key</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>key</span><span class=p>.</span><span class=nx>kid</span> <span class=o>===</span> <span class=nx>kid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>jwk</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid token: kid not found in JWKS&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>jwk</span><span class=p>.</span><span class=nx>alg</span> <span class=o>!==</span> <span class=s1>&#39;RS256&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid key algorithm: Expected RS256&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>jwk</span><span class=p>.</span><span class=nx>n</span> <span class=o>||</span> <span class=o>!</span><span class=nx>jwk</span><span class=p>.</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=s1>&#39;Invalid JWK: Missing modulus (n) or exponent (e)&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>publicKey</span> <span class=o>=</span> <span class=nx>jwkToPem</span><span class=p>(</span><span class=nx>jwk</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>decoded</span> <span class=o>=</span> <span class=nx>jwt</span><span class=p>.</span><span class=nx>verify</span><span class=p>(</span><span class=nx>token</span><span class=p>,</span> <span class=nx>publicKey</span><span class=p>,</span> <span class=p>{</span> <span class=nx>algorithms</span><span class=o>:</span> <span class=p>[</span><span class=s1>&#39;RS256&#39;</span><span class=p>]</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>decoded</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=sb>`Token verification failed: </span><span class=si>${</span><span class=nx>error</span><span class=p>.</span><span class=nx>message</span><span class=si>}</span><span class=sb>`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=nx>error</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>it will try to decode jwt token, parse <code>jku</code> and check wether it starts with <code>http://127.0.0.1:1337/</code>. This approach is unsafe if open redirection is found in the application. Luckily, we already found open redirect vulnerability earlier.</p><p>We can use redirection to bypass the validation by using link such as <code>http://127.0.0.1:1337/redirect?url=evil.com</code> so it will fetch content from <code>evil.com</code> instead of <code>127.0.0.1</code>. This way we can provide our own public key for token validation, while encrypting the token using our own private key.</p><p>Using this method, we can create arbitrary token and able to logged in as anyone in the site.</p><h3 id=otp-bypass>OTP Bypass</h3><p>In order to perform transaction, application will try to perform several check</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nx>fastify</span><span class=p>.</span><span class=nx>post</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;/transaction&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span> <span class=nx>preHandler</span><span class=o>:</span> <span class=p>[</span><span class=nx>rateLimiterMiddleware</span><span class=p>(),</span> <span class=nx>otpMiddleware</span><span class=p>()]</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>reply</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=p>{</span> <span class=nx>to</span><span class=p>,</span> <span class=nx>coin</span><span class=p>,</span> <span class=nx>amount</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>userId</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>user</span><span class=p>.</span><span class=nx>email</span><span class=p>;</span> 
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>        <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>to</span> <span class=o>||</span> <span class=o>!</span><span class=nx>coin</span> <span class=o>||</span> <span class=o>!</span><span class=nx>amount</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;Missing required fields&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>supportedCoins</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>getSupportedCoins</span><span class=p>();</span> 
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>supportedCoins</span><span class=p>.</span><span class=nx>includes</span><span class=p>(</span><span class=nx>coin</span><span class=p>.</span><span class=nx>toUpperCase</span><span class=p>()))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;Unsupported coin symbol.&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>parsedAmount</span> <span class=o>=</span> <span class=nb>parseFloat</span><span class=p>(</span><span class=nx>amount</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nb>isNaN</span><span class=p>(</span><span class=nx>parsedAmount</span><span class=p>)</span> <span class=o>||</span> <span class=nx>parsedAmount</span> <span class=o>&lt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;Amount must be a positive number.&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>userExists</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>validateUserExists</span><span class=p>(</span><span class=nx>to</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>userExists</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>404</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;Recipient user does not exist.&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>userId</span> <span class=o>===</span> <span class=nx>to</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>400</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s2>&#34;Cannot perform transactions to yourself.&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>result</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>transactionByEmail</span><span class=p>(</span><span class=nx>to</span><span class=p>,</span> <span class=nx>userId</span><span class=p>,</span> <span class=nb>parseFloat</span><span class=p>(</span><span class=nx>amount</span><span class=p>),</span> <span class=nx>coin</span><span class=p>.</span><span class=nx>toUpperCase</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>result</span><span class=p>.</span><span class=nx>success</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=nx>result</span><span class=p>.</span><span class=nx>status</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=nx>result</span><span class=p>.</span><span class=nx>error</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>        <span class=nx>reply</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span><span class=nx>result</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s2>&#34;Transaction error:&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=nx>err</span><span class=p>.</span><span class=nx>status</span> <span class=o>||</span> <span class=mi>500</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=nx>err</span><span class=p>.</span><span class=nx>error</span> <span class=o>||</span> <span class=s2>&#34;An unknown error occurred during the transaction.&#34;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>It also uses two middleware before performing those checks.</p><p>frist one is <code>rateLimiterMiddleware()</code> which prevent bruteforce attemp by limiting only 5 request per minute.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>hsetField</span><span class=p>,</span> <span class=nx>hgetField</span><span class=p>,</span> <span class=nx>expireKey</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;../utils/redisUtils.js&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>rateLimiterMiddleware</span> <span class=o>=</span> <span class=p>(</span><span class=nx>limit</span> <span class=o>=</span> <span class=mi>5</span><span class=p>,</span> <span class=nx>windowInSeconds</span> <span class=o>=</span> <span class=mi>60</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>reply</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>userId</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>user</span><span class=p>.</span><span class=nx>email</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>redisKey</span> <span class=o>=</span> <span class=sb>`rate-limit:</span><span class=si>${</span><span class=nx>userId</span><span class=si>}</span><span class=sb>`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>currentCount</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>hgetField</span><span class=p>(</span><span class=nx>redisKey</span><span class=p>,</span> <span class=s1>&#39;count&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>currentCount</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>currentCount</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=kr>await</span> <span class=nx>hsetField</span><span class=p>(</span><span class=nx>redisKey</span><span class=p>,</span> <span class=s1>&#39;count&#39;</span><span class=p>,</span> <span class=nx>currentCount</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=kr>await</span> <span class=nx>expireKey</span><span class=p>(</span><span class=nx>redisKey</span><span class=p>,</span> <span class=nx>windowInSeconds</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>currentCount</span> <span class=o>=</span> <span class=nb>parseInt</span><span class=p>(</span><span class=nx>currentCount</span><span class=p>,</span> <span class=mi>10</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=kr>await</span> <span class=nx>hsetField</span><span class=p>(</span><span class=nx>redisKey</span><span class=p>,</span> <span class=s1>&#39;count&#39;</span><span class=p>,</span> <span class=nx>currentCount</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>currentCount</span> <span class=o>&gt;</span> <span class=nx>limit</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>429</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Too many requests. Please try again later.&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>second is <code>otpMiddleware()</code> which will checks for user OTP in redis.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>hgetField</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;../utils/redisUtils.js&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>otpMiddleware</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>req</span><span class=p>,</span> <span class=nx>reply</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>userId</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>user</span><span class=p>.</span><span class=nx>email</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=p>{</span> <span class=nx>otp</span> <span class=p>}</span> <span class=o>=</span> <span class=nx>req</span><span class=p>.</span><span class=nx>body</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>redisKey</span> <span class=o>=</span> <span class=sb>`otp:</span><span class=si>${</span><span class=nx>userId</span><span class=si>}</span><span class=sb>`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>validOtp</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>hgetField</span><span class=p>(</span><span class=nx>redisKey</span><span class=p>,</span> <span class=s1>&#39;otp&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>validOtp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>otp</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>401</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;OTP is missing.&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>validOtp</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>401</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;OTP expired or invalid.&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// TODO: Is this secure enough?
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>otp</span><span class=p>.</span><span class=nx>includes</span><span class=p>(</span><span class=nx>validOtp</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>401</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Invalid OTP.&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>the otp are generated in the server and not given to user. The OTP is being generated for every one minute. So bruteforcing OTP is impossible.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>generateOtp</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=mi>1000</span> <span class=o>+</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span> <span class=o>*</span> <span class=mi>9000</span><span class=p>).</span><span class=nx>toString</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>setOtpForUser</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>userId</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>otp</span> <span class=o>=</span> <span class=nx>generateOtp</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>ttl</span> <span class=o>=</span> <span class=mi>60</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kr>await</span> <span class=nx>setHash</span><span class=p>(</span><span class=sb>`otp:</span><span class=si>${</span><span class=nx>userId</span><span class=si>}</span><span class=sb>`</span><span class=p>,</span> <span class=p>{</span> <span class=nx>otp</span><span class=p>,</span> <span class=nx>expiresAt</span><span class=o>:</span> <span class=nb>Date</span><span class=p>.</span><span class=nx>now</span><span class=p>()</span> <span class=o>+</span> <span class=nx>ttl</span> <span class=o>*</span> <span class=mi>1000</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>otp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>rotateOtps</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>userKeys</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>getKeysByPattern</span><span class=p>(</span><span class=s1>&#39;user:*&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>rotatePromises</span> <span class=o>=</span> <span class=nx>userKeys</span><span class=p>.</span><span class=nx>map</span><span class=p>(</span><span class=kr>async</span> <span class=p>(</span><span class=nx>userKey</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=kr>const</span> <span class=nx>userId</span> <span class=o>=</span> <span class=nx>userKey</span><span class=p>.</span><span class=nx>split</span><span class=p>(</span><span class=s1>&#39;:&#39;</span><span class=p>)[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>      <span class=kr>await</span> <span class=nx>setOtpForUser</span><span class=p>(</span><span class=nx>userId</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nb>Promise</span><span class=p>.</span><span class=nx>all</span><span class=p>(</span><span class=nx>rotatePromises</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s1>&#39;Error during OTP rotation:&#39;</span><span class=p>,</span> <span class=nx>error</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=kr>const</span> <span class=nx>safelyRotateOtps</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nx>isRotating</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>warn</span><span class=p>(</span><span class=s1>&#39;Previous OTP rotation is still in progress. Skipping this interval.&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>isRotating</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>rotateOtps</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>error</span><span class=p>(</span><span class=s1>&#39;Error during OTP rotation:&#39;</span><span class=p>,</span> <span class=nx>error</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>finally</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>isRotating</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>setInterval</span><span class=p>(</span><span class=nx>safelyRotateOtps</span><span class=p>,</span> <span class=mi>60000</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>However there&rsquo;s weak validation mechanism for OTP verification because it uses the <code>includes()</code> method, which checks if the valid OTP is <mark>anywhere</mark> in the user&rsquo;s input.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>otp</span><span class=p>.</span><span class=nx>includes</span><span class=p>(</span><span class=nx>validOtp</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>reply</span><span class=p>.</span><span class=nx>status</span><span class=p>(</span><span class=mi>401</span><span class=p>).</span><span class=nx>send</span><span class=p>({</span> <span class=nx>error</span><span class=o>:</span> <span class=s1>&#39;Invalid OTP.&#39;</span> <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>check test case below. Although input is not the same, but if the string is &ldquo;included&rdquo; in the full string, then it will return true.</p><p><img src=/p/htb-ctf-university-2024-breaking-bank/image.png width=306 height=206 loading=lazy alt="alt text" class=gallery-image data-flex-grow=148 data-flex-basis=356px></p><p>This way, we can insert all possible combination of otp in single request, bypassing the validation.</p><h2 id=exploitation>Exploitation</h2><p>so here&rsquo;s the full attack chain:</p><ul><li>Bypass JWT to logged in as admin</li><li>Bypass OTP to drain user balance</li><li>Access the flag</li></ul><p>let&rsquo;s register in the website first
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-1.png width=663 height=759 loading=lazy alt="alt text" class=gallery-image data-flex-grow=87 data-flex-basis=209px></p><p>then login to the site
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-2.png width=1920 height=947 loading=lazy alt="alt text" class=gallery-image data-flex-grow=202 data-flex-basis=486px></p><p>We get valid JWT token in <code>jwt</code> localstorage.
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-3.png width=1161 height=923 loading=lazy alt="alt text" class=gallery-image data-flex-grow=125 data-flex-basis=301px></p><p>and we can also get sample of <code>jwks.json</code> value.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;keys&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;kty&#34;</span><span class=p>:</span> <span class=s2>&#34;RSA&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;n&#34;</span><span class=p>:</span> <span class=s2>&#34;tgSoSdh8tbodjwpc4hBKBs_0nZG5Fktdnk6gx401f66G93ibpGthzCdaPpP4fABrImpjO3qg8roK7OKFoxj6DpYINgD1LxUqyaOO3Mm3ZoL_EgKKPzKgUmNZKwL-br6g9JvrlVNjAgG1xmL7csezJ3qaX2FJ21sihvHFa7EiGbydY4sOiEw8p24TfWAi8exaw2DaYeEyj-CoCzhxSzahZR5H9Rc5NnCkhVrK1TIaZAOCFAVs0WAC4BTxPS9MJjgPTEbec97VozzXXOu3c4qIrB0GYM8-gtzEWwqKHLi4uDoSwzeevjbzfbwOE0F_LOFHb7piQBH2dJ78y8rPtIXhYQ&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;e&#34;</span><span class=p>:</span> <span class=s2>&#34;AQAB&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;alg&#34;</span><span class=p>:</span> <span class=s2>&#34;RS256&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;use&#34;</span><span class=p>:</span> <span class=s2>&#34;sig&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;kid&#34;</span><span class=p>:</span> <span class=s2>&#34;8ff20cff-f538-4af6-97b8-fecd36505989&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>now let&rsquo;s create pairs of public & private key. I&rsquo;ll use <a class=link href=https://mkjwk.org/ target=_blank rel=noopener>https://mkjwk.org/</a></p><p>fill all the required field and generate new key.</p><p><img src=/p/htb-ctf-university-2024-breaking-bank/image-4.png width=1487 height=924 loading=lazy alt="alt text" class=gallery-image data-flex-grow=160 data-flex-basis=386px></p><p>Serve <code>public and private keypair set</code> to your vps.</p><p>now convert the generated keypairs into PEM format. I&rsquo;ll using <a class=link href=https://8gwifi.org/jwkconvertfunctions.jsp target=_blank rel=noopener>https://8gwifi.org/</a>. You can use <code>Public and Private Keypair</code> from previous site.</p><p><img src=/p/htb-ctf-university-2024-breaking-bank/image-5.png width=1223 height=883 loading=lazy alt="alt text" class=gallery-image data-flex-grow=138 data-flex-basis=332px></p><p>now modify token from jwt.io site
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-6.png width=1117 height=798 loading=lazy alt="alt text" class=gallery-image data-flex-grow=139 data-flex-basis=335px></p><p>change value of <code>jwt</code> in local storage and refresh. Now we&rsquo;re logged in as admin.</p><p><img src=/p/htb-ctf-university-2024-breaking-bank/image-7.png width=1910 height=852 loading=lazy alt="alt text" class=gallery-image data-flex-grow=224 data-flex-basis=538px></p><p>It seems like we need to add friend first to be able to transfer money
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-8.png width=1908 height=769 loading=lazy alt="alt text" class=gallery-image data-flex-grow=248 data-flex-basis=595px></p><p>let&rsquo;s add friend using our registered user
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-9.png width=1707 height=698 loading=lazy alt="alt text" class=gallery-image data-flex-grow=244 data-flex-basis=586px></p><p>login using our user, and accept friend request from admin
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-10.png width=1708 height=824 loading=lazy alt="alt text" class=gallery-image data-flex-grow=207 data-flex-basis=497px></p><p>now sent all CLCR coin to our user
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-11.png width=1679 height=743 loading=lazy alt="alt text" class=gallery-image data-flex-grow=225 data-flex-basis=542px></p><p>using following code, i can generate all combination of otp</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=s1>&#39;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;</span><span class=si>{</span><span class=n>i</span><span class=si>:</span><span class=s2>04d</span><span class=si>}</span><span class=s2>&#34;</span> <span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>10000</span><span class=p>)))</span>
+</span></span></code></pre></td></tr></table></div></div><p>now sent the modified request. it was accepted
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-12.png width=1549 height=817 loading=lazy alt="alt text" class=gallery-image data-flex-grow=189 data-flex-basis=455px></p><p>now if we go back to the dashboard, flag will be given
+<img src=/p/htb-ctf-university-2024-breaking-bank/image-13.png width=1914 height=583 loading=lazy alt="alt text" class=gallery-image data-flex-grow=328 data-flex-basis=787px></p><p>perform same attack in the remote instances to obtain real flag :)</p><p>Flag: HTB{rugg3d_pu11ed_c0nqu3r3d_d14m0nd_h4nd5_c1f72c32f8eb7a20278ef19559bd03ae}</p></section><footer class=article-footer><section class=article-tags><a href=/tags/jwt/>JWT</a></section><section class=article-lastmod><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>Last updated on Dec 19, 2024 05:48 UTC</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/p/htb-ctf-university-2024-intergalactic-bounty/><div class=article-image><img src=/p/htb-ctf-university-2024-intergalactic-bounty/banner.cb6b9b6329d9b3060480b9a7549b9c78.png width=1248 height=572 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Intergalactic Bounty" data-hash="md5-y2ubYynZswYEgLmnVJuceA=="></div><div class=article-details><h2 class=article-title>[HTB CTF University 2024] - Intergalactic Bounty</h2></div></a></article><article class=has-image><a href=/p/htb-ctf-university-2024-armaxis/><div class=article-image><img src=/p/htb-ctf-university-2024-armaxis/banner.1201673f134374b06fea79bb65fe84be.png width=1130 height=419 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Armaxis" data-hash="md5-EgFnPxNDdLBv6nm7Zf6Evg=="></div><div class=article-details><h2 class=article-title>[HTB CTF University 2024] - Armaxis</h2></div></a></article></div></div></aside><footer class=site-footer><section class=copyright>&copy;
+2024 lordrukie</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.29.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
