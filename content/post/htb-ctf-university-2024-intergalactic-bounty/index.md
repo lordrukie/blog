@@ -1,6 +1,7 @@
 ---
 title: "[HTB CTF University 2024] - Intergalactic Bounty"
 date: 2024-12-18T11:09:50.476
+lastmod: 2024-12-20T04:48:16.911Z
 draft: false
 image: banner.png
 categories:
@@ -251,6 +252,12 @@ in order to perform full attack, we need to:
   ![prototype pollution](image-4.png)
 - overwrite either javascript or html files
   ![overwrite index.html](image-5.png)
+
+  here i used following payload, stored in `index.html` files. The payload are obtained from [Hacktricks](https://github.com/HackTricks-wiki/hacktricks/blob/master/pentesting-web/ssti-server-side-template-injection/README.md#nunjucks-nodejs-)
+
+  ```js
+    {{range.constructor("return global.process.mainModule.require('child_process').execSync('cat /flag.txt')")()}}
+  ```
 - trigger the updated code to gain code execution
   ![flag obtained](image-6.png)
 
