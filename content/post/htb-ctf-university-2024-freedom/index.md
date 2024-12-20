@@ -4,6 +4,7 @@ date: 2024-12-19T02:22:27.837Z
 lastmod: 
 draft: false
 image: banner.jpg
+description: Hack The Box University CTF - Freedom Writeup
 categories:
  - Fullpwn
 tags:

@@ -3,6 +3,7 @@ title: "[HTB CTF University 2024] - Intergalactic Bounty"
 date: 2024-12-18T11:09:50.476
 lastmod: 2024-12-20T04:48:16.911Z
 draft: false
+description: Hack The Box University CTF - Intergalactic Bounty Writeup
 image: banner.png
 categories:
  - Web

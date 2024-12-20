@@ -1,7 +1,7 @@
 ---
 title: "[HTB CTF University 2024] - Armaxis"
 date: 2024-12-18T08:04:09.436Z
-
+description: Hack The Box University CTF - Armaxis Writeup
 lastmod: 2024-12-18T10:48:51.707Z
 draft: false
 image: banner.png

@@ -4,6 +4,7 @@ date: 2024-12-18T11:07:50.476
 lastmod: 2024-12-19T05:48:56.045Z
 draft: false
 image: banner.png
+description: Hack The Box University CTF - Breaking Bank Writeup
 categories:
  - Web
 tags:

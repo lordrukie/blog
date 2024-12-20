@@ -4,6 +4,7 @@ date: 2024-12-19T02:16:44.843Z
 lastmod: 2024-12-19T02:16:44.843Z
 draft: false
 image: banner.png
+description: Hack The Box University CTF - Apolo Writeup
 categories:
  - Fullpwn
 ---

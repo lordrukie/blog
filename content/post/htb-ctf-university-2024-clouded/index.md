@@ -3,6 +3,7 @@ title: "[HTB CTF University 2024] - Clouded"
 date: 2024-12-18T22:16:07+07:00
 lastmod: 2024-12-18T16:40:42.276Z
 draft: false
+description: Hack The Box University CTF - Clouded Writeup
 image: banner.png
 categories:
  - Fullpwn
