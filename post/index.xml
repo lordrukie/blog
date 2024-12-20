@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lordrukie</title><link>https://blog.lordrukie.com/post/</link><description>Recent content in Posts on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 19 Dec 2024 05:48:56 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Freedom</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/</link><pubDate>Thu, 19 Dec 2024 02:22:27 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/banner.jpg" alt="Featured image of post [HTB CTF University 2024] - Freedom" />&lt;h2 id="fullpwn---freedom">Fullpwn - Freedom
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lordrukie</title><link>https://blog.lordrukie.com/post/</link><description>Recent content in Posts on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 20 Dec 2024 04:48:16 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>[HTB CTF University 2024] - Freedom</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/</link><pubDate>Thu, 19 Dec 2024 02:22:27 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-freedom/banner.jpg" alt="Featured image of post [HTB CTF University 2024] - Freedom" />&lt;h2 id="fullpwn---freedom">Fullpwn - Freedom
 &lt;/h2>&lt;blockquote>
 &lt;p>In these challenging times, the voices of freedom are growing fainter. Help us identify potential vulnerabilities in our systems so we can safeguard them against the Frontier Board, which seeks to silence any dissenting opinions. Allow up to 3 minutes for all the services to properly boot.&lt;/p>
 &lt;/blockquote>
@@ -1027,7 +1027,8 @@ data-flex-basis="1118px"
 &lt;/div>&lt;h2 id="exploitation">Exploitation
 &lt;/h2>&lt;p>in order to perform full attack, we need to:&lt;/p>
 &lt;ul>
-&lt;li>bypass email protection &amp;amp; privilege escalation
+&lt;li>
+&lt;p>bypass email protection &amp;amp; privilege escalation
 &lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-3.png"
 width="1545"
 height="478"
@@ -1036,8 +1037,10 @@ alt="registration"
 class="gallery-image"
 data-flex-grow="323"
 data-flex-basis="775px"
->&lt;/li>
-&lt;li>perform prototype pollution to pollute &lt;code>output&lt;/code> options
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>perform prototype pollution to pollute &lt;code>output&lt;/code> options
 &lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-4.png"
 width="1543"
 height="730"
@@ -1046,8 +1049,10 @@ alt="prototype pollution"
 class="gallery-image"
 data-flex-grow="211"
 data-flex-basis="507px"
->&lt;/li>
-&lt;li>overwrite either javascript or html files
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>overwrite either javascript or html files
 &lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-5.png"
 width="1549"
 height="822"
@@ -1056,8 +1061,20 @@ alt="overwrite index.html"
 class="gallery-image"
 data-flex-grow="188"
 data-flex-basis="452px"
->&lt;/li>
-&lt;li>trigger the updated code to gain code execution
+>&lt;/p>
+&lt;p>here i used following payload, stored in &lt;code>index.html&lt;/code> files. The payload are obtained from &lt;a class="link" href="https://github.com/HackTricks-wiki/hacktricks/blob/master/pentesting-web/ssti-server-side-template-injection/README.md#nunjucks-nodejs-" target="_blank" rel="noopener"
+>Hacktricks&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-js" data-lang="js">&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{{&lt;/span>&lt;span class="nx">range&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">constructor&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;return global.process.mainModule.require(&amp;#39;child_process&amp;#39;).execSync(&amp;#39;cat /flag.txt&amp;#39;)&amp;#34;&lt;/span>&lt;span class="p">)()}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>trigger the updated code to gain code execution
 &lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-intergalactic-bounty/image-6.png"
 width="489"
 height="136"
@@ -1066,7 +1083,8 @@ alt="flag obtained"
 class="gallery-image"
 data-flex-grow="359"
 data-flex-basis="862px"
->&lt;/li>
+>&lt;/p>
+&lt;/li>
 &lt;/ul>
 &lt;p>perform the same step for remote, and flag can be obtained :D&lt;/p>
 &lt;p>Flag: HTB{f1nd1ng_0d4y_15_345Y_r1gh7!!?_970db3ce5022cd532606efeca829916c}&lt;/p></description></item><item><title>[HTB CTF University 2024] - Breaking Bank</title><link>https://blog.lordrukie.com/p/htb-ctf-university-2024-breaking-bank/</link><pubDate>Wed, 18 Dec 2024 11:07:50 +0000</pubDate><guid>https://blog.lordrukie.com/p/htb-ctf-university-2024-breaking-bank/</guid><description>&lt;img src="https://blog.lordrukie.com/p/htb-ctf-university-2024-breaking-bank/banner.png" alt="Featured image of post [HTB CTF University 2024] - Breaking Bank" />&lt;h2 id="web---breaking-bank">Web - Breaking Bank
